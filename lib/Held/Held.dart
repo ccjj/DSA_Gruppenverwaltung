@@ -16,19 +16,19 @@ class Held {
   String rasse;
   String kultur;
   String ausbildung;
-  ValueNotifier lp; // Lebenspunkte
-  ValueNotifier maxLp; // Maximale Lebenspunkte
+  ValueNotifier<int> lp; // Lebenspunkte
+  ValueNotifier<int> maxLp; // Maximale Lebenspunkte
   int ap; // Abenteuerpunkte
-  ValueNotifier asp; // Astralpunkte
-  ValueNotifier maxAsp; // Astralpunkte
+  ValueNotifier<int> asp; // Astralpunkte
+  ValueNotifier<int> maxAsp; // Astralpunkte
   int at; // Angriffswert
   int pa; // Parade
   int fk; //fernkampf
   int ini; // Initiative
   int baseIni; // Basisinitiative
   int mr; // Magieresistenz
-  ValueNotifier au; // Ausdauer
-  ValueNotifier maxAu; // Ausdauer
+  ValueNotifier<int> au; // Ausdauer
+  ValueNotifier<int> maxAu; // Ausdauer
   int ke; //Karmalenergie
   int maxKe;
   int gs; // Geschwindigkeit

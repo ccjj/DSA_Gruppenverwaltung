@@ -9,15 +9,18 @@ class PlusMinusButton extends StatefulWidget {
   final Function(int) onValueChanged;
   final bool enabled;
 
+  final bool shouldDebounce;
+
   PlusMinusButton({
     super.key,
     required this.title,
-    required int value,
-    required this.maxValue,
+    required this.value,
+    this.maxValue,
     required this.onValueChanged,
     required this.leading,
-    this.enabled = true
-  }) : value = ValueNotifier<int>(value);
+    this.enabled = true,
+    this.shouldDebounce = true
+  });
 
   @override
   State<PlusMinusButton> createState() => _PlusMinusButtonState();
@@ -27,6 +30,10 @@ class _PlusMinusButtonState extends State<PlusMinusButton> {
   Timer? _debounce;
 
   void _debouncedValueChange(int newValue) {
+    if(!widget.shouldDebounce){
+      widget.onValueChanged(newValue);
+      return;
+    }
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 700), () {
       widget.onValueChanged(newValue);

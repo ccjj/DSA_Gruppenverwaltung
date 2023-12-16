@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/MoneyConversion.dart';
+import '../widgets/PlusMinusButton.dart';
 
 class CurrencyConverter extends StatefulWidget {
   int initialKreuzer;
@@ -12,20 +13,22 @@ class CurrencyConverter extends StatefulWidget {
 }
 
 class CurrencyConverterState extends State<CurrencyConverter> {
-  final TextEditingController _dukatenController = TextEditingController();
-  final TextEditingController _silberController = TextEditingController();
-  final TextEditingController _hellerController = TextEditingController();
-  final TextEditingController _kreuzerController = TextEditingController();
+
+  final ValueNotifier<int> _dukatenValue = ValueNotifier<int>(0);
+  final ValueNotifier<int> _silberValue = ValueNotifier<int>(0);
+  final ValueNotifier<int> _hellerValue = ValueNotifier<int>(0);
+  final ValueNotifier<int> _kreuzerValue = ValueNotifier<int>(0);
+
 
   @override
   void initState() {
     super.initState();
-    _kreuzerController.text = widget.initialKreuzer.toString();
+    _kreuzerValue.value = widget.initialKreuzer;
     _convertAndDisplay(widget.initialKreuzer);
   }
 
   void _convertCurrency() {
-    int totalKreuzer = MoneyConversion.calcKreuzerByStr(_dukatenController.text, _silberController.text, _hellerController.text, _kreuzerController.text);
+    int totalKreuzer = MoneyConversion.calcKreuzer(_dukatenValue.value, _silberValue.value, _hellerValue.value, _kreuzerValue.value);
     _convertAndDisplay(totalKreuzer);
   }
 
@@ -39,10 +42,10 @@ class CurrencyConverterState extends State<CurrencyConverter> {
     int heller = remainingAfterSilber ~/ 10;
     int remainingKreuzer = remainingAfterSilber % 10;
 
-    _dukatenController.text = dukaten.toString();
-    _silberController.text = silber.toString();
-    _hellerController.text = heller.toString();
-    _kreuzerController.text = remainingKreuzer.toString();
+    _dukatenValue.value = dukaten;
+    _silberValue.value = silber;
+    _hellerValue.value = heller;
+    _kreuzerValue.value = remainingKreuzer;
   }
 
   @override
@@ -53,15 +56,51 @@ class CurrencyConverterState extends State<CurrencyConverter> {
         padding: EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            _buildTextField(_dukatenController, 'Dukaten', Icons.monetization_on),
+          children: [
+            PlusMinusButton(
+              title: 'Dukaten',
+              value: _dukatenValue,
+              maxValue: 100, // Example max value
+              leading: Icon(Icons.monetization_on),
+              onValueChanged: (newValue) {
+                _handleCurrencyChange('Dukaten', newValue);
+              },
+              enabled: true,
+              shouldDebounce: false,
+            ),
             SizedBox(height: 10),
-            _buildTextField(_silberController, 'Silber', Icons.attach_money ),
+            PlusMinusButton(
+              title: 'Silber',
+              value: _silberValue,
+              leading: Icon(Icons.attach_money),
+              onValueChanged: (newValue) {
+                _handleCurrencyChange('Silber', newValue);
+              },
+              enabled: true,
+              shouldDebounce: false,
+            ),
             SizedBox(height: 10),
-            _buildTextField(_hellerController, 'Heller', Icons.money_off_csred),
+            PlusMinusButton(
+              title: 'Heller',
+              value: _hellerValue,
+              leading: Icon(Icons.money_off_csred),
+              onValueChanged: (newValue) {
+                _handleCurrencyChange('Heller', newValue);
+              },
+              enabled: true,
+              shouldDebounce: false,
+            ),
             SizedBox(height: 10),
-            _buildTextField(_kreuzerController, 'Kreuzer', Icons.money),
-            SizedBox(height: 20),
+            PlusMinusButton(
+              title: 'Kreuzer',
+              value: _kreuzerValue,
+              leading: Icon(Icons.money),
+              onValueChanged: (newValue) {
+                _handleCurrencyChange('Kreuzer', newValue);
+              },
+              enabled: true,
+              shouldDebounce: false,
+            ),
             ElevatedButton(
               onPressed: _convertCurrency,
               child: Text('Konvertieren'),
@@ -76,7 +115,7 @@ class CurrencyConverterState extends State<CurrencyConverter> {
                 ),
                 TextButton(
                   child: Text('OK'),
-                  onPressed: () => Navigator.of(context).pop(MoneyConversion.calcKreuzerByStr(_dukatenController.text, _silberController.text, _hellerController.text, _kreuzerController.text)),
+                  onPressed: () => Navigator.of(context).pop(MoneyConversion.calcKreuzer(_dukatenValue.value, _silberValue.value, _hellerValue.value, _kreuzerValue.value)),
                 ),
               ],
             )
@@ -97,4 +136,27 @@ class CurrencyConverterState extends State<CurrencyConverter> {
       keyboardType: TextInputType.number,
     );
   }
+
+  void _handleCurrencyChange(String currencyType, int newValue) {
+    print("uod");
+    switch (currencyType) {
+      case 'Dukaten':
+        _dukatenValue.value = newValue;
+        break;
+      case 'Silber':
+        _silberValue.value = newValue;
+        break;
+      case 'Heller':
+        _hellerValue.value = newValue;
+        break;
+      case 'Kreuzer':
+        _kreuzerValue.value = newValue;
+        break;
+    }
+
+    int totalKreuzer = MoneyConversion.calcKreuzer(_dukatenValue.value, _silberValue.value, _hellerValue.value, _kreuzerValue.value);
+    _convertAndDisplay(totalKreuzer);
+  }
+
+
 }

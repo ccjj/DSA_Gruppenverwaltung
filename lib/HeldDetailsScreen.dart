@@ -188,7 +188,7 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
                                  title: 'Lebenspunkte (LP)',
                                  enabled: widget.held.owner == cu.uuid,
                                  leading: Icon(Icons.favorite, color: Colors.red),
-                                 value: widget.held.lp.value,
+                                 value: widget.held.lp,
                                  maxValue: widget.held.maxLp.value,
                                  onValueChanged: (newVal) {
                                    getIt<ActionStack>().handleUserAction(
@@ -207,7 +207,7 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
                                    enabled: widget.held.owner == cu.uuid,
                                    leading: Icon(Icons.flash_on_outlined,
                                        color: Colors.lightBlueAccent),
-                                   value: widget.held.asp.value,
+                                   value: widget.held.asp,
                                    maxValue: widget.held.maxAsp.value,
                                    onValueChanged: (newVal) {
                                      //TODO update this from input aswell
@@ -226,7 +226,7 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
                                  enabled: widget.held.owner == cu.uuid,
                                  leading: Icon(Icons.directions_run_outlined,
                                      color: Colors.amber),
-                                 value: widget.held.au.value,
+                                 value: widget.held.au,
                                  maxValue: widget.held.maxAu.value,
                                  onValueChanged: (newVal) {
                                    getIt<ActionStack>().handleUserAction(

@@ -218,7 +218,7 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
                                              () => widget.held.asp.value = newVal);
                                      getIt<HeldService>().updateHeldFromInput(
                                          UpdateHeldInput(
-                                             id: widget.held.uuid, lp: newVal));
+                                             id: widget.held.uuid, asp: newVal));
                                    },
                                  ),
                                PlusMinusButton(
@@ -236,7 +236,7 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
                                            () => widget.held.au.value = newVal);
                                    getIt<HeldService>().updateHeldFromInput(
                                        UpdateHeldInput(
-                                           id: widget.held.uuid, lp: newVal));
+                                           id: widget.held.uuid, au: newVal));
                                  },
                                ),
                              ],

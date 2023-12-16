@@ -43,7 +43,7 @@ class RuleProvider {
     return getIt<ZauberRepository>().get(name);
   }
 
-  static int getModificator(Held held, ISkill? skill, int penalty) {
+  static int getModificator(ISkill? skill, int penalty) {
     if(skill is Talent){
       var typ = (skill as Talent).typ;
       if(typ == "NAHKAMPF"){

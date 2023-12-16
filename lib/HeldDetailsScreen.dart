@@ -11,7 +11,7 @@ import 'package:dsagruppen/widgets/experimental/ItemList.dart';
 import 'package:dsagruppen/widgets/PlusMinusButton.dart';
 import 'package:dsagruppen/widgets/SearchableDataTable.dart';
 import 'package:dsagruppen/HeldDetailScreen/showCurrencyConverterDialog.dart';
-import 'package:dsagruppen/widgets/experimental/TalentList.dart';
+import 'package:dsagruppen/widgets/experimental/SkillList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
@@ -399,7 +399,7 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
                ),
              ),
              if(isExpanded)
-             TalentList(held: widget.held, rollCallback: (talentName, penalty) {
+             SkillList(held: widget.held, skillMap: widget.held.talents,rollCallback: (talentName, penalty) {
                String msg = getIt<RollManager>().rollTalent(widget.held, talentName, penalty);
                if(widget.held.owner == cu.uuid){
                  getIt<MessageAmplifyService>().createMessage(msg, widget.held.gruppeId, cu.uuid);

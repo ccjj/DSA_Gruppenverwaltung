@@ -10,33 +10,35 @@ import '../../skills/ISkill.dart';
 import '../AnimatedIconButton.dart';
 import '../AsyncText.dart';
 
-class TalentList extends StatefulWidget {
+class SkillList extends StatefulWidget {
   final Held held;
   final Function(String, int) rollCallback;
   final bool isExpanded;
 
-  const TalentList({super.key,
+  final Map<String, int> skillMap;
+
+  const SkillList({super.key,
     required this.held,
     required this.rollCallback,
+    required this.skillMap,
     this.isExpanded = true,
   });
 
   @override
-  TalentListState createState() => TalentListState();
+  SkillListState createState() => SkillListState();
 }
 
-class TalentListState extends State<TalentList> {
+class SkillListState extends State<SkillList> {
   String searchString = "";
 
   @override
   Widget build(BuildContext context) {
-    //Map<String, int> items = widget.held.talents;
     Map<String, int> filteredItems;
     if (searchString.trim().isNotEmpty) {
-      filteredItems = Map.fromEntries(widget.held.talents.entries.where((entry) =>
+      filteredItems = Map.fromEntries(widget.skillMap.entries.where((entry) =>
           entry.key.toLowerCase().contains(searchString.toLowerCase())));
     } else {
-      filteredItems = widget.held.talents;
+      filteredItems = widget.skillMap;
     }
     SplayTreeMap<String, int> filteredSplayMap = SplayTreeMap.from(filteredItems);
 
@@ -80,8 +82,9 @@ class TalentListState extends State<TalentList> {
                   ? Theme.of(context).highlightColor.withOpacity(0.15)
                   : null,
             ),
-            child: ListTile(
-              title: Row(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
                 children: [
                   Expanded(
                     flex: 2, // Adjust flex to manage width
@@ -128,7 +131,7 @@ class TalentListState extends State<TalentList> {
                                       RuleProvider.getSkillByName(
                                           skillName);
                                       int mod = RuleProvider.getModificator(
-                                          widget.held, skill, value);
+                                          skill, value);
                                       return RollCalculator.calcChance(
                                           widget.held, skill, mod);
                                     },

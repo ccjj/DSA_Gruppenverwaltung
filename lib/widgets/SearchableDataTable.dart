@@ -229,7 +229,7 @@ class _SearchableDataTableState extends State<SearchableDataTable> {
                               builder: (context, value, child)  {
                                 return AsyncText(callback: () {
                                   ISkill? skill = RuleProvider.getSkillByName(entry.key);
-                                  int mod = RuleProvider.getModificator(widget.held, skill, modificator.value);
+                                  int mod = RuleProvider.getModificator(skill, modificator.value);
                                   return RollCalculator.calcChance(widget.held, RuleProvider.getSkillByName(entry.key), mod);
                                 }
                                     , showSpinner: false

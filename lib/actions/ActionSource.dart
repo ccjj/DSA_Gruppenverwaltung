@@ -1,0 +1,4 @@
+enum ActionSource {
+  client,
+  server
+}

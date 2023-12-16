@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dsagruppen/model/Item.dart';
 import 'package:xml/xml.dart';
 
 import '../Held/Held.dart';
@@ -15,12 +16,8 @@ class HeldenParser {
 
     try {
       heldElement =
-          xmlDoc
-              .findElements('helden')
-              .first
-              .findElements('held')
-              .first;
-    } catch(_){
+          xmlDoc.findElements('helden').first.findElements('held').first;
+    } catch (_) {
       throw const FileSystemException('Datei ist keine gültige Helden-Datei');
     }
 
@@ -32,7 +29,6 @@ class HeldenParser {
     final eigenschaftenNodes = heldElement.findElements('eigenschaften');
     final Held held = Held.empty();
     held.name = name;
-
 
     final heldKey = heldElement.getAttribute('key');
     if (name == null) {
@@ -54,7 +50,7 @@ class HeldenParser {
 
     String ausbildung = "";
     var ausbildungNodes = heldElement.findAllElements("ausbildung");
-    for(var ausbildungNode in ausbildungNodes){
+    for (var ausbildungNode in ausbildungNodes) {
       var ausbildungArt = ausbildungNode.getAttribute("string");
       ausbildung += ausbildungArt ?? "";
     }
@@ -64,7 +60,8 @@ class HeldenParser {
     var sfNodes = heldElement.findAllElements("sf");
 
     for (var sfNode in sfNodes) {
-      for (var sonderfertigkeitNode in sfNode.findElements("sonderfertigkeit")) {
+      for (var sonderfertigkeitNode
+          in sfNode.findElements("sonderfertigkeit")) {
         String sfName = sonderfertigkeitNode.getAttribute("name") ?? '';
 
         for (var childNode in sonderfertigkeitNode.children) {
@@ -79,7 +76,6 @@ class HeldenParser {
     }
 
     held.sf = sfs;
-
 
     final aMap = <String, List<String>>{};
 
@@ -101,17 +97,20 @@ class HeldenParser {
     setAttributes(held, aMap);
     var vorteile = getVorteile(heldElement);
     setWs(held, vorteile);
+    held.kreuzer.value = getKreuzer(heldElement);
     held.vorteile = vorteile;
     held.talents = talentsMap;
     held.zauber = zauberMap;
-    held.items = itemMap;
+    held.items = itemMap.entries
+        .map((entry) => Item(name: entry.key, anzahl: entry.value))
+        .toList();
 
     held.owner = cu.uuid;
     return held;
   }
 
   static Map<String, int> getTalents(XmlElement heldElement) {
-      final talentsNodes = heldElement.findAllElements('talent');
+    final talentsNodes = heldElement.findAllElements('talent');
     final talentsMap = <String, int>{};
 
     for (final node in talentsNodes) {
@@ -142,8 +141,63 @@ class HeldenParser {
     return talentsMap;
   }
 
+  static int getKreuzer(XmlElement heldElement) {
+    final XmlElement? geldboerse =
+        heldElement.findAllElements('geldboerse').firstOrNull;
+
+    int totalKreuzer = 0;
+    if (geldboerse != null) {
+      for (final XmlElement muenze in geldboerse.findElements('muenze')) {
+        int anzahl = int.parse(muenze.getAttribute('anzahl') ?? '0');
+        String? name = muenze.getAttribute('name');
+
+        switch (name) {
+          case 'Dukat':
+          case 'Dublone':
+          case 'Amazonenkronen':
+          case 'Dinar':
+          case 'Batzen':
+          case 'Horasdor':
+          case 'Marawedi':
+          case 'Suvar':
+          case 'Witten':
+          case 'Borbaradstaler':
+          case 'Zwergentaler':
+            totalKreuzer += anzahl * 1000;
+            break;
+          case 'Silbertaler':
+          case 'Oreal':
+          case 'Schekel':
+          case 'Groschen':
+          case 'Zechine':
+          case 'Hedsch':
+          case 'Stüber':
+          case 'Zholvari':
+            totalKreuzer += anzahl * 100;
+            break;
+          case 'Heller':
+          case 'Kleiner Oreal':
+          case 'Hallah':
+          case 'Deut':
+          case 'Muwlat':
+          case "MuwlatCh'cyskl":
+          case 'Flindrich':
+          case 'Splitter':
+            totalKreuzer += anzahl * 10;
+            break;
+          case 'Kreuzer':
+          case 'Dirham':
+          case 'Kurush':
+            totalKreuzer += anzahl;
+            break;
+        }
+      }
+    }
+    return totalKreuzer;
+  }
+
   static Map<String, int> getItems(XmlElement heldElement) {
-      final itemNodes = heldElement.findAllElements('gegenstand');
+    final itemNodes = heldElement.findAllElements('gegenstand');
     final itemMap = <String, int>{};
 
     for (final node in itemNodes) {
@@ -208,7 +262,8 @@ class HeldenParser {
     final lpArray = attributesMap['Lebensenergie']!;
     final auArray = attributesMap['Ausdauer']!;
     final aspArray = attributesMap['Astralenergie']!;
-    int ke = getAttributeOrZero(attributesMap, "Karmaenergie");//TODO richtige berechnung?
+    int ke = getAttributeOrZero(
+        attributesMap, "Karmaenergie"); //TODO richtige berechnung?
 
     final maxLp = ((ko * 2 + kk) / 2).round() +
         int.parse(lpArray[0]) +

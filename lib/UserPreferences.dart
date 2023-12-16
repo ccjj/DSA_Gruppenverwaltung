@@ -30,4 +30,14 @@ class UserPreferences {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('isLightTheme');
   }
+
+  Future<void> saveShowAusdauer(bool showAusdauer) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('showAusdauer', showAusdauer);
+  }
+
+  Future<bool?> getShowAusdauer() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('showAusdauer');
+  }
 }

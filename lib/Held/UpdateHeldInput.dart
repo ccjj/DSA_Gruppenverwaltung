@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import '../model/Item.dart';
 import 'Held.dart';
 
 class UpdateHeldInput {
-  String id;  // Assuming this corresponds to the 'uuid' in Held class
+  String id;
   String? name;
   String? heldNummer;
   String? gruppeId;
@@ -36,8 +37,11 @@ class UpdateHeldInput {
   int? ff;
   int? so;
   int? ws;
+  int? kreuzer;
+  String? geburtstag;
+  int? wunden;
   Map<String, int>? talents;
-  Map<String, int>? items;
+  List<Item>? items;
   Map<String, int>? notes;
   List<String>? vorteile;
   List<String>? sf;
@@ -77,6 +81,9 @@ class UpdateHeldInput {
     this.ff,
     this.so,
     this.ws,
+    this.kreuzer,
+    this.geburtstag,
+    this.wunden,
     this.talents,
     this.items,
     this.notes,
@@ -122,9 +129,12 @@ class UpdateHeldInput {
       if (ff != null) 'ff': ff,
       if (so != null) 'so': so,
       if (ws != null) 'ws': ws,
+      if (kreuzer != null) 'kreuzer': kreuzer,
+      if (geburtstag != null) 'geburtstag': geburtstag,
+      if (wunden != null) 'wunden': wunden,
       // ... similar checks for Map or List fields ...
       if (talents != null && talents!.isNotEmpty) 'talents': jsonEncode(talents),
-      if (items != null && items!.isNotEmpty) 'items': jsonEncode(items),
+      if (items != null && items!.isNotEmpty) 'items': jsonEncode(items) else 'items' : jsonEncode(Map()),
       if (notes != null && notes!.isNotEmpty) 'notes': jsonEncode(notes),
       if (vorteile != null && vorteile!.isNotEmpty) 'vorteile': jsonEncode(vorteile),
       if (sf != null && sf!.isNotEmpty) 'sf': jsonEncode(sf),
@@ -167,8 +177,11 @@ class UpdateHeldInput {
     if (originalHeld.ff != newHeld.ff) input.ff = newHeld.ff;
     if (originalHeld.so != newHeld.so) input.so = newHeld.so;
     if (originalHeld.ws != newHeld.ws) input.ws = newHeld.ws;
+    if (originalHeld.kreuzer != newHeld.kreuzer) input.kreuzer = newHeld.kreuzer.value;
+    if (originalHeld.wunden != newHeld.wunden) input.wunden = newHeld.wunden;
+    if (originalHeld.geburtstag != newHeld.geburtstag) input.geburtstag = newHeld.geburtstag;
     if (originalHeld.talents != newHeld.talents) input.talents = newHeld.talents;
-    if (originalHeld.items != newHeld.items) input.items = newHeld.items;
+    if (originalHeld.items.isEmpty) input.items = newHeld.items;
     if (originalHeld.notes != newHeld.notes) input.notes = newHeld.notes;
     if (originalHeld.vorteile != newHeld.vorteile) input.vorteile = newHeld.vorteile;
     if (originalHeld.sf != newHeld.sf) input.sf = newHeld.sf;

@@ -8,10 +8,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'GroupDetailsScreen.dart';
 import 'Gruppe/Gruppe.dart';
 import 'Gruppe/GruppeRepository.dart';
-import 'MainScaffold.dart';
+import 'widgets/MainScaffold.dart';
 import 'globals.dart';
 
 class GruppenOverviewScreen extends StatefulWidget {
+  const GruppenOverviewScreen({super.key});
+
   @override
   GruppenOverviewScreenState createState() => GruppenOverviewScreenState();
 }
@@ -39,20 +41,21 @@ class GruppenOverviewScreenState extends State<GruppenOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: appName,
+      title: const Text(appName, style: TextStyle(
+          fontFamily: 'Tangerine', fontSize: 46
+      )),
       fab: FloatingActionButton(
         onPressed: _showAddGroupDialog,
         child: Icon(Icons.add),
       ),
       body: isLoadingGroups ? const Center(child: CircularProgressIndicator()) : gruppen.isEmpty
-          ? Center(
+          ? const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.group, size: 50, color: Colors.grey),
-            const SizedBox(height: 10),
-            const Text('Keine Gruppen vorhanden. Füge eine hinzu!', style: TextStyle(color: Colors.grey)),
-            //OutlinedButton(onPressed: () => getIt<GroupService>().getGruppen().then((value) => setState(() {})), child: Text("data"))
+            Icon(Icons.group, size: 50, color: Colors.grey),
+            SizedBox(height: 10),
+            Text('Keine Gruppen vorhanden. Füge eine hinzu!', style: TextStyle(color: Colors.grey)),
           ],
         ),
       )
@@ -60,7 +63,7 @@ class GruppenOverviewScreenState extends State<GruppenOverviewScreen> {
         itemCount: gruppen.length,
         itemBuilder: (context, index) {
           return Card(
-            margin: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -71,75 +74,47 @@ class GruppenOverviewScreenState extends State<GruppenOverviewScreen> {
                 );
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      gruppen[index].name,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 8),
+                    Divider(),
+                    SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
-                          child: Text(
-                            gruppen[index].name,
-                            style: TextStyle(fontSize: Theme.of(context).textTheme.headlineLarge?.fontSize),
-                            overflow: TextOverflow.fade,
-                          ),
+                        Row(
+                          children: [
+                            Icon(Icons.calendar_today_outlined, color: Colors.grey, size: 20),
+                            SizedBox(width: 4),
+                            Text(
+                              "${gruppen[index].datum}",
+                              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: BoxConstraints(),
-                          icon: isDeleting && deletingId == gruppen[index].uuid ? const CircularProgressIndicator() : Icon(Icons.delete, color: Colors.red, size: (Theme.of(context).textTheme.headlineLarge!.fontSize! * 1)),
-                          onPressed: isDeleting ? null : () async {
-
-                            setState(() {
-                              isDeleting = true;
-                              deletingId = gruppen[index].uuid;
-                            });
-                            var owner = gruppen[index].ownerUuid;
-                            if(cu.uuid != owner){
-                              EasyLoading.showError("Keine Rechte zum Löschen");
-                              return;
-                            }
-                            //var isDeleted = await deleteGruppe(gruppen[index].uuid);
-                            //TODO DI, gruppe definieren
-                            var isDeleted = await getIt<GroupService>().deleteGruppe(gruppen[index].uuid);
-                            if(isDeleted) {
-                              setState(() {});
-                            } else {
-                              EasyLoading.showError("Konnte die Gruppe nicht löschen. Verfügst du über die Rechte dazu und bist online?");
-                            }
-                          },
+                        Row(
+                          children: [
+                            Icon(Icons.sports_kabaddi, color: Colors.grey, size: 20),
+                            SizedBox(width: 4),
+                            AsyncText(
+                              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                              callback: () => getIt<HeldAmplifyService>().getHeldenIdsByGruppeId(gruppen[index].uuid).then((value) {
+                                return value == null ? "0" : value.length.toString();
+                              }),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.calendar_today_outlined, color: Colors.grey, size: (Theme.of(context).textTheme.bodySmall!.fontSize! * 1.5)),
-                            Text("${gruppen[index].datum}", style: TextStyle(fontSize: Theme.of(context).textTheme.bodySmall?.fontSize, color: Colors.grey[700])),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(Icons., color: Colors.grey, size: (Theme.of(context).textTheme.bodySmall!.fontSize! * 1.5)),
-                            //Text("${gruppen[index].helden.length}", style: TextStyle(fontSize: Theme.of(context).textTheme.bodySmall?.fontSize, color: Colors.grey[700]))
-                            //Text("${gruppen[index].helden.length}", style: TextStyle(fontSize: Theme.of(context).textTheme.bodySmall?.fontSize, color: Colors.grey[700])),
-                            AsyncText(
-                                style: TextStyle(fontSize: Theme.of(context).textTheme.bodySmall?.fontSize, color: Colors.grey[700]),
-                                callback: ()=> getIt<HeldAmplifyService>().getHeldenIdsByGruppeId(gruppen[index].uuid).then((value) {
-                              if(value == null){
-                                return "0";
-                              }
-                              return value!.length.toString();
-                            })),
-                          ],
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),
@@ -147,6 +122,7 @@ class GruppenOverviewScreenState extends State<GruppenOverviewScreen> {
           );
         },
       ),
+
     );
   }
 

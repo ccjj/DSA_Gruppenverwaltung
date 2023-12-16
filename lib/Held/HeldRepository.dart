@@ -19,7 +19,7 @@ class HeldRepository {
   }
 
   void replaceHeld(Held originalHeld, Held newHeld) {
-    final index = _helden.indexWhere((h) => h == originalHeld);
+    final index = _helden.indexWhere((h) => h.uuid == originalHeld.uuid);
     if (index != -1) {
       _helden[index] = newHeld;
     }

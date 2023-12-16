@@ -30,12 +30,12 @@ class HeldService {
       return;
     }
     var updateInput = UpdateHeldInput.createUpdateInputFromHeldDifference(originalHeld, newHeld);
-    print(updateInput.toJson());
+    //print(updateInput.toJson());
     await heldAmplifyService.updateHeld(updateInput);
     heldRepository.replaceHeld(originalHeld, newHeld);
   }
 
-  Future<void> updateHeldFromInput(Held originalHeld, UpdateHeldInput updateInput) async {
+  Future<void> updateHeldFromInput(UpdateHeldInput updateInput) async {
     await heldAmplifyService.updateHeld(updateInput);
     //heldRepository.replaceHeld(originalHeld, newHeld);
   }

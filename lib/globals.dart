@@ -1,10 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import 'User/User.dart';
+import 'chat/ChatMessage.dart';
 
 GetIt getIt = GetIt.instance;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 late User cu;
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
-const appName = "DSA Gruppenverwaltung";
+final ValueNotifier<bool> showAusdauer = ValueNotifier(true);
+const String version = '0.9.3';
+const appName = "Axxelerat.us";
+var isTest = false;
+StreamController<ChatMessage> messageController = StreamController<ChatMessage>.broadcast();
+final ValueNotifier<bool> isChatVisible = ValueNotifier(false);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../Held/Held.dart';
 import '../HeldDetailsScreen.dart';
+import '../globals.dart';
 import 'StatBar.dart';
 
 Card HeldCard(Held held, BuildContext context, Function? callback) {
@@ -22,11 +23,14 @@ Card HeldCard(Held held, BuildContext context, Function? callback) {
           ListTile(
               splashColor: Colors.transparent,
               hoverColor: Colors.transparent,
-              trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  callback?.call();
-                },
+              trailing: Visibility(
+                visible: held.owner == cu.uuid,
+                child: IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () {
+                    callback?.call();
+                  },
+                ),
               ),
               title: Text(held.name),
               subtitle: Text(held.ausbildung),
@@ -58,16 +62,19 @@ Card HeldCard(Held held, BuildContext context, Function? callback) {
                 }, valueListenable: held.asp,
               ),
             ),
-          Padding(
-            padding: insets,
-            child: ValueListenableBuilder(
-              builder: (context, value, child)  {
-                return StatBar(
-                    label: "AU",
-                    value: held.au.value,
-                    maxValue: held.maxAu.value,
-                    color: Colors.amber);
-              }, valueListenable: held.au,
+          Visibility(
+            visible: showAusdauer.value == true,
+            child: Padding(
+              padding: insets,
+              child: ValueListenableBuilder(
+                builder: (context, value, child)  {
+                  return StatBar(
+                      label: "AU",
+                      value: held.au.value,
+                      maxValue: held.maxAu.value,
+                      color: Colors.amber);
+                }, valueListenable: held.au,
+              ),
             ),
           ),
           SizedBox(

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:dsagruppen/Gruppe/UpdateGruppeInput.dart';
 
+import '../model/Note.dart';
 import 'Gruppe.dart';
 
 class GroupAmplifyService {
@@ -58,8 +60,8 @@ class GroupAmplifyService {
       erstelltAm
       id
       name
-      notes
       owner
+      treffenAm
       updatedAt
       helden {
         items {
@@ -90,8 +92,8 @@ class GroupAmplifyService {
       List<Gruppe> gruppen = (data['listGruppes']['items'] as List)
           .map((item) => Gruppe.fromJson(item))
           .toList();
-      print('Query result: $data');
-      print(gruppen);
+      //print('Query result: $data');
+      //print(gruppen);
       return gruppen;
 
     } catch (e) {
@@ -111,9 +113,9 @@ class GroupAmplifyService {
           createdAt
           datum
           erstelltAm
+          treffenAm
           id
           name
-          notes
           owner
           updatedAt
           helden {
@@ -141,7 +143,7 @@ class GroupAmplifyService {
       );
 
       var response = await operation.response;
-      print("response");
+      //print("response");
       print(response);
       var data = jsonDecode(response.data!);
 
@@ -192,7 +194,8 @@ class GroupAmplifyService {
         id
         name
         datum
-        notes
+        erstelltAm
+        treffenAm
         owner
         helden {
           items {
@@ -204,8 +207,6 @@ class GroupAmplifyService {
   ''';
 
     final gruppeJson = gruppe.toJson();
-    print("gruppeJson");
-    print(gruppeJson);
     final request = GraphQLRequest<String>(
       document: graphQLDocument,
       variables: {'input': gruppeJson},
@@ -220,6 +221,44 @@ class GroupAmplifyService {
         final updatedGruppeData = responseData['updateGruppe'];
 
         return Gruppe.fromJson(updatedGruppeData);
+      } else {
+        print('Gruppe update completed, but no data returned');
+      }
+    } on ApiException catch (apiException) {
+      print('Failed to update Gruppe: ${apiException.message}');
+    } catch (e) {
+      print('An unexpected error occurred: $e');
+    }
+    return null;
+  }
+
+  Future<void> updateGruppeFromInput(UpdateGruppeInput gruppeInput) async {
+    const String graphQLDocument = '''
+    mutation UpdateGruppe(\$input: UpdateGruppeInput!) {
+      updateGruppe(input: \$input) {
+        id
+        name
+        datum
+        treffenAm
+      }
+    }
+  ''';
+
+    final gruppeJson = gruppeInput.toJson();
+    final request = GraphQLRequest<String>(
+        document: graphQLDocument,
+        variables: {'input': gruppeJson},
+        authorizationMode: APIAuthorizationType.userPools
+    );
+
+    try {
+      final GraphQLResponse<String> response = await Amplify.API.mutate(request: request).response;
+      safePrint(response);
+      if (response.data != null) { //TODO and not containign error
+        final responseData = jsonDecode(response.data!);
+        final updatedGruppeData = responseData['updateGruppe'];
+        return;
+        //return Gruppe.fromJson(updatedGruppeData);
       } else {
         print('Gruppe update completed, but no data returned');
       }
@@ -342,7 +381,7 @@ class GroupAmplifyService {
       return [];
     }
     //print("data");
-    print(data['gruppeUsersByGruppeId']['items']);
+    //print(data['gruppeUsersByGruppeId']['items']);
     List<String> userIds = (data['gruppeUsersByGruppeId']['items'] as List)
         .map((item) => item['userId'] as String)
         .toList();
@@ -462,5 +501,71 @@ class GroupAmplifyService {
       print('An error occurred while updating Gruppe datum: $e');
     }
   }
+
+  Future<bool> updateGroupWithNote(String groupId, String noteId) async {
+    try {
+      String updateGroupMutation = '''
+        mutation UpdateGroup(\$noteId: ID!, \$groupId: ID!) {
+          updateGruppe(input: {gruppeNotesId: \$noteId, id: \$groupId}) {
+            id
+          }
+        }
+      ''';
+
+      var response = await Amplify.API.mutate(
+        request: GraphQLRequest<String>(
+          document: updateGroupMutation,
+          variables: {'noteId': noteId, 'groupId': groupId},
+            authorizationMode: APIAuthorizationType.userPools
+        ),
+      ).response;
+      print(response);
+      var data = response.data;
+
+      return data != null;
+    } catch (e) {
+      print('Error updating group with note: $e');
+      return false;
+    }
+  }
+
+  Future<bool> deleteNoteAndUpdateGroup(String groupId, String noteId) async {
+    try {
+      // GraphQL mutation for deleting a note and updating the group
+      String graphQLDocument = '''
+      mutation DeleteNoteAndUpdateGroup(\$groupId: ID!, \$noteId: ID!) {
+        deleteNote(input: {id: \$noteId}) {
+          id
+        }
+        updateGruppe(input: {id: \$groupId, noteId: null}) {
+          id
+          notes {
+            id
+          }
+        }
+      }
+    ''';
+
+      var variables = {'groupId': groupId, 'noteId': noteId};
+
+      var operation = Amplify.API.mutate(
+        request: GraphQLRequest<String>(
+          document: graphQLDocument,
+          variables: variables,
+            authorizationMode: APIAuthorizationType.userPools
+        ),
+      );
+
+      var response = await operation.response;
+      var data = response.data;
+
+      return data != null;
+    } catch (e) {
+      print('Error deleting note and updating group: $e');
+      return false;
+    }
+  }
+
+
 
 }

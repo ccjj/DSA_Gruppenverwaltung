@@ -1,0 +1,107 @@
+import 'dart:convert';
+
+
+import 'package:flutter/widgets.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'ValueNotifierConverter.dart';
+part 'Held2.freezed.dart';
+part 'Held2.g.dart';
+
+@Freezed(
+  fromJson: true,
+  toJson: false
+)
+@JsonSerializable()
+@ValueNotifierConverter()
+class Held2 with _$Held2 {
+  const factory Held2({
+    required String uuid,
+    required String name,
+    required String heldNummer,
+    required String owner,
+    required String gruppeId,
+    required String rasse,
+    required String kultur,
+    required String ausbildung,
+    required ValueNotifier<int> lp,
+    required ValueNotifier<int> maxLp,
+    required int ap,
+    required ValueNotifier<int> asp,
+    required ValueNotifier<int> maxAsp,
+    required int at,
+    required int pa,
+    required int fk,
+    required int ini,
+    required int baseIni,
+    required int mr,
+    required ValueNotifier<int> au,
+    required ValueNotifier<int> maxAu,
+    required int ke,
+    required int maxKe,
+    required int gs,
+    required int ko,
+    required int kk,
+    required int mu,
+    required int kl,
+    required int ge,
+    required int intu,
+    required int ch,
+    required int ff,
+    required int so,
+    required int ws,
+    required Map<String, int> talents,
+    required Map<String, int> items,
+    required Map<String, int> notes,
+    required List<String> vorteile,
+    required List<String> sf,
+    required Map<String, int> zauber,
+  }) = _Held2;
+
+
+  factory Held2.fromJson(Map<String, dynamic> json) {
+    return Held2(
+      uuid: json['uuid'] as String,
+      name: json['name'] as String,
+      heldNummer: json['heldNummer'] as String,
+      owner: json['owner'] as String,
+      gruppeId: json['gruppeId'] as String,
+      rasse: json['rasse'] as String,
+      kultur: json['kultur'] as String,
+      ausbildung: json['ausbildung'] as String,
+      lp: ValueNotifier<int>(json['lp'] as int),
+      maxLp: ValueNotifier<int>(json['maxLp'] as int),
+      ap: json['ap'] as int,
+      asp: ValueNotifier<int>(json['asp'] as int),
+      maxAsp: ValueNotifier<int>(json['maxAsp'] as int),
+      at: json['at'] as int,
+      pa: json['pa'] as int,
+      fk: json['fk'] as int,
+      ini: json['ini'] as int,
+      baseIni: json['baseIni'] as int,
+      mr: json['mr'] as int,
+      au: ValueNotifier<int>(json['au'] as int),
+      maxAu: ValueNotifier<int>(json['maxAu'] as int),
+      ke: json['ke'] as int,
+      maxKe: json['maxKe'] as int,
+      gs: json['gs'] as int,
+      ko: json['ko'] as int,
+      kk: json['kk'] as int,
+      mu: json['mu'] as int,
+      kl: json['kl'] as int,
+      ge: json['ge'] as int,
+      intu: json['intu'] as int,
+      ch: json['ch'] as int,
+      ff: json['ff'] as int,
+      so: json['so'] as int,
+      ws: json['ws'] as int,
+      talents: (json['talents'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, value as int)) ?? {},
+      items: (json['items'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, value as int)) ?? {},
+      notes: (json['notes'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, value as int)) ?? {},
+      vorteile: (json['vorteile'] as List<dynamic>?)?.map((dynamic e) => e as String).toList() ?? [],
+      sf: (json['sf'] as List<dynamic>?)?.map((dynamic e) => e as String).toList() ?? [],
+      zauber: (json['zauber'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, value as int)) ?? {},
+    );
+  }
+
+}

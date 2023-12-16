@@ -4,7 +4,8 @@ class AsyncText extends StatelessWidget {
   final Future<String?> Function() callback;
   final TextStyle? style;
   final String? prefixText;
-  AsyncText({super.key, required this.callback, this.prefixText, this.style});
+  final bool showSpinner;
+  AsyncText({super.key, required this.callback, this.prefixText, this.style, this.showSpinner = false});
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +13,14 @@ class AsyncText extends StatelessWidget {
       future: callback(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Show loading indicator while waiting for data
-          return Row(
+          var widget = showSpinner ?
+          const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Center(child: CircularProgressIndicator()),
             ],
-          );
+          ) : const SizedBox.shrink();
+          return widget;
         } else if (snapshot.hasError) {
           // Handle errors if any
           return Text('Error: ${snapshot.error}');

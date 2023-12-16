@@ -57,46 +57,51 @@ class _DsaCalendarState extends State<DsaCalendar> {
         builder: (context, constraints) {
         return Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: constraints.maxWidth / 9 * 2,
-                  child: FittedBox(
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: _previousMonth,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: constraints.maxWidth / 9 * 5,
-                  child: GestureDetector(
-                    onTap: () => _selectYear(context),
-                    child:
-                    FittedBox(
-                      child: Row( 
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text('${DsaDate.months[_currentMonth]} $_currentYear BF', style: TextStyle(fontSize: Theme.of(context).textTheme.titleLarge?.fontSize)),
-                          const SizedBox(width: 6),
-                          Icon(Icons.calendar_today, size: Theme.of(context).textTheme.titleLarge?.fontSize), // Kalender-Icon
-                        ],
+            SizedBox(
+              height: constraints.maxHeight / 7,
+              child: FittedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: constraints.maxWidth / 9 * 2,
+                      child: FittedBox(
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: _previousMonth,
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      width: constraints.maxWidth / 9 * 5,
+                      child: GestureDetector(
+                        onTap: () => _selectYear(context),
+                        child:
+                        FittedBox(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text('${DsaDate.months[_currentMonth]} $_currentYear BF', style: TextStyle(fontSize: Theme.of(context).textTheme.titleLarge?.fontSize)),
+                              const SizedBox(width: 6),
+                              Icon(Icons.calendar_today, size: Theme.of(context).textTheme.titleLarge?.fontSize), // Kalender-Icon
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: constraints.maxWidth / 9 * 2,
+                      child: FittedBox(
+                        child: IconButton(
+                           icon: Icon(Icons.arrow_forward),
+                           onPressed: _nextMonth,
+                         ),
+                      ),
+                    )
+                  ],
                 ),
-                SizedBox(
-                  width: constraints.maxWidth / 9 * 2,
-                  child: FittedBox(
-                    child: IconButton(
-                       icon: Icon(Icons.arrow_forward),
-                       onPressed: _nextMonth,
-                     ),
-                  ),
-                )
-              ],
+              ),
             ),
             Expanded(
               child: MonthView(

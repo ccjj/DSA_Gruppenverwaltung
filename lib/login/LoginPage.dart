@@ -3,6 +3,7 @@ import 'package:dsagruppen/login/EmailConfirmationPage.dart';
 import 'package:dsagruppen/login/LoginResult.dart';
 import 'package:dsagruppen/login/NewPasswordPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -114,114 +115,127 @@ class LoginPageState extends State<LoginPage> {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
-
-      body: SingleChildScrollView( // To avoid overflow when keyboard is visible
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 24),
-            Center(
-              child: SvgPicture.asset(
-                fit: BoxFit.contain,
-                'assets/images/Logo_L.svg',
-                height: 160,
-                colorFilter: ColorFilter.mode(themeNotifier.value == ThemeMode.dark ? Colors.white : Colors.black, BlendMode.srcIn),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text('Einloggen',
-                style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.headlineSmall?.fontSize,
-                    fontWeight: FontWeight.w600)),
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                alignLabelWithHint: true,
-                  labelText: "Email",
-                ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 20,
-                  height: 44,
-                  child: Checkbox(
-                    value: _rememberUsername,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _rememberUsername = value ?? false;
-                      });
-                    },
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(left: 8)),
-                const Text('Remember'),
-              ],
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                  alignLabelWithHint: true,
-                  labelText: 'Password'),
-              obscureText: true,
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 20,
-                  height: 44,
-                  child: Checkbox(
-                    value: _rememberPassword,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _rememberPassword = value ?? false;
-                      });
-                    },
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(left: 8)),
-                const Text('Remember'),
-              ],
-            ),
-            SizedBox(height: 30),
-            Column(
-              children: [
-                Center(
-                  child: SizedBox(
-                    width: 160, // Set your desired width
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                        textStyle: const TextStyle(fontSize: 18),
+      appBar: AppBar(
+        title: const Center(child: Text(appName,  style: TextStyle(
+          fontFamily: 'Tangerine', fontSize: 46
+        ))), // Replace with your app name
+      ),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView( // To avoid overflow when keyboard is visible
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Animate(
+                          child: SvgPicture.asset(
+                            fit: BoxFit.contain,
+                            'assets/images/Logo_L.svg',
+                            height: 160,
+                            colorFilter: ColorFilter.mode(themeNotifier.value == ThemeMode.dark ? Colors.white : Colors.black, BlendMode.srcIn),
+                          ).animate(autoPlay: true).rotate(duration: Duration(seconds: 300)),
+                        ),
                       ),
-                      onPressed: _isLoading ? null : () => handleLogin(_emailController.text, _passwordController.text),
-                      child: _isLoading
-                          ? const CircularProgressIndicator()
-                          : const Text('Log In'),
-                    ),
+                      const SizedBox(height: 24),
+                      Text('Einloggen',
+                          style: TextStyle(
+                              fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
+                              )),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          alignLabelWithHint: true,
+                            labelText: "Email",
+                          ),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 44,
+                            child: Checkbox(
+                              value: _rememberUsername,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _rememberUsername = value ?? false;
+                                });
+                              },
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 8)),
+                          const Text('Remember'),
+                        ],
+                      ),
+                      TextField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                            alignLabelWithHint: true,
+                            labelText: 'Passwort'),
+                        obscureText: true,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 44,
+                            child: Checkbox(
+                              value: _rememberPassword,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _rememberPassword = value ?? false;
+                                });
+                              },
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 8)),
+                          const Text('Remember'),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Center(
+                        child: SizedBox(
+                          width: 160, // Set your desired width
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                              textStyle: const TextStyle(fontSize: 18),
+                            ),
+                            onPressed: _isLoading ? null : () => handleLogin(_emailController.text, _passwordController.text),
+                            child: _isLoading
+                                ? const CircularProgressIndicator()
+                                : const Text('Log In'),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Center(
+                        child: SizedBox(
+                          width: 120, // Ensure this width matches the above button
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupPage()));
+                            },
+                            child: const Text('Register'),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 20),
-                Center(
-                  child: SizedBox(
-                    width: 120, // Ensure this width matches the above button
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupPage()));
-                      },
-                      child: const Text('Register'),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-
-          ],
-        ),
+              ),
+            ],
+          ),
+          const Positioned(
+              bottom: 0,
+              left: 0,
+              child: Text("v$version")),
+        ],
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../User/UserRepository.dart';
 import '../globals.dart';
+import '../model/Item.dart';
 
 class Held {
   late String uuid = Uuid().v4();
@@ -41,8 +42,11 @@ class Held {
   int ff; // Fingerfertigkeit
   int so; // sozialstatus
   int ws; // Wundschwelle
+  ValueNotifier<int> kreuzer;
+  int wunden;
+  String geburtstag;
   Map<String, int> talents; // Map of talents (talent name to talent level)
-  Map<String, int> items;
+  List<Item> items;
   Map<String, int> notes;
   List<String> vorteile;
   List<String> sf;
@@ -76,8 +80,11 @@ class Held {
     required this.intu,
     required this.ch,
     required this.ff,
-    required this.ws, required this.talents,
-    required this.items,
+    required this.ws,
+    required this.kreuzer,
+    required this.wunden,
+    required this.geburtstag,
+    required this.talents,
     required this.gruppeId,
     required this.ke,
     required this.maxKe,
@@ -87,6 +94,7 @@ class Held {
     this.zauber = const {},
     this.vorteile = const [],
     this.sf = const [],
+    this.items = const []
   });
 
   Map<String, dynamic> toJson() {
@@ -124,9 +132,12 @@ class Held {
     if (ch != null) data['ch'] = ch;
     if (ff != null) data['ff'] = ff;
     if (ws != null) data['ws'] = ws;
+    if (kreuzer != null) data['kreuzer'] = kreuzer.value;
+    if (wunden != null) data['wunden'] = wunden;
+    if (geburtstag != null) data['geburtstag'] = geburtstag;
     if (talents != null && talents.isNotEmpty) data['talents'] = jsonEncode(talents);
     if (items != null && items.isNotEmpty) data['items'] = jsonEncode(items);
-    if (notes != null) data['notes'] = jsonEncode(notes);
+    //if (notes != null) data['notes'] = jsonEncode(notes); //TODO
     if (zauber != null) data['zauber'] = jsonEncode(zauber);
     if (vorteile != null) data['vorteile'] = jsonEncode(vorteile);
     if (sf != null) data['sf'] = jsonEncode(sf);
@@ -134,8 +145,37 @@ class Held {
   }
 
   static Held fromJson(Map<String, dynamic> json) {
-    var _owner = json['benutzer'] as String? ?? '';
-    var user = getIt<UserRepository>().getUserById(_owner);//TODO
+    //var _owner = json['benutzer'] as String? ?? '';
+    //var user = getIt<UserRepository>().getUserById(_owner);//TODO
+    var titems = json['items'];
+    List<Item> tItemList = [];
+    if(titems != null) {
+      bool isParsed = true;
+      try {
+        List<dynamic> jsonList = jsonDecode(titems);
+        List<Item> items = jsonList.map((jsonItem) => Item.fromJson(jsonItem))
+            .toList();
+        tItemList = items;
+      } catch (ex) {
+        isParsed = false;
+      }
+      if (!isParsed) {
+        try {
+          //for legacy data
+          Map<String, dynamic> jsonMap = jsonDecode(titems);
+          List<Item> items = jsonMap.entries.map((entry) => Item(name: entry.key, anzahl: entry.value)).toList();
+          tItemList = items;
+        } catch(ex){
+          print(ex);
+          print(titems);
+        }
+        //Map<String, int> legacyItemList = Map<String, int>.from(jsonDecode(titems));
+       // legacyItemList.entries.forEach((element) {
+       //   tItemList.add(Item(name: element.key, anzahl: element.value));
+       // });
+      }
+    }
+
     String uuid = json['id'] ?? Uuid().v4();
     int tlp = json['lp'] as int? ?? 0;
     int tmaxLp = json['maxLp'] as int? ?? 0;
@@ -143,6 +183,7 @@ class Held {
     int tmaxAsp = json['maxAsp'] as int? ?? 0;
     int tau = json['au'] as int? ?? 0;
     int tmaxAu = json['maxAu'] as int? ?? 0;
+    int tkreuzer = json['kreuzer'] as int? ?? 0;
     //TODO throw exception, dont import
     return Held(
       name: json['name'] as String? ?? '',
@@ -178,12 +219,13 @@ class Held {
       ff: json['ff'] as int? ?? 0,
       so: json['so'] as int? ?? 0,
       ws: json['ws'] as int? ?? 0,
+      kreuzer: ValueNotifier(tkreuzer),
+      wunden: json['wunden'] as int? ?? 0,
+      geburtstag: json['geburtstag'] as String? ?? '',
       talents: json['talents'] != null
           ? Map<String, int>.from(jsonDecode(json['talents']))
           : {},
-      items: json['items'] != null
-          ? Map<String, int>.from(jsonDecode(json['items']))
-          : {},
+      items: tItemList,
       notes: json['notes'] != null
           ? Map<String, int>.from(jsonDecode(json['notes']))
           : {},
@@ -244,12 +286,45 @@ class Held {
         ff = 0,
         so = 0,
         ws = 0,
+        kreuzer = ValueNotifier(0),
+        wunden = 0,
+        geburtstag = '',
         talents = {},
-        items = {},
+        items = [],
         notes = {},
         zauber = {},
         vorteile = [],
         sf = [];
 
 
+  int? getAttribute(String name) {
+    switch (name) {
+      case 'at':
+        return at;
+      case 'pa':
+        return pa;
+      case 'fk':
+        return fk;
+      case 'mr':
+        return mr;
+      case 'ko':
+        return ko;
+      case 'kk':
+        return kk;
+      case 'mu':
+        return mu;
+      case 'kl':
+        return kl;
+      case 'ge':
+        return ge;
+      case 'in':
+        return intu;
+      case 'ch':
+        return ch;
+      case 'ff':
+        return ff;
+      default:
+        return null;
+    }
+  }
 }

@@ -5,12 +5,14 @@ import 'package:uuid/uuid.dart';
 
 import '../Held/Held.dart';
 import '../User/User.dart';
+
 class Gruppe {
   late String uuid = Uuid().v4();
   String name;
   DateTime erstelltAm = DateTime.now();
+  DateTime? treffenAm;
   DsaDate datum = DsaDate(0, 0, 1);
-  String notes = "";
+  String? noteId;
   List<Held> helden = [];
   List<User> users = [];
   String ownerUuid = "";
@@ -23,7 +25,7 @@ class Gruppe {
 
   @override
   String toString() {
-    return 'Gruppe(uuid: $uuid, name: $name, erstelltAm: $erstelltAm, datum: $datum, notes: $notes, helden: $helden, users: $users, ownerUuid: $ownerUuid)';
+    return 'Gruppe(uuid: $uuid, name: $name, erstelltAm: $erstelltAm, datum: $datum, notes: $noteId, helden: $helden, users: $users, ownerUuid: $ownerUuid)';
   }
 
   factory Gruppe.fromJson(Map<String, dynamic> json) {
@@ -42,16 +44,18 @@ class Gruppe {
     String notes = json['notes'] ?? '';
     String uuid = json['id'] ?? Uuid().v4();
     String owner = json['owner'] ?? Uuid().v4();
+    DateTime? tTreffenAm = parseNullableDate(json['treffenAm']);
 
     DsaDate datum = DsaDate.fromString(json['datum']) ?? DsaDate(0, 0, 1);
 
     return Gruppe(
       name: name
-    )..notes = notes
+    )..noteId = notes
       ..uuid = uuid
       ..helden = []
       ..ownerUuid = owner
-      ..datum = datum;
+      ..datum = datum
+      ..treffenAm = tTreffenAm;
   }
 
   Gruppe copyWith({
@@ -63,16 +67,19 @@ class Gruppe {
     List<Held>? helden,
     List<User>? users,
     String? ownerUuid,
+    DateTime? treffenAm
   }) {
     return Gruppe(
       name: name ?? this.name,
     )..uuid = uuid ?? this.uuid
       ..erstelltAm = erstelltAm ?? this.erstelltAm
       ..datum = datum ?? this.datum
-      ..notes = notes ?? this.notes
+      ..noteId = notes ?? this.noteId
       ..helden = helden ?? this.helden
       ..users = users ?? this.users
-      ..ownerUuid = ownerUuid ?? this.ownerUuid;
+      ..ownerUuid = ownerUuid ?? this.ownerUuid
+      ..treffenAm = treffenAm
+    ;
   }
 
   Map<String, dynamic> toJson() {
@@ -81,7 +88,8 @@ class Gruppe {
     if (uuid != null) jsonMap['id'] = uuid;
     if (name != null) jsonMap['name'] = name;
     if (datum != null) jsonMap['datum'] = datum.toString();
-    if (notes != null) jsonMap['notes'] = jsonEncode(notes);
+    if (noteId != null) jsonMap['notes'] = jsonEncode(noteId);
+    jsonMap['treffenAm'] = jsonEncode(treffenAm);
 
     if (users != null) {
       //jsonMap['setUserIDs'] = users.map((e) => e.uuid).toList();
@@ -94,4 +102,17 @@ class Gruppe {
     return jsonMap;
   }
 
+}
+
+//TODO refactor to somewhere else
+DateTime? parseNullableDate(String? dateString) {
+  if (dateString == null) {
+    return null;
+  }
+
+  try {
+    return DateTime.parse(dateString);
+  } catch (e) {
+    return null;
+  }
 }

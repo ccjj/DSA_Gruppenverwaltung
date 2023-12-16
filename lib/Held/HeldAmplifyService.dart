@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:dsagruppen/actions/ActionStack.dart';
 
+import '../actions/ActionSource.dart';
+import '../globals.dart';
 import 'Held.dart';
 import 'HeldRepository.dart';
 import 'UpdateHeldInput.dart';
@@ -51,14 +54,15 @@ class HeldAmplifyService {
       sf
       zauber
       ws
+      kreuzer
+      wunden
+      geburtstag
       talents
       items
-      notes
       gruppeID
     }
   }
 ''';
-
     final request = GraphQLRequest<String>(
       document: createMutation,
       variables: {
@@ -69,6 +73,7 @@ class HeldAmplifyService {
 
     try {
       final response = await Amplify.API.mutate(request: request).response;
+      print(response);
       if (response.data != null) {
         return Held.fromJson(jsonDecode(response.data!));
       }
@@ -90,7 +95,6 @@ class HeldAmplifyService {
       rasse
       pa
       owner
-      notes
       mu
       name
       mr
@@ -125,6 +129,9 @@ class HeldAmplifyService {
       au
       at
       asp
+      kreuzer
+      wunden
+      geburtstag
         }
       }
       ''';
@@ -138,7 +145,7 @@ class HeldAmplifyService {
       );
 
       var response = await operation.response;
-      print(response);
+      //print(response);
       var data = response.data;
 
       if (data == null) {
@@ -164,6 +171,9 @@ class HeldAmplifyService {
             lp
             asp
             au
+            kreuzer
+            wunden
+            items
           }
         }
       ''';
@@ -253,7 +263,6 @@ class HeldAmplifyService {
       rasse
       pa
       owner
-      notes
       mu
       name
       mr
@@ -363,6 +372,8 @@ class HeldAmplifyService {
                   lp
                   asp
                   au
+                  kreuzer
+                  wunden
               }
           }
       ''';
@@ -371,6 +382,7 @@ class HeldAmplifyService {
       'heroId': held.uuid,
     };
 
+    var actionService = getIt<ActionStack>();
     subscription = Amplify.API.subscribe(
       GraphQLRequest<String>(
         document: graphQLDocument,
@@ -384,16 +396,20 @@ class HeldAmplifyService {
         int? lp = newStats['onUpdateHeld']?['lp'] as int?;
         int? asp = newStats['onUpdateHeld']?['asp'] as int?;
         int? au = newStats['onUpdateHeld']?['au'] as int?;
+        int? kreuzer = newStats['onUpdateHeld']?['kreuzer'] as int?;
         if(lp != null){
-          held.lp.value = lp;
-          print("SET LP");
+          actionService.handleUserAction(lp, "lp", ActionSource.server, ()=> held.lp.value = lp);
         }
         if(asp != null){
-          held.asp.value = asp;
+          actionService.handleUserAction(asp, "asp", ActionSource.server, ()=> held.asp.value = asp);
         }
         if(au != null){
-          held.au.value = au;
+          actionService.handleUserAction(au, "au", ActionSource.server, ()=> held.au.value = au);
         }
+        if(kreuzer != null){
+          actionService.handleUserAction(au, "kreuzer", ActionSource.server, ()=> held.kreuzer.value = kreuzer);
+        }
+        //TODO wunden, kreuzer
         //print('New data: $newStats)');
         //print('New data: ${newStats['onUpdateHeld']['id']}');
         //print('New data: ${newStats['onUpdateHeld']['lp']}');

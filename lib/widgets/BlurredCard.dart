@@ -6,7 +6,7 @@ class BlurredCard extends StatelessWidget {
   final double blurAmount;
   final Widget child;
 
-  BlurredCard({required this.child, this.blurAmount = 5.0});
+  const BlurredCard({super.key, required this.child, this.blurAmount = 8.0});
 
   @override
   Widget build(BuildContext context) {

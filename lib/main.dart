@@ -1,29 +1,54 @@
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:dsagruppen/GroupDetailsScreen.dart';
 import 'package:dsagruppen/Gruppe/GroupService.dart';
 import 'package:dsagruppen/Held/HeldAmplifyService.dart';
 import 'package:dsagruppen/Held/HeldService.dart';
+import 'package:dsagruppen/HeldDetailsScreen.dart';
 import 'package:dsagruppen/User/UserAmplifyService.dart';
+import 'package:dsagruppen/actions/ActionStack.dart';
 import 'package:dsagruppen/login/AuthService.dart';
+import 'package:dsagruppen/model/Item.dart';
+import 'package:dsagruppen/rules/RollManager.dart';
+import 'package:dsagruppen/skills/TalentRepository%20.dart';
+import 'package:dsagruppen/skills/ZauberRepository.dart';
 import 'package:dsagruppen/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'Gruppe/GroupAmplifyService.dart';
+import 'Gruppe/Gruppe.dart';
 import 'Gruppe/GruppeRepository.dart';
 import 'Held/HeldRepository.dart';
 import 'HeldGroupCoordinator.dart';
+import 'Note/NoteAmplifyService.dart';
+import 'User/User.dart';
 import 'User/UserRepository.dart';
 import 'UserPreferences.dart';
 import 'amplifyconfiguration.dart';
+import 'chat/ChatOverlay.dart';
+import 'chat/MessageAmplifyService.dart';
+import 'chat/PersonalChatMessageRepository.dart';
 import 'globals.dart';
 import 'login/LoginPage.dart';
+import '../Held/Held.dart';
 
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  isTest = false;
   getIt.registerSingleton<UserRepository>(UserRepository());
+  getIt.registerSingleton<TalentRepository>(TalentRepository('data/talents.json'));
+  getIt.registerSingleton<ZauberRepository>(ZauberRepository('data/spells.json'));
+  getIt.registerLazySingleton<RollManager>(() => RollManager());
+  getIt.registerLazySingleton<PersonalChatMessageRepository>(() => PersonalChatMessageRepository());
+  getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, isVisible: isChatVisible, gruppeId: ""));
+  getIt.registerLazySingleton<MessageAmplifyService>(() => MessageAmplifyService());
+  getIt<ZauberRepository>().loadZaubers();
+  getIt<TalentRepository>().loadTalents();
+  getIt.registerSingleton<ActionStack>(ActionStack());
+  getIt.registerSingleton<NoteAmplifyService>(NoteAmplifyService());
   getIt.registerSingleton<UserAmplifyService>(UserAmplifyService());
   getIt.registerSingleton<HeldRepository>(HeldRepository());
   getIt.registerSingleton<HeldAmplifyService>(HeldAmplifyService(
@@ -43,18 +68,29 @@ void main() {
       getIt<GroupService>(),
       getIt<HeldRepository>()
   ));
+  if(isTest){
+    cu = User(name: 'bob', email: 'Bob@bob.de');
+    getIt<GruppeRepository>().addGruppe(Gruppe(name: "Omars Ignifaxius-Grenadiere"));
+    getIt<GruppeRepository>().addGruppe(Gruppe(name: "Rohaldors Sturmtruppen"));
+    getIt<GruppeRepository>().addGruppe(Gruppe(name: "Xorloschs Kuschelgrabscher"));
+    getIt<HeldRepository>().addHeld(Held(gruppeId: '123', name: "asd", asp: ValueNotifier(1), ap: 3, at: 1, pa: 1, au: ValueNotifier(1),
+    ausbildung: "keine", baseIni: 1, ch: 1, ff: 1, kk: 1, fk: 1, ge: 1, geburtstag: "l", gs: 1, heldNummer: "1234", ini: 2, intu: 3, ke: 1,
+      kl: 1, ko: 1, kreuzer: ValueNotifier(1), kultur: "d", maxKe: 1, mr: 1, owner: cu.uuid, mu: 1, so: 1, ws: 1, wunden: 1, rasse: "dd", lp: ValueNotifier(1),
+      maxAsp: ValueNotifier(1), maxAu: ValueNotifier(1), maxLp: ValueNotifier(1), talents: {}, notes: {}, sf: [], vorteile: [], zauber: {},
+      items: [
+        Item(name: "buch", anzahl: 2),
+        Item(name: "mantel", anzahl: 1),
 
-
-
+      ]
+    ));
+  }
   getIt.registerSingleton<AuthService>(AuthService());
   getIt.registerSingleton<UserPreferences>(UserPreferences());
   getIt<UserPreferences>().getTheme().then((isLightTheme) => themeNotifier.value = (isLightTheme ?? true) ? ThemeMode.light : ThemeMode.dark);
+  getIt<UserPreferences>().getShowAusdauer().then((tshowAusdauer) => showAusdauer.value = (tshowAusdauer ?? true) ? true : false);
   //getIt<UserRepository>().addUser(cu);
-  /*
-  getIt<GruppenRepository>().addGruppe(Gruppe(helden: [], erstelltVon: cu, name: "Omars Ignifaxius-Grenadiere"));
-  getIt<GruppenRepository>().addGruppe(Gruppe(helden: [], erstelltVon: cu, name: "Rohaldors Sturmtruppen"));
-  getIt<GruppenRepository>().addGruppe(Gruppe(helden: [], erstelltVon: cu, name: "Xorloschs Kuschelgrabscher"));
-   */
+
+
   configureAmplify();
 
   runApp(MyApp());
@@ -84,7 +120,8 @@ class MyApp extends StatelessWidget {
           darkTheme: darkTheme,
           themeMode: themeMode,
           navigatorKey: navigatorKey,
-          home: LoginPage(),
+          //home: isTest ? GroupDetailsScreen(gruppe: getIt<GruppeRepository>().getAllGruppen()[0]) : LoginPage(),//LoginPage(),//
+          home: isTest ? HeldDetailsScreen(held: getIt<HeldRepository>().getAllHelden()[0]) : LoginPage(),//LoginPage(),//
           builder: EasyLoading.init(),
           debugShowCheckedModeBanner: false,
         );

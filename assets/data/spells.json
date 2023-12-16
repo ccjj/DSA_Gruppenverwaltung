@@ -1,0 +1,2210 @@
+﻿[
+    {
+        "Name": "Abvenenum reine Speise",
+        "Seite": "LCD11",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Accuratum Zaubernadel",
+        "Seite": "LCD12",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Adamantium Erzstruktur",
+        "Seite": "LCD13",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Adlerauge Luchsenohr",
+        "Seite": "LCD15",
+        "Wurf": "KL/IN/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Adlerschwinge Wolfsgestalt",
+        "Seite": "LCD16",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Aeolitus Windgebraus",
+        "Seite": "LCD18",
+        "Wurf": "KL/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Aerofugo Vakuum",
+        "Seite": "LCD19",
+        "Wurf": "MU/KO/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Aerogelo Atemqual",
+        "Seite": "LCD20",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Aeropulvis Sanfter Fall",
+        "Seite": "EG 102, 103",
+        "Wurf": "KL/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Agrimothbann",
+        "Seite": "LCD63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Alpgestalt",
+        "Seite": "LCD21",
+        "Wurf": "MU/CH/GE",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Amazerothbann",
+        "Seite": "LCD63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Analys Arcanstruktur",
+        "Seite": "LCD 22",
+        "Wurf": "KL/KL/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Analys Arkanstruktur",
+        "Seite": "LCD 22",
+        "Wurf": "KL/KL/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ängste lindern",
+        "Seite": "LCD23",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Animatio stummer Diener",
+        "Seite": "LCD24",
+        "Wurf": "KL/FF/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Applicatus Zauberspeicher",
+        "Seite": "LCD25",
+        "Wurf": "KL/FF/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Aquafaxius Wasserstrahl",
+        "Seite": "LCD122",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Aquaqerus Wasserfluch",
+        "Seite": "EG 102",
+        "Wurf": "MU/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Aquasphaero Wasserball",
+        "Seite": "LCD124",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Arachnea Krabbeltier",
+        "Seite": "LCD26",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Arcanovi Artefakt",
+        "Seite": "LCD27",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Arcanovi Artefakt (Matrixgeber)",
+        "Seite": "LCD 27",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Arcanovi Artefakt (Semipermanenz)",
+        "Seite": "LCD 27",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Arcanovi Artefakt (Spruchspeicher)",
+        "Seite": "LCD 27",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Archofaxius Erzstrahl",
+        "Seite": "LCD122",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Archosphaero Erzball",
+        "Seite": "LCD124",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Armatrutz",
+        "Seite": "LCD28",
+        "Wurf": "IN/GE/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Asfalothbann",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Atemnot",
+        "Seite": "LCD29",
+        "Wurf": "MU/KO/KK",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Attributo",
+        "Seite": "LCD30",
+        "Wurf": "KL/CH/KL",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Aufgeblasen Abgehoben",
+        "Seite": "LCD31",
+        "Wurf": "CH/KO/KK",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Auge des Limbus",
+        "Seite": "LCD32",
+        "Wurf": "MU/KO/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Aureolus Güldenglanz",
+        "Seite": "LCD33",
+        "Wurf": "IN/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Auris Nasus Oculus",
+        "Seite": "LCD35",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Axxeleratus Blitzgeschwind",
+        "Seite": "LCD36",
+        "Wurf": "KL/GE/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Balsam Salabunde",
+        "Seite": "LCD37",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Band und Fessel",
+        "Seite": "LCD38",
+        "Wurf": "KL/CH/KK",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Bannbaladin",
+        "Seite": "LCD39",
+        "Wurf": "IN/CH/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Bärenruhe Winterschlaf",
+        "Seite": "LCD40",
+        "Wurf": "MU/KK/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Beherrschung brechen",
+        "Seite": "LCD41",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Belhalharbann",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Belkelelbann",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Belzhorashbann",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Beschwörung vereiteln",
+        "Seite": "LCD42",
+        "Wurf": "MU/INCH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Bewegung stören",
+        "Seite": "LCD43",
+        "Wurf": "KL/IN/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Bienenschwarm",
+        "Seite": "OiC 67",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Blakharazbann",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Blendwerk",
+        "Seite": "LCD44",
+        "Wurf": "IN/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Blick aufs Wesen",
+        "Seite": "LCD45",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Blick durch fremde Augen",
+        "Seite": "LCD46",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Blick in die Gedanken",
+        "Seite": "LCD47",
+        "Wurf": "KL/KL/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Blick in die Vergangenheit",
+        "Seite": "LCD48",
+        "Wurf": "KL/KL/IN",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Blitz dich find",
+        "Seite": "LCD49",
+        "Wurf": "KL/IN/GE",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Böser Blick",
+        "Seite": "LCD50",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Brenne toter Stoff!",
+        "Seite": "LCD51",
+        "Wurf": "MU/KL/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Caldofrigo heiß und kalt",
+        "Seite": "LCD52",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Chamaelioni Mimikry",
+        "Seite": "LCD54",
+        "Wurf": "IN/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Charyptorothbann",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Chimaeroform Hybridgestalt",
+        "Seite": "LCD55",
+        "Wurf": "KL/IN/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Chronoautos Zeitenfahrt",
+        "Seite": "LCD57",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Chronoklassis Urfossil",
+        "Seite": "LCD56",
+        "Wurf": "KL/IN/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Chrononautos Zeitenfahrt",
+        "Seite": "LCD 57",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Claudibus Clavistibor",
+        "Seite": "LCD58",
+        "Wurf": "KL/FF/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Corpofesso Gliederschmerz",
+        "Seite": "LCD59",
+        "Wurf": "KL/KO/KK",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Corpofrigo Kälteschock",
+        "Seite": "LCD60",
+        "Wurf": "CH/GE/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Cryptographo Zauberschrift",
+        "Seite": "LCD61",
+        "Wurf": "KL/KL/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Custodosigil Diebesbann",
+        "Seite": "LCD62",
+        "Wurf": "KL/FF/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann",
+        "Seite": "LCD63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Dämonenbann (Agrimoth)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Amazeroth)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Asfaloth)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Belhalhar)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Belkelel)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Belshirash)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Belzhorash)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Blakharaz)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Charyptoroth)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Lolgramoth)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Tasfarelel)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dämonenbann (Thargunitoth)",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Delicioso Gaumenschmaus",
+        "Seite": "LCD64",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Desintegratus Pulverstaub",
+        "Seite": "LCD65",
+        "Wurf": "KL/KO/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Destructibo Arcanitas",
+        "Seite": "LCD66",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Dichter und Denker",
+        "Seite": "LCD67",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Dschinnenruf",
+        "Seite": "LCD68",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Dunkelheit",
+        "Seite": "LCD69",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Duplicatus Doppelbild",
+        "Seite": "LCD70",
+        "Wurf": "KL/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ecliptifactus Schattenkraft",
+        "Seite": "LCD71",
+        "Wurf": "MU/KL/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ecliptifactus Schattenkraft (obsk.)",
+        "Seite": "SoG 163, B1",
+        "Wurf": "MU/KL/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Eigenschaft wiederherstellen",
+        "Seite": "LCD73",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Eigne Ängste quälen dich!",
+        "Seite": "LCD74",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Einfluss bannen",
+        "Seite": "LCD75",
+        "Wurf": "IN/CH/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Eins mit der Natur",
+        "Seite": "LCD76",
+        "Wurf": "IN/GE/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Eisenrost und Patina",
+        "Seite": "LCD77",
+        "Wurf": "KL/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Eiseskälte Kämpferherz",
+        "Seite": "LCD78",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Eiswirbel",
+        "Seite": "LCD172",
+        "Wurf": "MU/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Elementarbann",
+        "Seite": "LCD79",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Elementarer Diener",
+        "Seite": "LCD80",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Elementarer Wirbel",
+        "Seite": "CS 67",
+        "Wurf": "MU/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Elfenstimme Flötenton",
+        "Seite": "LCD81",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Entfesselung des Getiers",
+        "Seite": "OiC 67",
+        "Wurf": "KL/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Erinnerung verlasse dich!",
+        "Seite": "LCD82",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Exposami Lebenskraft",
+        "Seite": "LCD83",
+        "Wurf": "KL/IN/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Falkenauge Meisterschuss",
+        "Seite": "LCD84",
+        "Wurf": "IN/FF/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Favilludo Funkentanz",
+        "Seite": "LCD85",
+        "Wurf": "IN/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Fesselranken",
+        "Seite": "EG 103",
+        "Wurf": "KL/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Feuerbann",
+        "Seite": "LCD 162, 163 ",
+        "Wurf": "MU/MU/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Feuermähne Flammenhuf",
+        "Seite": "EG 103",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Feuersturm",
+        "Seite": "LCD172",
+        "Wurf": "MU/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Firnlauf",
+        "Seite": "LCD86",
+        "Wurf": "MU/KL/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Flim Flam Funkel",
+        "Seite": "LCD87",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Fluch der Pestilenz",
+        "Seite": "LCD88",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Foramen Foraminor",
+        "Seite": "LCD89",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Fortifex arkane Wand",
+        "Seite": "LCD90",
+        "Wurf": "IN/KO/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Frigifaxius Eisstrahl",
+        "Seite": "LCD122",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Frigisphaero Eisball",
+        "Seite": "LCD124",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Fulminictus Donnerkeil",
+        "Seite": "LCD91",
+        "Wurf": "IN/GE/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Gardianum Zauberschild",
+        "Seite": "LCD92",
+        "Wurf": "KL/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Gebieter der Tiefe",
+        "Seite": "OiC 68",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Gedankenbilder Elfenruf",
+        "Seite": "LCD94",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Gefäß der Jahre",
+        "Seite": "LCD95",
+        "Wurf": "MU/KL/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Gefunden!",
+        "Seite": "LCD96",
+        "Wurf": "KL/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Geisterbann",
+        "Seite": "LCD97",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Geisterruf",
+        "Seite": "LCD98",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Geschoss der Niederhöllen",
+        "Seite": "OiC 68",
+        "Wurf": "CH/FF/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Glacoflumen Fluss aus Eis",
+        "Seite": "EG 102",
+        "Wurf": "IN/KO/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Gletscherwand",
+        "Seite": "LCD275",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Granit und Marmor",
+        "Seite": "LCD99",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Grolmenseele",
+        "Seite": "OiC 69",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Große Gier",
+        "Seite": "LCD100",
+        "Wurf": "KL/KL/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Große Verwirrung",
+        "Seite": "LCD101",
+        "Wurf": "KL/KL/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Halluzination",
+        "Seite": "LCD102",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Harmlose Gestalt",
+        "Seite": "LCD103",
+        "Wurf": "KL/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hartes schmelze!",
+        "Seite": "LCD104",
+        "Wurf": "MU/KL/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Haselbusch und Ginsterkraut",
+        "Seite": "LCD105",
+        "Wurf": "CH/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hauch der tiefen Tochter",
+        "Seite": "OiC 69",
+        "Wurf": "KL/CH/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Heilkraft bannen",
+        "Seite": "LCD107",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Hellsicht trüben",
+        "Seite": "LCD108",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Herbeirufung vereiteln",
+        "Seite": "LCD109",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Herr über das Tierreich",
+        "Seite": "LCD110",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Herzschlag ruhe!",
+        "Seite": "LCD111",
+        "Wurf": "MU/CH/KK",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Hexagramma Dschinnenbann",
+        "Seite": "OiC 69",
+        "Wurf": "MU/MU/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hexenblick",
+        "Seite": "LCD112",
+        "Wurf": "IN/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hexengalle",
+        "Seite": "LCD113",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hexenholz",
+        "Seite": "LCD114",
+        "Wurf": "KL/FF/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hexenknoten",
+        "Seite": "LCD115",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hexenkrallen",
+        "Seite": "LCD116",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hexenspeichel",
+        "Seite": "LCD117",
+        "Wurf": "IN/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hilfreiche Tatze, rettende Schwinge",
+        "Seite": "LCD118",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Höllenpein zerreiße dich!",
+        "Seite": "LCD119",
+        "Wurf": "KL/CH/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Holterdipolter",
+        "Seite": "LCD120",
+        "Wurf": "IN/IN/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Hornissenruf",
+        "Seite": "OiC 69",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Horriphobus Schreckgestalt",
+        "Seite": "LCD121",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Humofaxius Humusstrahl",
+        "Seite": "LCD122",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Humosphaero Humusball",
+        "Seite": "LCD124",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ignifaxius Flammenstrahl",
+        "Seite": "LCD122",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Igniflumen Flammenspur",
+        "Seite": "OiC 69",
+        "Wurf": "MU/KL/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ignimorpho Feuerform",
+        "Seite": "EG 104",
+        "Wurf": "MU/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Igniplano Flächenbrand",
+        "Seite": "EG 104",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Igniqueris Feuerkragen",
+        "Seite": "OiC 70",
+        "Wurf": "KL/CH/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ignisphaero Feuerball",
+        "Seite": "LCD124",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ignorantia Ungesehn",
+        "Seite": "LCD125",
+        "Wurf": "IN/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ignifugo Feuerbann",
+        "Seite": "EG 103, 104",
+        "Wurf": "MU/KO/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Illusion auflösen",
+        "Seite": "LCD126",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Immortalis Lebenszeit",
+        "Seite": "LCD127",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Imperavi Handlungszwang",
+        "Seite": "LCD128",
+        "Wurf": "KL/CH/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Impersona Maskenbild",
+        "Seite": "LCD129",
+        "Wurf": "KL/IN/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Infinitum Immerdar",
+        "Seite": "LCD130",
+        "Wurf": "KL/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Invercano Spiegeltrick",
+        "Seite": "LCD131",
+        "Wurf": "MU/IN/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Invocatio maior",
+        "Seite": "LCD132",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Invocatio minor",
+        "Seite": "LCD133",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Iribaars Hand",
+        "Seite": "LCD134",
+        "Wurf": "MU/MU/IN",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Juckreiz, dämlicher!",
+        "Seite": "LCD135",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Karnifilio Raserei",
+        "Seite": "LCD136",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Katzenaugen",
+        "Seite": "LCD137",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Klarum Purum",
+        "Seite": "LCD138",
+        "Wurf": "KL/KL/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Klickeradomms",
+        "Seite": "LCD139",
+        "Wurf": "KL/FF/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Koboldgeschenk",
+        "Seite": "LCD140",
+        "Wurf": "IN/CH/FF",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Koboldovision",
+        "Seite": "LCD141",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Komm Kobold Komm",
+        "Seite": "LCD142",
+        "Wurf": "IN/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Körperlose Reise",
+        "Seite": "LCD143",
+        "Wurf": "MU/KL/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Krabbelnder Schrecken",
+        "Seite": "LCD144",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Kraft des Erzes",
+        "Seite": "LCD145",
+        "Wurf": "KL/KO/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Kraft des Humus",
+        "Seite": "EG104, 105",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Krähenruf",
+        "Seite": "LCD146",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Krötensprung",
+        "Seite": "LCD148",
+        "Wurf": "IN/GE/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Kulminatio Kugelblitz",
+        "Seite": "LCD149",
+        "Wurf": "MU/IN/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Kusch!",
+        "Seite": "LCD150",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Lach dich gesund",
+        "Seite": "LCD151",
+        "Wurf": "IN/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Lachkrampf",
+        "Seite": "LCD152",
+        "Wurf": "CH/CH/FF",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Langer Lulatsch",
+        "Seite": "LCD153",
+        "Wurf": "CH/GE/KK",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Last des Alters",
+        "Seite": "LCD154",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Leib aus tausend Fliegen",
+        "Seite": "OiC 70",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Leib der Erde",
+        "Seite": "LCD155",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Leib der Wogen",
+        "Seite": "LCD157",
+        "Wurf": "MU/KL/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Leib des Eises",
+        "Seite": "LCD159",
+        "Wurf": "MU/KL/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Leib des Erzes",
+        "Seite": "LCD160",
+        "Wurf": "MU/GE/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Leib des Feuers",
+        "Seite": "LCD162",
+        "Wurf": "MU/MU/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Leib des Windes",
+        "Seite": "LCD164",
+        "Wurf": "MU/GE/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Leidensbund",
+        "Seite": "LCD165",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Levthans Feuer",
+        "Seite": "LCD166",
+        "Wurf": "IN/CH/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Limbus versiegeln",
+        "Seite": "LCD167",
+        "Wurf": "KL/IN/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Lockruf und Feenfüße",
+        "Seite": "LCD168",
+        "Wurf": "IN/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Lolgramothbann",
+        "Seite": "LCD 63",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Lunge des Leviatan",
+        "Seite": "LCD169",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Madas Spiegel",
+        "Seite": "LCD170",
+        "Wurf": "MU/KL/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Magischer Raub",
+        "Seite": "LCD171",
+        "Wurf": "MU/KL/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Mahlstrom",
+        "Seite": "LCD172",
+        "Wurf": "MU/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Malmkreis",
+        "Seite": "LCD172",
+        "Wurf": "MU/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Manifesto Element",
+        "Seite": "LCD173",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Meister der Elemente",
+        "Seite": "LCD174",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Meister minderer Geister",
+        "Seite": "LCD175",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Memorabia Falsifir",
+        "Seite": "LCD176",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Memorans Gedächtniskraft",
+        "Seite": "LCD177",
+        "Wurf": "KL/KL/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Menetekel Flammenschrift",
+        "Seite": "LCD178",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Metamagie neutralisieren",
+        "Seite": "LCD179",
+        "Wurf": "KL/KL/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Metamorpho Felsenform",
+        "Seite": "LCD180",
+        "Wurf": "KL/FF/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Metamorpho Gletscherform",
+        "Seite": "LCD180",
+        "Wurf": "KL/FF/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Motoricus",
+        "Seite": "LCD181",
+        "Wurf": "KL/FF/KK",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Movimento Dauerlauf",
+        "Seite": "LCD183",
+        "Wurf": "IN/GE/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Murks und Patz",
+        "Seite": "LCD184",
+        "Wurf": "IN/IN/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Nackedei",
+        "Seite": "LCD185",
+        "Wurf": "KL/IN/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Nagrachbann",
+        "Seite": "LCD  63 ",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Nebelleib",
+        "Seite": "LCD186",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Nebelwand und Morgendunst",
+        "Seite": "LCD187",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Nekropathia Seelenreise",
+        "Seite": "LCD188",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Niederhöllen Eisgestalt",
+        "Seite": "LCD99",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Nihilogravo Schwerelos",
+        "Seite": "LCD189",
+        "Wurf": "KL/KO/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Nuntiovolo Botenvogel",
+        "Seite": "LCD190",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Nuntiovolo Botenvogel (obsk.)",
+        "Seite": "LCD 190 / SoG 163",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Objecto Obscuro",
+        "Seite": "LCD191",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Objectofixo",
+        "Seite": "LCD192",
+        "Wurf": "KL/KL/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Objectovoco",
+        "Seite": "LCD193",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Objekt entzaubern",
+        "Seite": "LCD194",
+        "Wurf": "KL/IN/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Oculus Astralis",
+        "Seite": "LCD196",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Odem Arcanum",
+        "Seite": "LCD197",
+        "Wurf": "KL/IN/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Opacitas Schattenleib",
+        "Seite": "LCD 240 / SoG 163",
+        "Wurf": "MU/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Orcanofaxius Luftstrahl",
+        "Seite": "LCD122",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Orcanosphaero Orkanball",
+        "Seite": "LCD124",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Orkanwand",
+        "Seite": "LCD275",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Pandaemonium",
+        "Seite": "LCD199",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Panik überkomme euch!",
+        "Seite": "LCD200",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Pantenebrum",
+        "Seite": "LCD 199 / SoG 163",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Papperlapapp",
+        "Seite": "LCD201",
+        "Wurf": "IN/IN/FF",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Paralysis starr wie Stein",
+        "Seite": "LCD202",
+        "Wurf": "IN/CH/KK",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Pectetondo Zauberhaar",
+        "Seite": "LCD203",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Penetrizzel Tiefenblick",
+        "Seite": "LCD204",
+        "Wurf": "KL/KL/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Pentagramma Sphärenbann",
+        "Seite": "LCD205",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Pestilenz erspüren",
+        "Seite": "LCD207",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Pfeil der Luft",
+        "Seite": "LCD208",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Pfeil des Eises",
+        "Seite": "LCD208",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Pfeil des Erzes",
+        "Seite": "LCD208",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Pfeil des Feuers",
+        "Seite": "LCD208",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Pfeil des Humus",
+        "Seite": "LCD208",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Pfeil des Wassers",
+        "Seite": "LCD208",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Planastrale Anderswelt",
+        "Seite": "LCD210",
+        "Wurf": "MU/MU/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Plumbumbarum schwerer Arm",
+        "Seite": "LCD211",
+        "Wurf": "CH/GE/KK",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Projektimago Ebenbild",
+        "Seite": "LCD212",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Protectionis Kontrabann",
+        "Seite": "LCD213",
+        "Wurf": "KL/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Psychostabilis",
+        "Seite": "LCD214",
+        "Wurf": "MU/KL/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Radau",
+        "Seite": "LCD215",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Reflectimago Spiegelschein",
+        "Seite": "LCD216",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Reptilea Natternest",
+        "Seite": "LCD217",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Respondami",
+        "Seite": "LCD218",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Reversalis Revidum",
+        "Seite": "LCD219",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Ruhe Körper, ruhe Geist",
+        "Seite": "LCD220",
+        "Wurf": "KL/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Salander Mutander",
+        "Seite": "LCD221",
+        "Wurf": "KL/CH/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Sanftmut",
+        "Seite": "LCD222",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Sapefacta Zauberschwamm",
+        "Seite": "LCD223",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Satuarias Herrlichkeit",
+        "Seite": "LCD224",
+        "Wurf": "IN/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Schabernack",
+        "Seite": "LCD225",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Schadenszauber bannen",
+        "Seite": "LCD226",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Schattenodem",
+        "Seite": "LCD 258 / SoG 163",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Schelmenkleister",
+        "Seite": "LCD227",
+        "Wurf": "IN/GE/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Schelmenlaune",
+        "Seite": "LCD228",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Schelmenmaske",
+        "Seite": "LCD229",
+        "Wurf": "IN/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Schelmenrausch",
+        "Seite": "LCD230",
+        "Wurf": "IN/CH/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Schlangenruf",
+        "Seite": "OiC 71",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Schleier der Unwissenheit",
+        "Seite": "LCD231",
+        "Wurf": "KL/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Schwarz und Rot",
+        "Seite": "LCD232",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Schwarzer Schrecken",
+        "Seite": "LCD233",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Seelenfeuer Lichterloh",
+        "Seite": "LCD99",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Seelentier erkennen",
+        "Seite": "LCD234",
+        "Wurf": "IN/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Seelenwanderung",
+        "Seite": "LCD235",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Seidenweich Schuppengleich",
+        "Seite": "LCD236",
+        "Wurf": "IN/FF/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Seidenzunge Elfenwort",
+        "Seite": "LCD237",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Sensattacco Meisterstreich",
+        "Seite": "LCD238",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Sensibar Empathicus",
+        "Seite": "LCD239",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Serpentialis Schlangenleib",
+        "Seite": "LCD240",
+        "Wurf": "MU/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Silentium",
+        "Seite": "LCD241",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Sinesigil unerkannt",
+        "Seite": "LCD242",
+        "Wurf": "KL/IN/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Skelettarius",
+        "Seite": "LCD243",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Solidirid Weg aus Licht",
+        "Seite": "LCD245",
+        "Wurf": "IN/KO/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Somnigravis tiefer Schlaf",
+        "Seite": "LCD246",
+        "Wurf": "KL/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Sphaerovisio Schreckensbild",
+        "Seite": "OiC 71",
+        "Wurf": "MU/KL/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Spinnenlauf",
+        "Seite": "LCD247",
+        "Wurf": "IN/GE/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Spinnennetz",
+        "Seite": "OiC 72",
+        "Wurf": "IN/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Spinnenruf",
+        "Seite": "OiC 72",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Spurlos Trittlos",
+        "Seite": "LCD248",
+        "Wurf": "IN/GE/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Standfest Katzengleich",
+        "Seite": "LCD249",
+        "Wurf": "IN/GE/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Staub wandle!",
+        "Seite": "LCD250",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Stein wandle!",
+        "Seite": "LCD251",
+        "Wurf": "MU/CH/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Stillstand",
+        "Seite": "LCD252",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Stimme des Windes",
+        "Seite": "EG 105",
+        "Wurf": "MU/IN/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Sumpfstrudel",
+        "Seite": "LCD172",
+        "Wurf": "MU/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Sumus Elixiere",
+        "Seite": "LCD253",
+        "Wurf": "IN/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Tanz der Erlösung",
+        "Seite": "OiC 73",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Tasfarelelbann",
+        "Seite": "LCD  63 ",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Tauschrausch",
+        "Seite": "LCD254",
+        "Wurf": "IN/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Tempus Stasis",
+        "Seite": "LCD255",
+        "Wurf": "MU/KL/KK",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Tenebraro Schattentanz",
+        "Seite": "LCD 85 / SoG 163",
+        "Wurf": "IN/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Thargunitothbann",
+        "Seite": "LCD  63 ",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Tiere besprechen",
+        "Seite": "LCD256",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Tiergedanken",
+        "Seite": "LCD257",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Tierruf",
+        "Seite": "OiC 73",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Tlalucs Odem Pestgestank",
+        "Seite": "LCD258",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Totes handle!",
+        "Seite": "LCD259",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Transformatio Formgestalt",
+        "Seite": "LCD260",
+        "Wurf": "KL/FF/KK",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Transmutare Körperform",
+        "Seite": "LCD261",
+        "Wurf": "CH/GE/KO",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Transversalis Teleport",
+        "Seite": "LCD262",
+        "Wurf": "KL/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Traumgestalt",
+        "Seite": "LCD263",
+        "Wurf": "IN/CH/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Umbraporta Schattentüre",
+        "Seite": "SoG 164, B2",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Unberührt von Satinav",
+        "Seite": "LCD264",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Unitatio Geistesbund",
+        "Seite": "LCD265",
+        "Wurf": "IN/CH/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Unsichtbare Glut",
+        "Seite": "OiC 73",
+        "Wurf": "KL/IN/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Unsichtbarer Jäger",
+        "Seite": "LCD266",
+        "Wurf": "IN/FF/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Valetudo Lebenskraft",
+        "Seite": "OiC 73",
+        "Wurf": "IN/GE/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Veränderung aufheben",
+        "Seite": "LCD267",
+        "Wurf": "KL/IN/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Verschwindibus",
+        "Seite": "LCD268",
+        "Wurf": "IN/CH/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Verständigung stören",
+        "Seite": "LCD269",
+        "Wurf": "KL/KL/IN",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Verwandlung beenden",
+        "Seite": "LCD270",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Vipernblick",
+        "Seite": "LCD271",
+        "Wurf": "MU/MU/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Visibili Vanitar",
+        "Seite": "LCD272",
+        "Wurf": "KL/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Vocolimbo hohler Klang",
+        "Seite": "LCD273",
+        "Wurf": "KL/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Vogelzwitschern Glockenspiel",
+        "Seite": "LCD274",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wand aus (Element)",
+        "Seite": "EG 106",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wand aus Dornen",
+        "Seite": "LCD275",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wand aus Eis (Gletscherwand)",
+        "Seite": "LCD 275",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wand aus Erz",
+        "Seite": "LCD275",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wand aus Flammen",
+        "Seite": "LCD275",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wand aus Luft (Orkanwand)",
+        "Seite": "LCD 275",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wand aus Wogen",
+        "Seite": "LCD275",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Warmes Blut",
+        "Seite": "LCD276",
+        "Wurf": "MU/IN/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Warmes Gefriere",
+        "Seite": "EG 106, 107",
+        "Wurf": "MU/KL/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wasseratem",
+        "Seite": "LCD277",
+        "Wurf": "MU/KL/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Weiches erstarre!",
+        "Seite": "LCD278",
+        "Wurf": "MU/KL/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Weihrauchwolke Wohlgeruch",
+        "Seite": "LCD279",
+        "Wurf": "IN/CH/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Weisheit der Bäume",
+        "Seite": "LCD280",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Weisheit der Steine",
+        "Seite": "OiC 73",
+        "Wurf": "MU/IN/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Weiße Mähn und goldener Huf",
+        "Seite": "LCD281",
+        "Wurf": "KL/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wellenlauf",
+        "Seite": "LCD282",
+        "Wurf": "MU/GE/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Wettermeisterschaft",
+        "Seite": "LCD283",
+        "Wurf": "MU/CH/GE",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Widerwille Ungemach",
+        "Seite": "LCD285",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Windgeflüster",
+        "Seite": "EG 107",
+        "Wurf": "KL/IN/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Windhose",
+        "Seite": "LCD286",
+        "Wurf": "MU/IN/KK",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Windstille",
+        "Seite": "LCD287",
+        "Wurf": "KL/CH/KK",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Wipfellauf",
+        "Seite": "LCD288",
+        "Wurf": "MU/IN/GE",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Xenographus Schriftenkunde",
+        "Seite": "LCD289",
+        "Wurf": "KL/KL/IN",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Zagibu Ubigaz",
+        "Seite": "LCD290",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Zappenduster",
+        "Seite": "LCD291",
+        "Wurf": "IN/IN/FF",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Zauberklinge Geisterspeer",
+        "Seite": "LCD292",
+        "Wurf": "KL/FF/KO",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Zaubernahrung Hungerbann",
+        "Seite": "LCD293",
+        "Wurf": "MU/MU/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Zauberwesen der Natur",
+        "Seite": "LCD294",
+        "Wurf": "MU/IN/CH",
+        "Erschwernis": ""
+    },
+    {
+        "Name": "Zauberzwang",
+        "Seite": "LCD295",
+        "Wurf": "MU/CH/CH",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Zorn der Elemente",
+        "Seite": "LCD296",
+        "Wurf": "MU/CH/KO",
+        "Erschwernis": "X"
+    },
+    {
+        "Name": "Zunge lähmen",
+        "Seite": "LCD297",
+        "Wurf": "MU/CH/FF",
+        "Erschwernis": "MR"
+    },
+    {
+        "Name": "Zwingtanz",
+        "Seite": "LCD298",
+        "Wurf": "MU/KL/CH",
+        "Erschwernis": "MR"
+    }
+]

@@ -1,0 +1,720 @@
+[
+    {
+        "Behinderung": "BE-2",
+        "Typ": "NAHKAMPF",
+        "Name": "Anderthalbhänder"
+    },
+    {
+        "Behinderung": "BE-1",
+        "Typ": "NAHKAMPF",
+        "Name": "Dolche"
+    },
+    {
+        "Behinderung": "BE-1",
+        "Typ": "NAHKAMPF",
+        "Name": "Fechtwaffen"
+    },
+    {
+        "Behinderung": "BE-4",
+        "Typ": "NAHKAMPF",
+        "Name": "Hiebwaffen"
+    },
+    {
+        "Behinderung": "BE-3",
+        "Typ": "NAHKAMPF",
+        "Name": "Infanteriewaffen"
+    },
+    {
+        "Behinderung": "BE-1",
+        "Typ": "NAHKAMPF",
+        "Name": "Kettenstäbe"
+    },
+    {
+        "Behinderung": "BE-3",
+        "Typ": "NAHKAMPF",
+        "Name": "Kettenwaffen"
+    },
+    {
+        "Typ": "NAHKAMPF",
+        "Name": "Lanzenreiten"
+    },
+    {
+        "Behinderung": "BE -1",
+        "Typ": "NAHKAMPF",
+        "Name": "Peitsche"
+    },
+    {
+        "Behinderung": "BE",
+        "Typ": "NAHKAMPF",
+        "Name": "Raufen"
+    },
+    {
+        "Behinderung": "BE",
+        "Typ": "NAHKAMPF",
+        "Name": "Ringen"
+    },
+    {
+        "Behinderung": "BE-2",
+        "Typ": "NAHKAMPF",
+        "Name": "Säbel"
+    },
+    {
+        "Behinderung": "BE-2",
+        "Typ": "NAHKAMPF",
+        "Name": "Schwerter"
+    },
+    {
+        "Behinderung": "BE-3",
+        "Typ": "NAHKAMPF",
+        "Name": "Speere"
+    },
+    {
+        "Behinderung": "BE-2",
+        "Typ": "NAHKAMPF",
+        "Name": "Stäbe"
+    },
+    {
+        "Behinderung": "BE-3",
+        "Typ": "NAHKAMPF",
+        "Name": "Zweihandflegel"
+    },
+    {
+        "Behinderung": "BE-3",
+        "Typ": "NAHKAMPF",
+        "Name": "Zweihand-Hiebwaffen"
+    },
+    {
+        "Behinderung": "BE-2",
+        "Typ": "NAHKAMPF",
+        "Name": "Zweihandschwerter"
+    },
+    {
+        "Behinderung": "BE-5",
+        "Typ": "FERNKAMPF",
+        "Name": "Armbrust"
+    },
+    {
+        "Typ": "FERNKAMPF",
+        "Name": "Belagerungswaffen"
+    },
+    {
+        "Behinderung": "BE-5",
+        "Typ": "FERNKAMPF",
+        "Name": "Blasrohr"
+    },
+    {
+        "Behinderung": "BE-3",
+        "Typ": "FERNKAMPF",
+        "Name": "Bogen"
+    },
+    {
+        "Behinderung": "BE-2",
+        "Typ": "FERNKAMPF",
+        "Name": "Diskus"
+    },
+    {
+        "Behinderung": "BE-2",
+        "Typ": "FERNKAMPF",
+        "Name": "Schleuder"
+    },
+    {
+        "Behinderung": "BE-2",
+        "Typ": "FERNKAMPF",
+        "Name": "Wurfbeile"
+    },
+    {
+        "Behinderung": "BE-3",
+        "Typ": "FERNKAMPF",
+        "Name": "Wurfmesser"
+    },
+    {
+        "Behinderung": "BE-2",
+        "Typ": "FERNKAMPF",
+        "Name": "Wurfspeere"
+    },
+    {
+        "Wurf": "MU/GE/KK",
+        "Behinderung": "BEx2",
+        "Typ": "KÖRPER",
+        "Name": "Akrobatik"
+    },
+    {
+        "Wurf": "GE/KO/KK",
+        "Behinderung": "BEx2",
+        "Typ": "KÖRPER",
+        "Name": "Athletik"
+    },
+    {
+        "Wurf": "MU/IN/GE",
+        "Behinderung": "BE",
+        "Typ": "KÖRPER",
+        "Name": "Fliegen"
+    },
+    {
+        "Wurf": "MU/CH/FF",
+        "Behinderung": "BEx2",
+        "Typ": "KÖRPER",
+        "Name": "Gaukeleien"
+    },
+    {
+        "Wurf": "MU/GE/KK",
+        "Behinderung": "BEx2",
+        "Typ": "KÖRPER",
+        "Name": "Klettern"
+    },
+    {
+        "Wurf": "MU/IN/GE",
+        "Behinderung": "BEx2",
+        "Typ": "KÖRPER",
+        "Name": "Körperbeherrschung"
+    },
+    {
+        "Wurf": "CH/GE/KK",
+        "Behinderung": "BE-2",
+        "Typ": "KÖRPER",
+        "Name": "Reiten"
+    },
+    {
+        "Wurf": "MU/IN/GE",
+        "Behinderung": "BE",
+        "Typ": "KÖRPER",
+        "Name": "Schleichen"
+    },
+    {
+        "Wurf": "GE/KO/KK",
+        "Behinderung": "BEx2",
+        "Typ": "KÖRPER",
+        "Name": "Schwimmen"
+    },
+    {
+        "Wurf": "MU/KO/KK",
+        "Typ": "KÖRPER",
+        "Name": "Selbstbeherrschung"
+    },
+    {
+        "Wurf": "MU/IN/GE",
+        "Behinderung": "BE-2",
+        "Typ": "KÖRPER",
+        "Name": "Sich verstecken"
+    },
+    {
+        "Wurf": "IN/CH/CH",
+        "Behinderung": "BE-3",
+        "Typ": "KÖRPER",
+        "Name": "Singen"
+    },
+    {
+        "Wurf": "KL/IN/IN",
+        "Typ": "KÖRPER",
+        "Name": "Sinnenschärfe"
+    },
+    {
+        "Wurf": "GE/GE/KO",
+        "Behinderung": "BE-2",
+        "Typ": "KÖRPER",
+        "Name": "Skifahren"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Behinderung": "BE-4",
+        "Typ": "KÖRPER",
+        "Name": "Stimmen Imitieren"
+    },
+    {
+        "Wurf": "CH/GE/GE",
+        "Behinderung": "BEx2",
+        "Typ": "KÖRPER",
+        "Name": "Tanzen"
+    },
+    {
+        "Wurf": "MU/IN/FF",
+        "Behinderung": "BEx2",
+        "Typ": "KÖRPER",
+        "Name": "Taschendiebstahl"
+    },
+    {
+        "Wurf": "IN/KO/KK",
+        "Typ": "KÖRPER",
+        "Name": "Zechen"
+    },
+    {
+        "Wurf": "IN/CH/CH",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Betören"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Etikette"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Gassenwissen"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Lehren"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Menschenkenntnis"
+    },
+    {
+        "Wurf": "MU/KL/CH",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Schauspielerei"
+    },
+    {
+        "Wurf": "KL/IN/IN",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Schriftlicher Ausdruck"
+    },
+    {
+        "Wurf": "MU/CH/GE",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Sich verkleiden"
+    },
+    {
+        "Wurf": "MU/IN/CH",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Überreden"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Typ": "GESELLSCHAFT",
+        "Name": "Überzeugen"
+    },
+    {
+        "Wurf": "KL/IN/KO",
+        "Typ": "NATUR",
+        "Name": "Fährtensuchen"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "NATUR",
+        "Name": "Fallenstellen"
+    },
+    {
+        "Wurf": "FF/GE/KK",
+        "Typ": "NATUR",
+        "Name": "Fesseln und Entfesseln"
+    },
+    {
+        "Wurf": "IN/FF/KK",
+        "Typ": "NATUR",
+        "Name": "Fischen und Angeln"
+    },
+    {
+        "Wurf": "KL/IN/IN",
+        "Typ": "NATUR",
+        "Name": "Orientierung"
+    },
+    {
+        "Wurf": "KL/IN/IN",
+        "Typ": "NATUR",
+        "Name": "Wettervorhersage"
+    },
+    {
+        "Wurf": "IN/GE/KO",
+        "Typ": "NATUR",
+        "Name": "Wildnisleben"
+    },
+    {
+        "Wurf": "MU/KL/FF",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Anatomie"
+    },
+    {
+        "Wurf": "KL/KL/FF",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Baukunst"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Brettspiel"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Geografie"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Geschichtswissen"
+    },
+    {
+        "Wurf": "KL/IN/FF",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Gesteinskunde"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Götter und Kulte"
+    },
+    {
+        "Wurf": "KL/KL/FF",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Heraldik"
+    },
+    {
+        "Wurf": "KL/IN/KO",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Hüttenkunde"
+    },
+    {
+        "Wurf": "MU/KL/CH",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Kriegskunst"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Kryptographie"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Magiekunde"
+    },
+    {
+        "Wurf": "KL/KL/FF",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Mechanik"
+    },
+    {
+        "Wurf": "KL/IN/FF",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Pflanzenkunde"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Philosophie"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Rechnen"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Rechtskunde"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Sagen und Legenden"
+    },
+    {
+        "Wurf": "KL/IN/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Schätzen"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Sprachenkunde"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Staatskunst"
+    },
+    {
+        "Wurf": "KL/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Sternkunde"
+    },
+    {
+        "Wurf": "MU/KL/IN",
+        "Typ": "WISSENSTALENTE",
+        "Name": "Tierkunde"
+    },
+    {
+        "Wurf": "MU/IN/CH",
+        "Typ": "HANDWERK",
+        "Name": "Abrichten"
+    },
+    {
+        "Wurf": "IN/FF/KO",
+        "Typ": "HANDWERK",
+        "Name": "Ackerbau"
+    },
+    {
+        "Wurf": "MU/KL/FF",
+        "Typ": "HANDWERK",
+        "Name": "Alchimie"
+    },
+    {
+        "Wurf": "IN/KO/KK",
+        "Typ": "HANDWERK",
+        "Name": "Bergbau"
+    },
+    {
+        "Wurf": "KL/IN/FF",
+        "Typ": "HANDWERK",
+        "Name": "Bogenbau"
+    },
+    {
+        "Wurf": "GE/KO/KK",
+        "Typ": "HANDWERK",
+        "Name": "Boote fahren"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Brauer"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Drucker"
+    },
+    {
+        "Wurf": "IN/CH/FF",
+        "Typ": "HANDWERK",
+        "Name": "Fahrzeuge lenken"
+    },
+    {
+        "Wurf": "MU/CH/FF",
+        "Typ": "HANDWERK",
+        "Name": "Falschspiel"
+    },
+    {
+        "Wurf": "KL/FF/FF",
+        "Typ": "HANDWERK",
+        "Name": "Feinmechanik"
+    },
+    {
+        "Wurf": "KL/FF/FF",
+        "Typ": "HANDWERK",
+        "Name": "Feuersteinbearbeitung"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Fleischer"
+    },
+    {
+        "Wurf": "KL/FF/KO",
+        "Typ": "HANDWERK",
+        "Name": "Gerber und Kürschner"
+    },
+    {
+        "Wurf": "FF/FF/KO",
+        "Typ": "HANDWERK",
+        "Name": "Glaskunst"
+    },
+    {
+        "Wurf": "FF/KO/KK",
+        "Typ": "HANDWERK",
+        "Name": "Grobschmied"
+    },
+    {
+        "Wurf": "KL/IN/CH",
+        "Typ": "HANDWERK",
+        "Name": "Handel"
+    },
+    {
+        "Wurf": "IN/CH/FF",
+        "Typ": "HANDWERK",
+        "Name": "Hauswirtschaft"
+    },
+    {
+        "Wurf": "MU/KL/IN",
+        "Typ": "HANDWERK",
+        "Name": "Heilkunde: Gift"
+    },
+    {
+        "Wurf": "MU/KL/CH",
+        "Typ": "HANDWERK",
+        "Name": "Heilkunde: Krankheiten"
+    },
+    {
+        "Wurf": "IN/CH/CH",
+        "Typ": "HANDWERK",
+        "Name": "Heilkunde: Seele"
+    },
+    {
+        "Wurf": "KL/CH/FF",
+        "Typ": "HANDWERK",
+        "Name": "Heilkunde: Wunden"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Holzbearbeitung"
+    },
+    {
+        "Wurf": "KL/IN/FF",
+        "Typ": "HANDWERK",
+        "Name": "Instrumentenbauer"
+    },
+    {
+        "Wurf": "KL/KL/FF",
+        "Typ": "HANDWERK",
+        "Name": "Kartografie"
+    },
+    {
+        "Wurf": "KL/IN/FF",
+        "Typ": "HANDWERK",
+        "Name": "Kochen"
+    },
+    {
+        "Wurf": "KL/IN/FF",
+        "Typ": "HANDWERK",
+        "Name": "Kristallzucht"
+    },
+    {
+        "Wurf": "KL/FF/FF",
+        "Typ": "HANDWERK",
+        "Name": "Lederarbeiten"
+    },
+    {
+        "Wurf": "KL/IN/FF",
+        "Typ": "HANDWERK",
+        "Name": "Malen/Zeichnen"
+    },
+    {
+        "Wurf": "FF/GE/KK",
+        "Typ": "HANDWERK",
+        "Name": "Maurer"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Metallguss"
+    },
+    {
+        "Wurf": "IN/CH/FF",
+        "Typ": "HANDWERK",
+        "Name": "Musizieren"
+    },
+    {
+        "Wurf": "IN/FF/FF",
+        "Typ": "HANDWERK",
+        "Name": "Schlösser knacken"
+    },
+    {
+        "Wurf": "KL/IN/FF",
+        "Typ": "HANDWERK",
+        "Name": "Schnaps brennen"
+    },
+    {
+        "Wurf": "KL/FF/FF",
+        "Typ": "HANDWERK",
+        "Name": "Schneidern"
+    },
+    {
+        "Wurf": "FF/GE/KK",
+        "Typ": "HANDWERK",
+        "Name": "Seefahrt"
+    },
+    {
+        "Wurf": "FF/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Seiler"
+    },
+    {
+        "Wurf": "FF/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Steinmetz"
+    },
+    {
+        "Wurf": "IN/FF/FF",
+        "Typ": "HANDWERK",
+        "Name": "Steinschneider/Juwelier"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Stellmacher"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Stoffe färben"
+    },
+    {
+        "Wurf": "IN/FF/FF",
+        "Typ": "HANDWERK",
+        "Name": "Tätowieren"
+    },
+    {
+        "Wurf": "KL/FF/FF",
+        "Typ": "HANDWERK",
+        "Name": "Töpfern"
+    },
+    {
+        "Wurf": "KL/IN/KK",
+        "Typ": "HANDWERK",
+        "Name": "Viehzucht"
+    },
+    {
+        "Wurf": "FF/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Webkunst"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Winzer"
+    },
+    {
+        "Wurf": "KL/FF/KK",
+        "Typ": "HANDWERK",
+        "Name": "Zimmermann"
+    },
+    {
+        "Wurf": "MU/IN/IN",
+        "Typ": "GABEN",
+        "Name": "Empathie"
+    },
+    {
+        "Wurf": "KL/IN/IN",
+        "Typ": "GABEN",
+        "Name": "Gefahreninstinkt"
+    },
+    {
+        "Wurf": "IN/CH/KO",
+        "Typ": "GABEN",
+        "Name": "Geräuschhexerei"
+    },
+    {
+        "Wurf": "MU/IN/KO",
+        "Typ": "GABEN",
+        "Name": "Kräfteschub"
+    },
+    {
+        "Wurf": "MU/IN/IN",
+        "Typ": "GABEN",
+        "Name": "Magiegespür"
+    },
+    {
+        "Wurf": "IN/IN/CH",
+        "Typ": "GABEN",
+        "Name": "Prophezeien"
+    },
+    {
+        "Wurf": "MU/IN/KO",
+        "Typ": "GABEN",
+        "Name": "Talentschub"
+    },
+    {
+        "Wurf": "MU/IN/CH",
+        "Typ": "GABEN",
+        "Name": "Tierempathie"
+    },
+    {
+        "Wurf": "FF/IN/IN",
+        "Typ": "GABEN",
+        "Name": "Zwergennase"
+    }
+]

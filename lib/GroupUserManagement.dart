@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'Gruppe/GroupAmplifyService.dart';
-import 'MainScaffold.dart';
+import 'widgets/MainScaffold.dart';
 import 'User/UserAmplifyService.dart';
 import 'globals.dart';
 
@@ -110,7 +110,7 @@ class GroupUserManagementState extends State<GroupUserManagement> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: 'Benutzerverwaltung für Gruppe ${widget.name}',
+      title: Text('Benutzerverwaltung für Gruppe ${widget.name}'),
       body: Column(
         children: [
           Padding(

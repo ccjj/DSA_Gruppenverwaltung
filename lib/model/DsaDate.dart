@@ -55,6 +55,44 @@ class DsaDate {
     return '$day. ${months[month]} $year BF';
   }
 
+  static DsaDate nextDay(DsaDate currentDay) {
+    int newDay = currentDay.day + 1;
+    int newMonth = currentDay.month;
+    int newYear = currentDay.year;
+
+    if (newDay > getDaysInMonth(currentDay.month)) {
+      newDay = 1;
+      newMonth += 1;
+
+      if (newMonth > 11) { // Überschreiten des Jahres
+        newMonth = 0;
+        newYear += 1;
+      }
+    }
+
+    return DsaDate(newYear, newMonth, newDay);
+  }
+
+  static DsaDate previousDay(DsaDate currentDay) {
+    int newDay = currentDay.day - 1;
+    int newMonth = currentDay.month;
+    int newYear = currentDay.year;
+
+    if (newDay < 1) {
+      newMonth -= 1;
+
+      if (newMonth < 0) { // Übergang ins vorherige Jahr
+        newMonth = 11; // Letzter Monat des Jahres
+        newYear -= 1;
+        newDay = getDaysInMonth(newMonth); // Letzter Tag des letzten Monats
+      } else {
+        newDay = getDaysInMonth(newMonth); // Letzter Tag des vorherigen Monats
+      }
+    }
+
+    return DsaDate(newYear, newMonth, newDay);
+  }
+
   static DsaDate? fromString(String dateString) {
     final parts = dateString.split(' ');
     if (parts.length != 4) {

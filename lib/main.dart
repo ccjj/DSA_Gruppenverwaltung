@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -35,7 +37,7 @@ import 'login/LoginPage.dart';
 import '../Held/Held.dart';
 
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   isTest = false;
   getIt.registerSingleton<UserRepository>(UserRepository());
@@ -45,8 +47,8 @@ void main() {
   getIt.registerLazySingleton<PersonalChatMessageRepository>(() => PersonalChatMessageRepository());
   getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, isVisible: isChatVisible, gruppeId: ""));
   getIt.registerLazySingleton<MessageAmplifyService>(() => MessageAmplifyService());
-  getIt<ZauberRepository>().loadZaubers();
-  getIt<TalentRepository>().loadTalents();
+  await getIt<ZauberRepository>().loadZaubers();
+  await getIt<TalentRepository>().loadTalents();
   getIt.registerSingleton<ActionStack>(ActionStack());
   getIt.registerSingleton<NoteAmplifyService>(NoteAmplifyService());
   getIt.registerSingleton<UserAmplifyService>(UserAmplifyService());

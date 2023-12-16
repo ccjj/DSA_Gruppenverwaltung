@@ -9,6 +9,7 @@ import '../../rules/RollCalculator.dart';
 import '../../skills/ISkill.dart';
 import '../AnimatedIconButton.dart';
 import '../AsyncText.dart';
+import 'SkillChanceText.dart';
 
 class SkillList extends StatefulWidget {
   final Held held;
@@ -85,6 +86,7 @@ class SkillListState extends State<SkillList> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
                     flex: 2, // Adjust flex to manage width
@@ -122,22 +124,10 @@ class SkillListState extends State<SkillList> {
                                 onTap: () =>
                                     widget.rollCallback(skillName, taw),
                               ),
-                              ValueListenableBuilder<int>(
-                                valueListenable: modificator,
-                                builder: (context, value, child) {
-                                  return AsyncText(
-                                    callback: () async {
-                                      ISkill? skill =
-                                      RuleProvider.getSkillByName(
-                                          skillName);
-                                      int mod = RuleProvider.getModificator(
-                                          skill, value);
-                                      return RollCalculator.calcChance(
-                                          widget.held, skill, mod);
-                                    },
-                                    showSpinner: false,
-                                  );
-                                },
+                              SkillChanceText(
+                                modificator: modificator,
+                                skillName: skillName,
+                                held: widget.held,
                               ),
                             ],
                           ),

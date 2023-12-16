@@ -5,7 +5,7 @@ class AsyncText extends StatelessWidget {
   final TextStyle? style;
   final String? prefixText;
   final bool showSpinner;
-  AsyncText({super.key, required this.callback, this.prefixText, this.style, this.showSpinner = false});
+  const AsyncText({super.key, required this.callback, this.prefixText, this.style, this.showSpinner = false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,7 @@ class AsyncText extends StatelessWidget {
           var widget = showSpinner ?
           const Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Center(child: CircularProgressIndicator()),
             ],
@@ -26,7 +27,7 @@ class AsyncText extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         } else {
           // Display the data
-          return Text(snapshot.data ?? '?', style: style ?? TextStyle());
+          return Text(snapshot.data ?? '?', style: style ?? const TextStyle());
         }
       },
     );

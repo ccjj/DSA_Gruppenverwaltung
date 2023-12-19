@@ -80,15 +80,19 @@ class LoginPageState extends State<LoginPage> {
           }
         }
 
-        cu = userResult!;
+        cu = userResult;
         //TODO
         //getIt<UserRepository>().addUser(cu);
-        await getIt<UserPreferences>().saveUserEmail(
-            _emailController.text.trim());
-        await getIt<UserPreferences>().saveUserPassword(
-            _passwordController.text.trim());
+        //probleme bei ios
+        try {
+          await getIt<UserPreferences>().saveUserEmail(
+              _emailController.text.trim());
+          await getIt<UserPreferences>().saveUserPassword(
+              _passwordController.text.trim());
+        } catch (_) {
+        }
         navigatorKey.currentState?.pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => GruppenOverviewScreen()), (route) => false);
+            MaterialPageRoute(builder: (context) => const GruppenOverviewScreen()), (route) => false);
         return;
       }
       if (loginStatus == LoginResult.confirmEmail) {
@@ -112,7 +116,6 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -132,13 +135,15 @@ class LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Animate(
-                          child: SvgPicture.asset(
-                            fit: BoxFit.contain,
-                            'assets/images/Logo_L.svg',
-                            height: 160,
-                            colorFilter: ColorFilter.mode(themeNotifier.value == ThemeMode.dark ? Colors.white : Colors.black, BlendMode.srcIn),
-                          ).animate(autoPlay: true).rotate(duration: Duration(seconds: 300)),
+                        child: RepaintBoundary(
+                          child: Animate(
+                            child: SvgPicture.asset(
+                              fit: BoxFit.contain,
+                              'assets/images/Logo_L.svg',
+                              height: 160,
+                              colorFilter: ColorFilter.mode(themeNotifier.value == ThemeMode.dark ? Colors.white : Colors.black, BlendMode.srcIn),
+                            ).animate(autoPlay: true).rotate(duration: const Duration(seconds: 300)),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dsagruppen/Gruppe/UpdateGruppeInput.dart';
 
-import '../model/Note.dart';
 import 'Gruppe.dart';
 
 class GroupAmplifyService {
@@ -258,7 +257,6 @@ class GroupAmplifyService {
         final responseData = jsonDecode(response.data!);
         final updatedGruppeData = responseData['updateGruppe'];
         return;
-        //return Gruppe.fromJson(updatedGruppeData);
       } else {
         print('Gruppe update completed, but no data returned');
       }

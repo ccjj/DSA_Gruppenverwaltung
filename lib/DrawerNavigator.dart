@@ -1,6 +1,5 @@
 import 'package:dsagruppen/Gruppe/GruppeRepository.dart';
 import 'package:dsagruppen/Held/HeldRepository.dart';
-import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/login/AuthService.dart';
 import 'package:dsagruppen/login/LoginPage.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,7 @@ class DrawerNavigator extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const UserScreen(),
+                builder: (context) => UserScreen(),
               ),
             )
           ),
@@ -75,7 +74,7 @@ class OutlinedText extends StatelessWidget {
   final double strokeWidth;
   Color strokeColor;
 
-  OutlinedText({
+  OutlinedText({super.key,
     required this.text,
     required this.textStyle,
     this.strokeWidth = 2.0,

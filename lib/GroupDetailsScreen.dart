@@ -1,26 +1,20 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:dsagruppen/Gruppe/UpdateGruppeInput.dart';
-import 'package:dsagruppen/chat/ChatMessage.dart';
-import 'package:dsagruppen/chat/MessageAmplifyService.dart';
-import 'package:dsagruppen/extensions/DateTimeExtensions.dart';
-import 'package:uuid/uuid.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:collection/collection.dart';
 import 'package:dsagruppen/Gruppe/GroupAmplifyService.dart';
+import 'package:dsagruppen/Gruppe/UpdateGruppeInput.dart';
 import 'package:dsagruppen/Held/HeldAmplifyService.dart';
 import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/User/UserAmplifyService.dart';
+import 'package:dsagruppen/chat/ChatMessage.dart';
+import 'package:dsagruppen/chat/MessageAmplifyService.dart';
+import 'package:dsagruppen/extensions/DateTimeExtensions.dart';
 import 'package:dsagruppen/model/Note.dart';
 import 'package:dsagruppen/widgets/BlurredCard.dart';
-import 'package:dsagruppen/chat/Chatbar.dart';
 import 'package:dsagruppen/widgets/ConditionalParentWidget.dart';
 import 'package:dsagruppen/widgets/HeldCard.dart';
 import 'package:dsagruppen/widgets/NotesExpansionTile.dart';
-import 'package:dsagruppen/widgets/QuillText.dart';
 import 'package:dsagruppen/xml/HeldenParser.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -29,23 +23,24 @@ import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:flutter_flip_card/flipcard/flip_card.dart';
 import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:uuid/uuid.dart';
 import 'package:xml/xml.dart';
 
 import 'GroupUserManagement.dart';
 import 'Gruppe/Gruppe.dart';
 import 'Held/Held.dart';
 import 'Note/NoteAmplifyService.dart';
-import 'chat/ChatOverlay.dart';
-import 'widgets/MainScaffold.dart';
 import 'User/User.dart';
+import 'chat/ChatOverlay.dart';
 import 'globals.dart';
 import 'model/DsaDate.dart';
 import 'widgets/DsaCalendar.dart';
+import 'widgets/MainScaffold.dart';
 
 class GroupDetailsScreen extends StatefulWidget {
-  Gruppe gruppe;
+  final Gruppe gruppe;
 
-  GroupDetailsScreen({super.key, required this.gruppe});
+  const GroupDetailsScreen({super.key, required this.gruppe});
 
   @override
   State<GroupDetailsScreen> createState() => _GroupDetailsScreenState();
@@ -122,7 +117,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: Text("Gruppendetails"),
+      title: const Text("Gruppendetails"),
       body: fetchingHelden && widget.gruppe.helden.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -135,7 +130,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           isChatVisible.value = !isChatVisible.value;
                           //chatOverlay.switchOverlay(context);
                         },
-                        child: Text("show")),
+                        child: const Text("show")),
                   if (isTest)
                     TextButton(
                         onPressed: () {
@@ -146,7 +141,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                               ownerId: cu.uuid,
                               isPrivate: true));
                         },
-                        child: Text("TEST")),
+                        child: const Text("TEST")),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FlipCard(
@@ -159,16 +154,16 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ListTile(
-                              leading: Icon(Icons.badge_outlined),
+                              leading: const Icon(Icons.badge_outlined),
                               title: Text('${widget.gruppe.name}'),
-                              contentPadding: EdgeInsets.only(left: 16),
+                              contentPadding: const EdgeInsets.only(left: 16),
                               trailing: IconButton(
-                                icon: Icon(Icons.info_outline_rounded),
+                                icon: const Icon(Icons.info_outline_rounded),
                                 onPressed: () => flipController.flipcard(),
                               ),
                             ),
                             ListTile(
-                              leading: Icon(Icons.calendar_today_outlined),
+                              leading: const Icon(Icons.calendar_today_outlined),
                               title: Row(
                                 children: [
                                   Text('${widget.gruppe.datum.toString()}'),
@@ -188,7 +183,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                               .copyFrom(newDatum);
                                           setState(() {});
                                         },
-                                        icon: RotatedBox(
+                                        icon: const RotatedBox(
                                             quarterTurns: 3,
                                             child: Icon(Icons.chevron_right)),
                                       )
@@ -210,7 +205,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                               .copyFrom(newDatum);
                                           setState(() {});
                                         },
-                                        icon: RotatedBox(
+                                        icon: const RotatedBox(
                                             quarterTurns: 5,
                                             child: Icon(Icons.chevron_right)),
                                       ) //const Text("▽", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18))),
@@ -218,7 +213,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                 ],
                               ),
                               trailing:
-                                  isAdminGruppe() ? Icon(Icons.edit) : null,
+                                  isAdminGruppe() ? const Icon(Icons.edit) : null,
                               onTap: () => isAdminGruppe()
                                   ? _showCalendarPopup(widget.gruppe)
                                   : null,
@@ -230,24 +225,24 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         child: Column(
                           children: [
                             fetchingHelden
-                                ? CircularProgressIndicator()
+                                ? const CircularProgressIndicator()
                                 : ListTile(
-                                    leading: Icon(Icons.gavel),
+                                    leading: const Icon(Icons.gavel),
                                     title: meister != null
                                         ? Text('Meister: ${meister!.name}')
-                                        : Text('?'),
-                                    contentPadding: EdgeInsets.only(left: 16),
+                                        : const Text('?'),
+                                    contentPadding: const EdgeInsets.only(left: 16),
                                     trailing: IconButton(
-                                      icon: Icon(Icons.info_outline_rounded),
+                                      icon: const Icon(Icons.info_outline_rounded),
                                       onPressed: () =>
                                           flipController.flipcard(),
                                     ),
                                   ),
                             ListTile(
-                              leading: Icon(Icons.calendar_month_rounded),
+                              leading: const Icon(Icons.calendar_month_rounded),
                               title:
                                   Text('Nächstes Spieldatum: ${widget.gruppe.treffenAm != null ? widget.gruppe.treffenAm!.toGermanDate() : '?'}'),
-                              trailing:  isAdminGruppe() ? Icon(Icons.edit) : null,
+                              trailing:  isAdminGruppe() ? const Icon(Icons.edit) : null,
                                 onTap: isAdminGruppe() ?  () => selectDate(context, widget.gruppe.treffenAm).then((value) {
                                   if(value != null) {
                                     getIt<GroupAmplifyService>().updateGruppeFromInput(UpdateGruppeInput(id: widget.gruppe.uuid, treffenAm: value));
@@ -259,9 +254,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                               ),
                             if (!isTest)
                               ListTile(
-                                leading: Icon(Icons.group_outlined),
+                                leading: const Icon(Icons.group_outlined),
                                 trailing:
-                                    isAdminGruppe() ? Icon(Icons.edit) : null,
+                                    isAdminGruppe() ? const Icon(Icons.edit) : null,
                                 onTap: () => isAdminGruppe()
                                     ? Navigator.push(
                                         context,
@@ -313,7 +308,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                                   if (note == null) {
                                     print("NOTE IS NULL");
                                     note = Note(
-                                        uuid: Uuid().v4(),
+                                        uuid: const Uuid().v4(),
                                         content: documentString);
                                     shouldCreate = true;
                                   }
@@ -339,7 +334,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: widget.gruppe.helden.length,
                     itemBuilder: (context, index) {
                       var held = widget.gruppe.helden[index];
@@ -370,7 +365,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       //bnb: BottomChatBar(gruppe: widget.gruppe, setStateCallback: () => setState( () {} ), showBs: isChatVisible,),
       //bs: ChatBar(),
       fab: IconButton(
-          icon: Icon(Icons.file_upload),
+          icon: const Icon(Icons.file_upload),
           onPressed: () => parseAndUploadHeld(context, widget.gruppe).then((_) {
                 setState(() {});
               })),
@@ -395,7 +390,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
           contentPadding: EdgeInsets.zero,
           actions: [
             TextButton(
-              child: Text('Schließen'),
+              child: const Text('Schließen'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -405,8 +400,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   (BuildContext context, StateSetter setLoadingButtonState) {
                 return TextButton(
                   child: isLoading == true
-                      ? CircularProgressIndicator()
-                      : Text('Ok'),
+                      ? const CircularProgressIndicator()
+                      : const Text('Ok'),
                   onPressed: () async {
                     if (!isLoading) {
                       setLoadingButtonState(() => isLoading = true);
@@ -435,17 +430,17 @@ Future<bool?> _showOverwriteHeldDialog() async {
     context: navigatorKey.currentState!.overlay!.context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Warnung'),
-        content: Text("Held existiert bereits. Überschreiben?"),
+        title: const Text('Warnung'),
+        content: const Text("Held existiert bereits. Überschreiben?"),
         actions: [
           TextButton(
-            child: Text('Abbrechen'),
+            child: const Text('Abbrechen'),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           TextButton(
-            child: Text('Überschreiben'),
+            child: const Text('Überschreiben'),
             onPressed: () async {
               Navigator.of(context).pop(true);
             },
@@ -468,7 +463,7 @@ Future<void> parseAndUploadHeld(BuildContext context, Gruppe gruppe) async {
     if (fileBytes == null) {
       throw XmlParserException("Konnte die Datei nicht öffnen");
     }
-    var newHeld = HeldenParser.getHeldFromXML(fileBytes!);
+    var newHeld = HeldenParser.getHeldFromXML(fileBytes);
     newHeld.gruppeId = gruppe.uuid;
     var existingHeld = gruppe.helden
         .firstWhereOrNull((e) => e.heldNummer == newHeld.heldNummer);
@@ -485,14 +480,14 @@ Future<void> parseAndUploadHeld(BuildContext context, Gruppe gruppe) async {
     }
     if (shouldOverwrite) {
       newHeld.uuid = existingHeld!.uuid;
-      newHeld!.maxLp = existingHeld!.maxLp;
-      newHeld!.lp = existingHeld!.lp;
-      newHeld!.maxAsp = existingHeld!.maxAsp;
-      newHeld!.asp = existingHeld!.asp;
-      newHeld!.maxAu = existingHeld!.maxAu;
-      newHeld!.au = existingHeld!.au;
-      newHeld!.maxKe = existingHeld!.maxKe;
-      newHeld!.ke = existingHeld!.ke;
+      newHeld.maxLp = existingHeld.maxLp;
+      newHeld.lp = existingHeld.lp;
+      newHeld.maxAsp = existingHeld.maxAsp;
+      newHeld.asp = existingHeld.asp;
+      newHeld.maxAu = existingHeld.maxAu;
+      newHeld.au = existingHeld.au;
+      newHeld.maxKe = existingHeld.maxKe;
+      newHeld.ke = existingHeld.ke;
       if(existingHeld.items.isNotEmpty){
         newHeld.items = existingHeld.items;
       }
@@ -505,7 +500,7 @@ Future<void> parseAndUploadHeld(BuildContext context, Gruppe gruppe) async {
       }
     } else {
       await getIt<HeldService>().updateHeld(existingHeld, newHeld);
-      int hIndex = gruppe.helden.indexOf(existingHeld!);
+      int hIndex = gruppe.helden.indexOf(existingHeld);
       gruppe.helden[hIndex] = newHeld;
     }
   }

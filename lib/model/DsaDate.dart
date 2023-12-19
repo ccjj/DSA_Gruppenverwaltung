@@ -34,8 +34,8 @@ class DsaDate {
     "RO", "FE", "WA", "WI", "ER",
     "MA", "PR"
   ];
-  static int getDaysInMonth(int _month){
-    daysCount: return _month == 11 ? 35 : 30;
+  static int getDaysInMonth(int month){
+    return month == 11 ? 35 : 30;
   }
 
   String getWeekday() {

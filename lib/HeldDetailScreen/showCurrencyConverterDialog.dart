@@ -10,10 +10,12 @@ Future<void> showCurrencyConverterDialog(
     context: context,
     builder: (BuildContext context) {
       return Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: CurrencyConverter(
-            initialKreuzer: held.kreuzer.value,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: CurrencyConverter(
+              initialKreuzer: held.kreuzer.value,
+            ),
           ),
         ),
       );

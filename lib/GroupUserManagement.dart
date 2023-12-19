@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'Gruppe/GroupAmplifyService.dart';
-import 'widgets/MainScaffold.dart';
 import 'User/UserAmplifyService.dart';
 import 'globals.dart';
+import 'widgets/MainScaffold.dart';
 
 class GroupUserManagement extends StatefulWidget {
   final String groupId;
@@ -120,6 +120,8 @@ class GroupUserManagementState extends State<GroupUserManagement> {
               decoration: InputDecoration(
                 labelText: 'Benutzer suchen',
                 border: OutlineInputBorder(),
+                  fillColor: Colors.grey.withOpacity(0.1),
+                  filled: true
               ),
             ),
           ),

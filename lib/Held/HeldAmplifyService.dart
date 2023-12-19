@@ -418,8 +418,8 @@ class HeldAmplifyService {
     });
 
     // To handle errors and completion
-    subscription?.onError((error) => print('Error in subscription: $error'));
-    subscription?.onDone(() => print('Subscription completed'));
+    subscription.onError((error) => print('Error in subscription: $error'));
+    subscription.onDone(() => print('Subscription completed'));
 
     return subscription;
   }

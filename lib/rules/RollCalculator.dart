@@ -1,9 +1,5 @@
-import 'dart:math';
-
 import '../Held/Held.dart';
 import '../skills/ISkill.dart';
-import '../skills/Talent.dart';
-import '../skills/Zauber.dart';
 import 'RuleProvider.dart';
 
 class RollCalculator {

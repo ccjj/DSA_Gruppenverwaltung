@@ -44,7 +44,7 @@ class ChatOverlay {
   void switchOverlay(){
     if (isVisible.value == true) {
       BuildContext context = navigatorKey.currentContext!;
-      Overlay.of(context)?.insert(overlayEntry);
+      Overlay.of(context).insert(overlayEntry);
     } else {
       overlayEntry.remove();
     }

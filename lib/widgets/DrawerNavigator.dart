@@ -1,6 +1,5 @@
 import 'package:dsagruppen/Gruppe/GruppeRepository.dart';
 import 'package:dsagruppen/Held/HeldRepository.dart';
-import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/chat/ChatOverlay.dart';
 import 'package:dsagruppen/chat/PersonalChatMessageRepository.dart';
 import 'package:dsagruppen/login/AuthService.dart';
@@ -55,7 +54,7 @@ class DrawerNavigator extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const UserScreen(),
+                builder: (context) => UserScreen(),
               ),
             )
           ),

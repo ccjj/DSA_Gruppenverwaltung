@@ -1,8 +1,9 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+
 import '../io/FileLoader.dart';
 import 'Talent.dart';
-import 'package:collection/collection.dart';
 
 class TalentRepository {
   final String filePath;

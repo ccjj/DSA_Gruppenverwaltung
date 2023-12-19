@@ -5,8 +5,9 @@ class Talent implements ISkill {
   late final String typ;
   late final String? wurf;
   late final String? handicap;
+  late final String? seite;
 
-  Talent({required this.name, required this.typ, required this.wurf, this.handicap});
+  Talent({required this.name, required this.typ, required this.wurf, this.handicap, this.seite});
 
   factory Talent.fromJson(Map<String, dynamic> json) {
     String talentName = json['Name'].toString().replaceFirst(' / ', 'und');
@@ -15,6 +16,7 @@ class Talent implements ISkill {
       typ: json['Typ'] as String,
       wurf: json['Wurf'] as String? ?? '',
       handicap: json['Behinderung'] as String? ?? '',
+      seite: json['Seite'] as String?,
     );
   }
 

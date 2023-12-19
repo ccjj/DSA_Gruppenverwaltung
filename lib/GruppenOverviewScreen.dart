@@ -3,13 +3,12 @@ import 'package:dsagruppen/Gruppe/GroupService.dart';
 import 'package:dsagruppen/Held/HeldAmplifyService.dart';
 import 'package:dsagruppen/widgets/AsyncText.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'GroupDetailsScreen.dart';
 import 'Gruppe/Gruppe.dart';
 import 'Gruppe/GruppeRepository.dart';
-import 'widgets/MainScaffold.dart';
 import 'globals.dart';
+import 'widgets/MainScaffold.dart';
 
 class GruppenOverviewScreen extends StatefulWidget {
   const GruppenOverviewScreen({super.key});

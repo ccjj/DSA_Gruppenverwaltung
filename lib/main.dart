@@ -1,9 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:dsagruppen/GroupDetailsScreen.dart';
 import 'package:dsagruppen/Gruppe/GroupService.dart';
 import 'package:dsagruppen/Held/HeldAmplifyService.dart';
 import 'package:dsagruppen/Held/HeldService.dart';
@@ -16,9 +16,14 @@ import 'package:dsagruppen/rules/RollManager.dart';
 import 'package:dsagruppen/skills/TalentRepository%20.dart';
 import 'package:dsagruppen/skills/ZauberRepository.dart';
 import 'package:dsagruppen/theme/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:path_provider/path_provider.dart';
 
+import '../Held/Held.dart';
 import 'Gruppe/GroupAmplifyService.dart';
 import 'Gruppe/Gruppe.dart';
 import 'Gruppe/GruppeRepository.dart';
@@ -33,20 +38,22 @@ import 'chat/ChatOverlay.dart';
 import 'chat/MessageAmplifyService.dart';
 import 'chat/PersonalChatMessageRepository.dart';
 import 'globals.dart';
+import 'io/PdfFileRepository.dart';
 import 'login/LoginPage.dart';
-import '../Held/Held.dart';
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Hive.initFlutter();
   isTest = false;
   getIt.registerSingleton<UserRepository>(UserRepository());
-  getIt.registerSingleton<TalentRepository>(TalentRepository('data/talents.json'));
-  getIt.registerSingleton<ZauberRepository>(ZauberRepository('data/spells.json'));
+  getIt.registerSingleton<TalentRepository>(TalentRepository('assets/data/talents.json'));
+  getIt.registerSingleton<ZauberRepository>(ZauberRepository('assets/data/spells.json'));
   getIt.registerLazySingleton<RollManager>(() => RollManager());
   getIt.registerLazySingleton<PersonalChatMessageRepository>(() => PersonalChatMessageRepository());
   getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, isVisible: isChatVisible, gruppeId: ""));
   getIt.registerLazySingleton<MessageAmplifyService>(() => MessageAmplifyService());
+  getIt.registerLazySingleton<PdfRepository>(() => PdfRepository());
   await getIt<ZauberRepository>().loadZaubers();
   await getIt<TalentRepository>().loadTalents();
   getIt.registerSingleton<ActionStack>(ActionStack());

@@ -32,10 +32,10 @@ class RuleProvider {
   static ISkill? getSkillByName(String name){
     Talent? talent = getIt<TalentRepository>().get(name);
     if(name.toLowerCase().startsWith("sprachen")){
-      talent = Talent(name: name, typ: 'SPRACHEN', wurf: 'KL/IN/CH');
+      talent = Talent(name: name, typ: 'SPRACHEN', wurf: 'KL/IN/CH', seite: "WdS32");
     }
     if(name.toLowerCase().startsWith("lesen")){
-      talent = Talent(name: name, typ: 'SPRACHEN', wurf: 'KL/KL/FF');
+      talent = Talent(name: name, typ: 'SPRACHEN', wurf: 'KL/KL/FF', seite: "WdS32");
     }
     if(talent != null){
       return talent;

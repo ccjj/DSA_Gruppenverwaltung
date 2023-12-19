@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:dsagruppen/skills/ISkill.dart';
 import 'package:dsagruppen/skills/Zauber.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../Held/Held.dart';
 import '../globals.dart';
@@ -31,12 +30,12 @@ class RollManager {
       //failed, todo
       print("nicht drei attribute zum würfeln angegeben. einzelwürfel wird benutzt");
       var roll = _random.nextInt(20) + 1;
-      if(taw! < roll){
+      if(taw < roll){
         print("nicht geschafft");
       } else {
         print("geschafft");
       }
-      return ("TAW ${taw!}, gerollt $roll");
+      return ("TAW ${taw}, gerollt $roll");
       //TODO wurf auf talent oder attr
     }
     print("START ROLLING");
@@ -81,13 +80,13 @@ class RollManager {
     return getIt<RollManager>().roll(held, talent, penalty);
   }
 
-  void rollZauber(Held held, String zauberName, int penalty) {
+  String rollZauber(Held held, String zauberName, int penalty) {
     Zauber? zauber = getIt<ZauberRepository>().get(zauberName);
     if(zauber == null){
       print("zauber $zauberName not found");
-      return;
+      return "Zauber nicht gefunden";
     }
-    getIt<RollManager>().roll(held, zauber, penalty);
+    return getIt<RollManager>().roll(held, zauber, penalty);
   }
 
 

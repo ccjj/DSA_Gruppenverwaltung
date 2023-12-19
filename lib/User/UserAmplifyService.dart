@@ -75,10 +75,8 @@ class UserAmplifyService {
         print(response);
         return null;
       }
-      final responseData = jsonDecode(response.data!);
-      //if(responseData.toString().contains("success")){
+
         return User(uuid: id, email: email, name: name);
-      //}
     } on ApiException catch (e) {
       print('Failed to create user: ${e.message}');
       return null;
@@ -100,7 +98,6 @@ print("ID " + id);
       if(response.hasErrors){
         print(response);
         throw Exception();
-        return null;
       }
       if(response.data == null || response.data!.isEmpty || response.data!.toString().contains("null") && !response.toString().contains("success")
       || jsonDecode(response.data!)['getUser'] == null
@@ -127,7 +124,6 @@ print(data);
     } catch (e) {
       print('Failed to get user: $e');
       throw Exception();
-      return null;
     }
   }
 

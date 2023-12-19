@@ -1,9 +1,6 @@
-import 'package:dsagruppen/Held/HeldRepository.dart';
 import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/Held/UpdateHeldInput.dart';
 import 'package:flutter/material.dart';
-
-import 'package:collection/collection.dart';
 
 import '../../Held/Held.dart';
 import '../../globals.dart';
@@ -48,8 +45,10 @@ class _ItemListState extends State<ItemList> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) => setState(() => searchString = value),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Suche',
+                  fillColor: Colors.grey.withOpacity(0.1),
+                  filled: true,
                 suffixIcon: Icon(Icons.search),
               ),
             ),
@@ -102,61 +101,63 @@ class _ItemListState extends State<ItemList> {
                   color: index.isEven
                       ? Theme.of(context).highlightColor.withOpacity(0.15)
                       : null,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: InkWell(
-                            onTap: () => _showEditDialog(citem.name, "Item-Name").then((value) {
-                              if(value == null) return;
-                              filteredItems.elementAt(index).name = value;
-                              //todo update
-                            }),
-                            child: Text(citem.name)),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: InkWell(
-                          onTap: () => _showEditDialog(citem.anzahl.toString(), "Anzahl").then((value) {
-                            if(value == null) return;
-                            int? neuAnzahl = int.tryParse(value);
-                            if(neuAnzahl == null) return;
-                            citem.anzahl = neuAnzahl;
-                            updateItems.call();
-                          }),
-                          child: Text(citem.anzahl.toString()),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: InkWell(
+                              onTap: () => _showEditDialog(citem.name, "Item-Name").then((value) {
+                                if(value == null) return;
+                                filteredItems.elementAt(index).name = value;
+                                //todo update
+                              }),
+                              child: Text(citem.name)),
                         ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: InkWell(
-                          onTap: () => _showEditDialog(citem.beschreibung ?? '', "Beschreibung").then((value) {
-                            if(value == null) return;
-                            filteredItems.elementAt(index).beschreibung = value;
-                            updateItems.call();
-                          }),
-                          child: Text(
-                            citem.beschreibung ?? '-',
-                            style: citem.beschreibung == null ? TextStyle(color: Colors.grey) : TextStyle(),
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                            maxLines: 2,
+                        Expanded(
+                          flex: 1,
+                          child: InkWell(
+                            onTap: () => _showEditDialog(citem.anzahl.toString(), "Anzahl").then((value) {
+                              if(value == null) return;
+                              int? neuAnzahl = int.tryParse(value);
+                              if(neuAnzahl == null) return;
+                              citem.anzahl = neuAnzahl;
+                              updateItems.call();
+                            }),
+                            child: Text(citem.anzahl.toString()),
                           ),
                         ),
-                      ),
-                      Visibility(
-                        visible: widget.held.owner == cu.uuid,
-                        child: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            var item = filteredItems.elementAt(index);
-                            items.removeAt(index);
-                            updateItems.call();
-                            setState(() {});
-                          },
+                        Expanded(
+                          flex: 3,
+                          child: InkWell(
+                            onTap: () => _showEditDialog(citem.beschreibung ?? '', "Beschreibung").then((value) {
+                              if(value == null) return;
+                              filteredItems.elementAt(index).beschreibung = value;
+                              updateItems.call();
+                            }),
+                            child: Text(
+                              citem.beschreibung ?? '-',
+                              style: citem.beschreibung == null ? TextStyle(color: Colors.grey) : TextStyle(),
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              maxLines: 2,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        Visibility(
+                          visible: widget.held.owner == cu.uuid,
+                          child: IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              items.removeAt(index);
+                              updateItems.call();
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   )
                 );
               },

@@ -5,13 +5,14 @@ import 'package:get_it/get_it.dart';
 
 import 'User/User.dart';
 import 'chat/ChatMessage.dart';
-
+GlobalKey talentKey = GlobalKey();
+GlobalKey zauberKey = GlobalKey();
 GetIt getIt = GetIt.instance;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 late User cu;
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 final ValueNotifier<bool> showAusdauer = ValueNotifier(true);
-const String version = '0.9.3';
+const String version = '0.9.6';
 const appName = "Axxelerat.us";
 var isTest = false;
 StreamController<ChatMessage> messageController = StreamController<ChatMessage>.broadcast();

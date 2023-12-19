@@ -27,11 +27,6 @@ class CurrencyConverterState extends State<CurrencyConverter> {
     _convertAndDisplay(widget.initialKreuzer);
   }
 
-  void _convertCurrency() {
-    int totalKreuzer = MoneyConversion.calcKreuzer(_dukatenValue.value, _silberValue.value, _hellerValue.value, _kreuzerValue.value);
-    _convertAndDisplay(totalKreuzer);
-  }
-
   void _convertAndDisplay(int totalKreuzer) {
     int dukaten = totalKreuzer ~/ 1000;
     int remainingAfterDukaten = totalKreuzer % 1000;
@@ -50,95 +45,74 @@ class CurrencyConverterState extends State<CurrencyConverter> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(20),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PlusMinusButton(
-              title: 'Dukaten',
-              value: _dukatenValue,
-              maxValue: 100, // Example max value
-              leading: Icon(Icons.monetization_on),
-              onValueChanged: (newValue) {
-                _handleCurrencyChange('Dukaten', newValue);
-              },
-              enabled: true,
-              shouldDebounce: false,
-            ),
-            SizedBox(height: 10),
-            PlusMinusButton(
-              title: 'Silber',
-              value: _silberValue,
-              leading: Icon(Icons.attach_money),
-              onValueChanged: (newValue) {
-                _handleCurrencyChange('Silber', newValue);
-              },
-              enabled: true,
-              shouldDebounce: false,
-            ),
-            SizedBox(height: 10),
-            PlusMinusButton(
-              title: 'Heller',
-              value: _hellerValue,
-              leading: Icon(Icons.money_off_csred),
-              onValueChanged: (newValue) {
-                _handleCurrencyChange('Heller', newValue);
-              },
-              enabled: true,
-              shouldDebounce: false,
-            ),
-            SizedBox(height: 10),
-            PlusMinusButton(
-              title: 'Kreuzer',
-              value: _kreuzerValue,
-              leading: Icon(Icons.money),
-              onValueChanged: (newValue) {
-                _handleCurrencyChange('Kreuzer', newValue);
-              },
-              enabled: true,
-              shouldDebounce: false,
-            ),
-            ElevatedButton(
-              onPressed: _convertCurrency,
-              child: Text('Konvertieren'),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  child: Text('Abbrechen'),
-                  onPressed: () => Navigator.of(context).pop(null),
-                ),
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () => Navigator.of(context).pop(MoneyConversion.calcKreuzer(_dukatenValue.value, _silberValue.value, _hellerValue.value, _kreuzerValue.value)),
-                ),
-              ],
-            )
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PlusMinusButton(
+            title: 'Dukaten',
+            value: _dukatenValue,
+            leading: const Icon(Icons.monetization_on, color: Colors.amber),
+            onValueChanged: (newValue) {
+              _handleCurrencyChange('Dukaten', newValue);
+            },
+            enabled: true,
+            shouldDebounce: false,
+          ),
+          const SizedBox(height: 10),
+          PlusMinusButton(
+            title: 'Silber',
+            value: _silberValue,
+            leading: const Icon(Icons.attach_money, color: Color(0xFFA9A9A9)),
+            onValueChanged: (newValue) {
+              _handleCurrencyChange('Silber', newValue);
+            },
+            enabled: true,
+            shouldDebounce: false,
+          ),
+          const SizedBox(height: 10),
+          PlusMinusButton(
+            title: 'Heller',
+            value: _hellerValue,
+            leading: const Icon(Icons.money_off_csred, color: Color(0xFFB87333)),
+            onValueChanged: (newValue) {
+              _handleCurrencyChange('Heller', newValue);
+            },
+            enabled: true,
+            shouldDebounce: false,
+          ),
+          const SizedBox(height: 10),
+          PlusMinusButton(
+            title: 'Kreuzer',
+            value: _kreuzerValue,
+            leading: const Icon(Icons.money, color: Color(0xFF8B4513)),
+            onValueChanged: (newValue) {
+              _handleCurrencyChange('Kreuzer', newValue);
+            },
+            enabled: true,
+            shouldDebounce: false,
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                child: const Text('Abbrechen'),
+                onPressed: () => Navigator.of(context).pop(null),
+              ),
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () => Navigator.of(context).pop(MoneyConversion.calcKreuzer(_dukatenValue.value, _silberValue.value, _hellerValue.value, _kreuzerValue.value)),
+              ),
+            ],
+          )
+        ],
       ),
-    );
-  }
-
-  Widget _buildTextField(TextEditingController controller, String label, IconData icon) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(icon),
-      ),
-      keyboardType: TextInputType.number,
     );
   }
 
   void _handleCurrencyChange(String currencyType, int newValue) {
-    print("uod");
     switch (currencyType) {
       case 'Dukaten':
         _dukatenValue.value = newValue;

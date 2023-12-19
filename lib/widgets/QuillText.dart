@@ -42,10 +42,10 @@ class _RtfTextEditorState extends State<RtfTextEditor> {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.grey.withOpacity(0.1),
               spreadRadius: 2,
               blurRadius: 4,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
@@ -63,11 +63,10 @@ class _RtfTextEditorState extends State<RtfTextEditor> {
                 configurations: QuillToolbarConfigurations(
                   customButtons: [
                     QuillToolbarCustomButtonOptions(
-                      icon: Icon(Icons.save),
+                      icon: const Icon(Icons.save),
                       onPressed: () {
                         var json = jsonEncode(widget.controller!.document.toDelta().toJson());
                         widget.saveCallback(json);
-                        print(json);
                       }
                     ),
                   ],

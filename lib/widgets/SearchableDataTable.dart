@@ -63,9 +63,11 @@ class _SearchableDataTableState extends State<SearchableDataTable> {
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             onChanged: (value) => setState(() => searchString = value),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+              fillColor: Colors.grey.withOpacity(0.1),
+              filled: true,
               labelText: 'Suche',
-              suffixIcon: Icon(Icons.search),
+              suffixIcon: const Icon(Icons.search),
             ),
           ),
         ),

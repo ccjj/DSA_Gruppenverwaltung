@@ -85,19 +85,15 @@ class Gruppe {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = {};
 
-    if (uuid != null) jsonMap['id'] = uuid;
-    if (name != null) jsonMap['name'] = name;
-    if (datum != null) jsonMap['datum'] = datum.toString();
+    jsonMap['id'] = uuid;
+    jsonMap['name'] = name;
+    jsonMap['datum'] = datum.toString();
     if (noteId != null) jsonMap['notes'] = jsonEncode(noteId);
     jsonMap['treffenAm'] = jsonEncode(treffenAm);
 
-    if (users != null) {
-      //jsonMap['setUserIDs'] = users.map((e) => e.uuid).toList();
-    }
+    //jsonMap['setUserIDs'] = users.map((e) => e.uuid).toList();
 
-    if (helden != null) {
-      jsonMap['helden'] = helden.map((e) => e.uuid).toList();
-    }
+    jsonMap['helden'] = helden.map((e) => e.uuid).toList();
 
     return jsonMap;
   }

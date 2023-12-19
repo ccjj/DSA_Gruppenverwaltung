@@ -1,8 +1,9 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+
 import '../io/FileLoader.dart';
 import 'Zauber.dart';
-import 'package:collection/collection.dart';
 
 class ZauberRepository {
   final String filePath;

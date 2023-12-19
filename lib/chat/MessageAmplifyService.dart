@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:amplify_api/amplify_api.dart';
+
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dsagruppen/chat/ChatMessage.dart';
 
@@ -44,8 +44,8 @@ class MessageAmplifyService {
     });
 
     // To handle errors and completion
-    subscription?.onError((error) => print('Error in subscription: $error'));
-    subscription?.onDone(() => print('Subscription completed'));
+    subscription.onError((error) => print('Error in subscription: $error'));
+    subscription.onDone(() => print('Subscription completed'));
 
     return subscription;
   }

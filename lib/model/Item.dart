@@ -32,5 +32,5 @@ class Item {
 
   @override
   int get hashCode =>
-      name.hashCode ^ anzahl.hashCode ^ beschreibung.hashCode ?? 0;
+      name.hashCode ^ anzahl.hashCode ^ beschreibung.hashCode;
 }

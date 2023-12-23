@@ -41,7 +41,7 @@ class GruppenOverviewScreenState extends State<GruppenOverviewScreen> {
   Widget build(BuildContext context) {
     return MainScaffold(
       title: const Text(appName, style: TextStyle(
-          fontFamily: 'Tangerine', fontSize: 46
+          fontFamily: 'Trajan Pro', fontSize: 46
       )),
       fab: FloatingActionButton(
         onPressed: _showAddGroupDialog,

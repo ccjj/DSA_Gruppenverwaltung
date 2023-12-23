@@ -1,20 +1,17 @@
 import 'dart:async';
-import 'dart:math';
 
+import 'package:dsagruppen/chat/ChatCommons.dart';
 import 'package:dsagruppen/chat/ChatMessage.dart';
-import 'package:dsagruppen/chat/MessageAmplifyService.dart';
 import 'package:dsagruppen/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'PersonalChatMessageRepository.dart';
 
 class ChatOverlay {
   final Stream<ChatMessage> messageStream;
   late OverlayEntry overlayEntry;
   ValueNotifier isVisible;
   String gruppeId;
-  Offset offset = Offset(16, 16); // Initial position
+  Offset offset = const Offset(16, 16);
 
   ChatOverlay({required this.messageStream, required this.isVisible, required this.gruppeId}) {
     var context = navigatorKey.currentContext!;
@@ -51,7 +48,6 @@ class ChatOverlay {
   }
 
   void dispose() {
-    print("DISPOSE");
     isVisible.removeListener(switchOverlay);
   }
 
@@ -73,7 +69,7 @@ class __ChatOverlayContentState extends State<_ChatOverlayContent> {
   StreamSubscription<ChatMessage>? _streamSubscription;
   TextEditingController controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  int lastMessageIndex = -1;
+  ValueNotifier<int> lastMessageIndex = ValueNotifier(-1);
   FocusNode _focusNode = FocusNode();
   ValueNotifier isMinimized = ValueNotifier(true);
 
@@ -83,15 +79,7 @@ class __ChatOverlayContentState extends State<_ChatOverlayContent> {
     _streamSubscription = widget.stream.listen((message) {
       setState(() {
         _messages.add(message);
-        Future.delayed(const Duration(milliseconds: 150), () {
-          if (_scrollController.hasClients) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 150),
-              curve: Curves.easeOut,
-            );
-          }
-        });
+       ChatCommons.scrollToBottom(_scrollController, const Duration(milliseconds: 150));
       });
     });
   }
@@ -149,7 +137,7 @@ class __ChatOverlayContentState extends State<_ChatOverlayContent> {
                       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                       margin: const EdgeInsets.symmetric(vertical: 4.0),
                       decoration: BoxDecoration(
-                          color: stringToColor(_messages[index].ownerId),//Theme.of(context).primaryColor.withOpacity(0.85),//stringToColor(cu.uuid),//
+                          color: ChatCommons.stringToColor(_messages[index].ownerId),
                           borderRadius: BorderRadius.circular(12),
                           gradient: _messages[index].isPrivate ? LinearGradient(
                             begin: Alignment.topLeft,
@@ -159,7 +147,7 @@ class __ChatOverlayContentState extends State<_ChatOverlayContent> {
                               Colors.lightBlue[200]!.withOpacity(0.7), // Midpoint color with adjusted opacity
                               Colors.blueGrey[300]!.withOpacity(0.5), // Less opaque
                             ],
-                            stops: [0.0, 0.5, 1.0], // Adjust these values based on your preference
+                            stops: const [0.0, 0.5, 1.0], // Adjust these values based on your preference
                             tileMode: TileMode.clamp, // Prevents repetition of the gradient
                           )
                               : null
@@ -167,7 +155,7 @@ class __ChatOverlayContentState extends State<_ChatOverlayContent> {
                       ),
                       child: Text(
                         _messages[index].messageContent,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -185,16 +173,15 @@ class __ChatOverlayContentState extends State<_ChatOverlayContent> {
                           if(event is RawKeyDownEvent){
                             switch (event.logicalKey){
                               case LogicalKeyboardKey.arrowUp:
-                                _handleArrowUp();
+                                ChatCommons.handleArrowUp(controller, lastMessageIndex);
                                 break;
                             }
-
                           }
                         },
                         child: TextField(
                           focusNode: _focusNode,
                           controller: controller,
-                          onSubmitted: (_) => _sendInput(),
+                          onSubmitted: (_) => ChatCommons.sendInput(controller, widget.gruppeId, _focusNode, lastMessageIndex),
                           decoration: InputDecoration(
                             //hintText: '...',
                             hoverColor: Theme.of(context).canvasColor,
@@ -213,7 +200,7 @@ class __ChatOverlayContentState extends State<_ChatOverlayContent> {
                     IconButton(
                       icon: const Icon(Icons.send),
                       onPressed: () {
-                        _sendInput();
+                       ChatCommons.sendInput(controller, widget.gruppeId, _focusNode, lastMessageIndex);
                       },
                     ),
                   ],
@@ -231,59 +218,11 @@ class __ChatOverlayContentState extends State<_ChatOverlayContent> {
     return GestureDetector(
       onTap: () => isMinimized.value = false,
       child: const CircleAvatar(
-        child: Icon(Icons.chat),
         backgroundColor: Colors.transparent,
+        child: Icon(Icons.chat),
       ),
     );
   }
 
-  void _sendInput() {
-    if(controller.text.trim().isNotEmpty && widget.gruppeId.isNotEmpty){
-      //TODO progress bar etc
-      var msg = rollDice(controller.text);
-      getIt<PersonalChatMessageRepository>().add(controller.text);
-      getIt<MessageAmplifyService>().createMessage(msg, widget.gruppeId, cu.uuid);
-      controller.text = "";
-      lastMessageIndex = -1;
-      _focusNode.requestFocus();
-    }
-  }
-
-  String rollDice(String input) {
-    final regex = RegExp(r'^/roll (\d+)[dDwW](\d+)$');
-    final match = regex.firstMatch(input);
-
-    if (match == null) {
-      return input;
-    }
-
-    int numberOfDice = int.parse(match.group(1)!);
-    int sidesOfDice = int.parse(match.group(2)!);
-    Random random = Random();
-    List<int> results = [];
-
-    for (int i = 0; i < numberOfDice; i++) {
-      results.add(random.nextInt(sidesOfDice) + 1);
-    }
-
-    return  '${numberOfDice}w${sidesOfDice}: '+ results.join(' + ');
-  }
-
-  void _handleArrowUp() {
-    List<String> lastMessages = getIt<PersonalChatMessageRepository>().getMessages();
-    if (lastMessages.isNotEmpty && lastMessageIndex < lastMessages.length - 1) {
-      setState(() {
-        lastMessageIndex++;
-        controller.text = lastMessages[lastMessageIndex];
-      });
-    }
-  }
-
-
 }
 
-Color stringToColor(String inputString) {
-  final int hash = inputString.hashCode;
-  final int color = (0xFF << 24) | (hash & 0x00FFFFFF); // 0xFF for full opacity
-  return Color(color);
-}

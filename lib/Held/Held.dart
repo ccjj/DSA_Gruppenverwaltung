@@ -326,4 +326,18 @@ class Held {
         return null;
     }
   }
+
+    static Map<String, int> attributeNameMap(Held held) {
+      return {
+        'Mut (MU)': held.mu,
+        'Klugheit (KL)': held.kl,
+        'Charisma (CH)': held.ch,
+        'Fingerfertigkeit (FF)': held.ff,
+        'Gewandheit (GE)': held.ge,
+        'Kostitution (KO)': held.ko,
+        'Körperkraft (KK)': held.kk,
+        'Sozialstatus (SO)': held.so,
+        'Geschwindigkeit (GS)': held.gs
+      };
+    }
 }

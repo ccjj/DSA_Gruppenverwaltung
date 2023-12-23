@@ -1,16 +1,11 @@
-import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:dsagruppen/widgets/HeldCard.dart';
 import 'package:dsagruppen/widgets/RedBookWidget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hive/hive.dart';
 import 'package:pdfx/pdfx.dart';
 
-import 'Held/HeldRepository.dart';
-import 'HeldGroupCoordinator.dart';
 import 'UserPreferences.dart';
 import 'globals.dart';
 import 'io/PdfFileRepository.dart';
@@ -138,6 +133,7 @@ class _UserScreenState extends State<UserScreen> {
           ),
           SizedBox(height: 10),
           //TODO same widget list for user and group
+          /*
           ListView(
             shrinkWrap: true,
             children: [
@@ -149,6 +145,7 @@ class _UserScreenState extends State<UserScreen> {
               )
             ],
           )
+           */
         ],
       ),
     );

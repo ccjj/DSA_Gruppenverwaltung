@@ -9,7 +9,7 @@ import '../../model/Item.dart';
 class ItemList extends StatefulWidget {
   Held held;
 
-  ItemList({required this.held});
+  ItemList({super.key, required this.held});
 
   @override
   State<ItemList> createState() => _ItemListState();
@@ -20,6 +20,7 @@ class _ItemListState extends State<ItemList> {
   String searchString = "";
   final heldService = getIt<HeldService>();
   late Function updateItems;
+  bool get isOwner => widget.held.owner == cu.uuid;
 
   @override
   void initState() {
@@ -35,11 +36,12 @@ class _ItemListState extends State<ItemList> {
 
     List<Item> filteredItems = List.from(items.where(
       (entry) => entry.name.toLowerCase().contains(searchString.toLowerCase()),
-    ));
+    ))..sort((a, b) => a.name.compareTo(b.name));
 
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -49,7 +51,7 @@ class _ItemListState extends State<ItemList> {
                 labelText: 'Suche',
                   fillColor: Colors.grey.withOpacity(0.1),
                   filled: true,
-                suffixIcon: Icon(Icons.search),
+                suffixIcon: const Icon(Icons.search),
               ),
             ),
           ),
@@ -86,6 +88,7 @@ class _ItemListState extends State<ItemList> {
               ),
             ),
             child: ListView.separated(
+              padding: EdgeInsets.zero,
               shrinkWrap: true,
               itemCount: filteredItems.length,
               separatorBuilder: (context, index) => const Divider(
@@ -103,60 +106,81 @@ class _ItemListState extends State<ItemList> {
                       : null,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: InkWell(
-                              onTap: () => _showEditDialog(citem.name, "Item-Name").then((value) {
-                                if(value == null) return;
-                                filteredItems.elementAt(index).name = value;
-                                //todo update
-                              }),
-                              child: Text(citem.name)),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: InkWell(
-                            onTap: () => _showEditDialog(citem.anzahl.toString(), "Anzahl").then((value) {
-                              if(value == null) return;
-                              int? neuAnzahl = int.tryParse(value);
-                              if(neuAnzahl == null) return;
-                              citem.anzahl = neuAnzahl;
-                              updateItems.call();
-                            }),
-                            child: Text(citem.anzahl.toString()),
+                    child: IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: InkWell(
+                                onTap: isOwner ? () => _showEditDialog(citem.name, "Item-Name").then((value) {
+                                  if(value == null) return;
+                                  citem.name = value;
+                                  updateItems.call();
+                                  setState(() {});
+                                }) : null,
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Tooltip(
+                                        message: citem.name,
+                                        child: Text(citem.name)))),
                           ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: InkWell(
-                            onTap: () => _showEditDialog(citem.beschreibung ?? '', "Beschreibung").then((value) {
-                              if(value == null) return;
-                              filteredItems.elementAt(index).beschreibung = value;
-                              updateItems.call();
-                            }),
-                            child: Text(
-                              citem.beschreibung ?? '-',
-                              style: citem.beschreibung == null ? TextStyle(color: Colors.grey) : TextStyle(),
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: false,
-                              maxLines: 2,
+                          Expanded(
+                            flex: 1,
+                            child: InkWell(
+                              onTap: isOwner ? () => _showEditDialog(citem.anzahl.toString(), "Anzahl").then((value) {
+                                if(value == null) return;
+                                int? neuAnzahl = int.tryParse(value);
+                                if(neuAnzahl == null) return;
+                                citem.anzahl = neuAnzahl;
+                                updateItems.call();
+                                setState(() {});
+                              }) : null,
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text("${citem.anzahl}x")),
                             ),
                           ),
-                        ),
-                        Visibility(
-                          visible: widget.held.owner == cu.uuid,
-                          child: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              items.removeAt(index);
-                              updateItems.call();
-                              setState(() {});
-                            },
+                          Expanded(
+                            flex: 3,
+                            child: InkWell(
+                              onTap: isOwner ? () => _showEditDialog(citem.beschreibung ?? '', "Beschreibung").then((value) {
+                                if(value == null) return;
+                                citem.beschreibung = value;
+                                updateItems.call();
+                                setState(() {});
+                              }) : null,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Tooltip(
+                                  message: citem.beschreibung ?? 'keine Beschreibung',
+                                  child: Text(
+                                    citem.beschreibung ?? 'keine Beschreibung',
+                                    style: citem.beschreibung == null ? const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic) : const TextStyle(),
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          Visibility(
+                            visible: widget.held.owner == cu.uuid,
+                            child: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                var cindex = items.indexOf(citem);
+                                items.removeAt(cindex);
+                                updateItems.call();
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 );
@@ -169,18 +193,15 @@ class _ItemListState extends State<ItemList> {
   }
 
   void _handleAdd() {
-    //TODO save items
     var parts = _addController.text.split(':');
     if (parts.length == 1) {
       setState(
           () => widget.held.items.add(Item(name: _addController.text, anzahl: 1)
-              //TODO add if not
               ));
     } else if (parts.length == 2) {
       setState(() {
         widget.held.items
             .add(Item(name: parts[0], anzahl: int.tryParse(parts[1]) ?? 1)
-                //TODO add if not
                 );
       });
     }
@@ -191,7 +212,7 @@ class _ItemListState extends State<ItemList> {
   Future<String?> _showEditDialog(String? value, String colName) async {
     TextEditingController editController =
     TextEditingController(text: value?.toString() ?? '');
-    showDialog(
+    final result = await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -212,6 +233,7 @@ class _ItemListState extends State<ItemList> {
         );
       },
     );
+    return result;
   }
 
 }

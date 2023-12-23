@@ -5,15 +5,15 @@ class ConditionalParentWidget extends StatelessWidget {
     super.key,
     required this.condition,
     required this.child,
-    required this.conditionalBuilder,
+    required this.parentBuilder,
   });
 
   final Widget child;
   final bool condition;
-  final Widget Function(Widget child) conditionalBuilder;
+  final Widget Function(Widget child) parentBuilder;
 
   @override
   Widget build(BuildContext context) {
-    return condition ? conditionalBuilder(child) : child;
+    return condition ? parentBuilder(child) : child;
   }
 }

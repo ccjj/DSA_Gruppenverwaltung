@@ -1,21 +1,23 @@
+import 'dart:async';
+
 import 'ChatMessage.dart';
 
-class ChatMessageRepository  {
-  final List<ChatMessage> _messages = [];
+class ChatMessageRepository {
+  final StreamController<ChatMessage> _messageController;
+  final Map<String, List<ChatMessage>> _messages = {};
 
-  Future<void> sendMessage(ChatMessage message) async {
-    _messages.add(message);
+  ChatMessageRepository(this._messageController) {
+    _messageController.stream.listen((ChatMessage newMessage) {
+      addMessage(newMessage);
+    });
   }
 
-  Future<void> displayLocalMessage(ChatMessage message) async {
-    _messages.add(message);
+  void addMessage(ChatMessage message) {
+    final result = _messages.putIfAbsent(message.groupId, () => []);
+    result.add(message);
   }
 
-  Stream<List<ChatMessage>> messagesStream() {
-    return Stream.periodic(Duration(seconds: 1), (_) => _messages).asBroadcastStream();
-  }
-
-  Future<List<ChatMessage>> getMessages() async {
-    return _messages;
+  List<ChatMessage>? getMessages(String groupId) {
+    return _messages[groupId];
   }
 }

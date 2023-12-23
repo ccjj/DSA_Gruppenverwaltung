@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
@@ -7,7 +6,6 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dsagruppen/Gruppe/GroupService.dart';
 import 'package:dsagruppen/Held/HeldAmplifyService.dart';
 import 'package:dsagruppen/Held/HeldService.dart';
-import 'package:dsagruppen/HeldDetailsScreen.dart';
 import 'package:dsagruppen/User/UserAmplifyService.dart';
 import 'package:dsagruppen/actions/ActionStack.dart';
 import 'package:dsagruppen/login/AuthService.dart';
@@ -16,14 +14,14 @@ import 'package:dsagruppen/rules/RollManager.dart';
 import 'package:dsagruppen/skills/TalentRepository%20.dart';
 import 'package:dsagruppen/skills/ZauberRepository.dart';
 import 'package:dsagruppen/theme/theme.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:responsive_framework/breakpoint.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import '../Held/Held.dart';
+import 'GroupDetailsScreen.dart';
 import 'Gruppe/GroupAmplifyService.dart';
 import 'Gruppe/Gruppe.dart';
 import 'Gruppe/GruppeRepository.dart';
@@ -34,7 +32,7 @@ import 'User/User.dart';
 import 'User/UserRepository.dart';
 import 'UserPreferences.dart';
 import 'amplifyconfiguration.dart';
-import 'chat/ChatOverlay.dart';
+import 'chat/ChatMessageRepository.dart';
 import 'chat/MessageAmplifyService.dart';
 import 'chat/PersonalChatMessageRepository.dart';
 import 'globals.dart';
@@ -45,13 +43,12 @@ import 'login/LoginPage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.initFlutter();
-  isTest = false;
   getIt.registerSingleton<UserRepository>(UserRepository());
   getIt.registerSingleton<TalentRepository>(TalentRepository('assets/data/talents.json'));
   getIt.registerSingleton<ZauberRepository>(ZauberRepository('assets/data/spells.json'));
   getIt.registerLazySingleton<RollManager>(() => RollManager());
   getIt.registerLazySingleton<PersonalChatMessageRepository>(() => PersonalChatMessageRepository());
-  getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, isVisible: isChatVisible, gruppeId: ""));
+  //getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, isVisible: isChatVisible, gruppeId: ""));
   getIt.registerLazySingleton<MessageAmplifyService>(() => MessageAmplifyService());
   getIt.registerLazySingleton<PdfRepository>(() => PdfRepository());
   await getIt<ZauberRepository>().loadZaubers();
@@ -73,6 +70,7 @@ Future<void> main() async {
     getIt<GruppeRepository>(),
     getIt<GroupAmplifyService>()
   ));
+  getIt.registerSingleton<ChatMessageRepository>(ChatMessageRepository(messageController));
   getIt.registerSingleton<HeldGroupCoordinator>(HeldGroupCoordinator(
       getIt<GroupService>(),
       getIt<HeldRepository>()
@@ -130,8 +128,20 @@ class MyApp extends StatelessWidget {
           themeMode: themeMode,
           navigatorKey: navigatorKey,
           //home: isTest ? GroupDetailsScreen(gruppe: getIt<GruppeRepository>().getAllGruppen()[0]) : LoginPage(),//LoginPage(),//
-          home: isTest ? HeldDetailsScreen(held: getIt<HeldRepository>().getAllHelden()[0]) : LoginPage(),//LoginPage(),//
-          builder: EasyLoading.init(),
+          home: isTest ? GroupDetailsScreen(gruppe: getIt<GruppeRepository>().getAllGruppen()[0]) : LoginPage(),//LoginPage(),//
+          builder: (context, child) {
+            child = EasyLoading.init()(context,child);
+          child = ResponsiveBreakpoints.builder(
+            child: child!,
+            breakpoints: [
+              const Breakpoint(start: 0, end: 450, name: MOBILE),
+              const Breakpoint(start: 451, end: 800, name: TABLET),
+              const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+              const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+            ],
+          );
+          return child;
+        },
           debugShowCheckedModeBanner: false,
         );
       }

@@ -116,11 +116,10 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text(appName,  style: TextStyle(
-          fontFamily: 'Tangerine', fontSize: 46
+          fontFamily: 'Trajan Pro', fontSize: 46
         ))), // Replace with your app name
       ),
       body: Stack(

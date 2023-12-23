@@ -1,6 +1,5 @@
 import 'package:dsagruppen/Gruppe/GruppeRepository.dart';
 import 'package:dsagruppen/Held/HeldRepository.dart';
-import 'package:dsagruppen/chat/ChatOverlay.dart';
 import 'package:dsagruppen/chat/PersonalChatMessageRepository.dart';
 import 'package:dsagruppen/login/AuthService.dart';
 import 'package:dsagruppen/login/LoginPage.dart';
@@ -38,7 +37,7 @@ class DrawerNavigator extends StatelessWidget {
                     alignment: Alignment.bottomLeft,
                     child: OutlinedText(text: appName,
                         textStyle: TextStyle(
-                          fontFamily: 'Tangerine', fontSize: 46
+                          fontFamily: 'Trajan Pro', fontSize: 46
                         ),//Theme.of(context).textTheme.headlineSmall!,
                         strokeColor: themeNotifier.value == ThemeMode.light ? Colors.white : Colors.black))
               ],
@@ -66,7 +65,7 @@ class DrawerNavigator extends StatelessWidget {
                 getIt<GruppeRepository>().clearGruppen();
                 getIt<HeldRepository>().clearHelden();
                 getIt<PersonalChatMessageRepository>().reset();
-                getIt<ChatOverlay>().isVisible.value = false;
+                //getIt<ChatOverlay>().isVisible.value = false;
                 navigatorKey.currentState?.pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
               }
           ),

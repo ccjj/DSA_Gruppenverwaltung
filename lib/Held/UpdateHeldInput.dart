@@ -93,6 +93,15 @@ class UpdateHeldInput {
   });
 
   Map<String, dynamic> toJson() {
+    //null = kein update
+    //leer = update, leere map
+    //nicht leer
+    //String? itemsJson = jsonEncode(items) else 'items' : jsonEncode(Map()),
+    bool importItems = true;
+
+    if(items == null){
+      importItems = false;
+    }
     return {
       'id': id,
       if (name != null && name!.isNotEmpty) 'name': name,
@@ -134,7 +143,7 @@ class UpdateHeldInput {
       if (wunden != null) 'wunden': wunden,
       // ... similar checks for Map or List fields ...
       if (talents != null && talents!.isNotEmpty) 'talents': jsonEncode(talents),
-      if (items != null && items!.isNotEmpty) 'items': jsonEncode(items) else 'items' : jsonEncode(Map()),
+      if (importItems) 'items' : jsonEncode(items),
       if (notes != null && notes!.isNotEmpty) 'notes': jsonEncode(notes),
       if (vorteile != null && vorteile!.isNotEmpty) 'vorteile': jsonEncode(vorteile),
       if (sf != null && sf!.isNotEmpty) 'sf': jsonEncode(sf),
@@ -181,7 +190,7 @@ class UpdateHeldInput {
     if (originalHeld.wunden != newHeld.wunden) input.wunden = newHeld.wunden;
     if (originalHeld.geburtstag != newHeld.geburtstag) input.geburtstag = newHeld.geburtstag;
     if (originalHeld.talents != newHeld.talents) input.talents = newHeld.talents;
-    if (originalHeld.items.isEmpty) input.items = newHeld.items;
+    if (originalHeld.items.isEmpty) {input.items = newHeld.items;} else {input.items = null;};
     if (originalHeld.notes != newHeld.notes) input.notes = newHeld.notes;
     if (originalHeld.vorteile != newHeld.vorteile) input.vorteile = newHeld.vorteile;
     if (originalHeld.sf != newHeld.sf) input.sf = newHeld.sf;

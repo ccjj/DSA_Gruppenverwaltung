@@ -2,9 +2,7 @@ import 'dart:collection';
 import 'dart:typed_data';
 
 import 'package:dsagruppen/io/PdfFileRepository.dart';
-import 'package:dsagruppen/skills/Zauber.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pdfx/pdfx.dart';
 
@@ -17,8 +15,8 @@ import 'SkillChanceText.dart';
 
 class SkillList extends StatefulWidget {
   final Held held;
-  final Function(String, int) rollCallback;
-  final bool isExpanded;
+  final Function(String, int, int) rollCallback;
+  final bool hasSliverParent;
 
   final Map<String, int> skillMap;
 
@@ -26,7 +24,7 @@ class SkillList extends StatefulWidget {
     required this.held,
     required this.rollCallback,
     required this.skillMap,
-    this.isExpanded = true,
+    required this.hasSliverParent
   });
 
   @override
@@ -35,56 +33,66 @@ class SkillList extends StatefulWidget {
 
 class SkillListState extends State<SkillList> {
   String searchString = "";
+  Map<String, int> filteredItems = {};
+  SplayTreeMap<String, int> filteredSplayMap = SplayTreeMap<String, int>();
 
   @override
   Widget build(BuildContext context) {
-    Map<String, int> filteredItems;
     if (searchString.trim().isNotEmpty) {
       filteredItems = Map.fromEntries(widget.skillMap.entries.where((entry) =>
           entry.key.toLowerCase().contains(searchString.toLowerCase())));
     } else {
       filteredItems = widget.skillMap;
     }
-    SplayTreeMap<String, int> filteredSplayMap = SplayTreeMap.from(filteredItems);
+    filteredSplayMap = SplayTreeMap.from(filteredItems);
 
     int totalChildCount = 1 + filteredItems.length * 2;
-
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          if (index == 0) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    searchString = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Suche',
-                  suffixIcon: Icon(Icons.search),
-                    fillColor: Colors.grey.withOpacity(0.1),
-                    filled: true
-                ),
-              ),
-            );
-          }
-
-          if (index.isOdd) {
-            return const Divider(height: 1, thickness: 1);
-          }
-
-          final itemIndex = (index - 1) ~/ 2;
-          final skillName = filteredSplayMap.keys.elementAt(itemIndex);
-          final taw = filteredSplayMap.values.elementAt(itemIndex);
-          ValueNotifier<int> modificator = ValueNotifier<int>(0);
-
-          return SkillRow(itemIndex: itemIndex, skillName: skillName, taw: taw, modificator: modificator, widget: widget);
+    if(widget.hasSliverParent){
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+       childCount: totalChildCount,
+                (context, index) => buildItem(context, index)
+            )
+      );
+    }
+    return ListView.builder(
+        itemCount: totalChildCount,
+        itemBuilder: (context, index) {
+          return buildItem(context, index);
         },
-        childCount: totalChildCount
-      )
-    );
+      );
+  }
+
+  Widget buildItem(BuildContext context, int index) {
+    if (index == 0) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+        child: TextField(
+          onChanged: (value) {
+            setState(() {
+              searchString = value;
+            });
+          },
+          decoration: InputDecoration(
+              labelText: 'Suche',
+              suffixIcon: Icon(Icons.search),
+              fillColor: Colors.grey.withOpacity(0.1),
+              filled: true
+          ),
+        ),
+      );
+    }
+
+    if (index.isOdd) {
+      return const Divider(height: 1, thickness: 1);
+    }
+
+    final itemIndex = (index - 1) ~/ 2;
+    final skillName = filteredSplayMap.keys.elementAt(itemIndex);
+    final taw = filteredSplayMap.values.elementAt(itemIndex);
+    ValueNotifier<int> modificator = ValueNotifier<int>(0);
+
+    return SkillRow(itemIndex: itemIndex, skillName: skillName, taw: taw, modificator: modificator, widget: widget);
   }
 }
 
@@ -126,14 +134,16 @@ class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin 
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                       flex: 3,
-                      child: Text(widget.skillName, style: const TextStyle(overflow: TextOverflow.ellipsis),)),
+                      child: Tooltip(
+                          message: widget.skillName,
+                          child: Text(widget.skillName, style: const TextStyle(overflow: TextOverflow.ellipsis),))),
                   if(skill != null && skill.seite != null)Expanded(
                     flex: 1,
                     child: IconButton(
@@ -157,7 +167,7 @@ class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin 
                         return;
                       }
                       showPdfPageDialog(context, uploadedFile, page + 1);
-                    }, icon: Icon(Icons.info_outline_rounded)),
+                    }, icon: const Icon(Icons.info_outline_rounded)),
                   )
                 ],
               ),
@@ -169,7 +179,7 @@ class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin 
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 4,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -199,7 +209,7 @@ class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin 
                         AnimatedIconButton(
                           icon: Icons.casino_outlined,
                           onTap: () =>
-                              widget.widget.rollCallback(widget.skillName, widget.taw),
+                              widget.widget.rollCallback(widget.skillName, widget.taw, widget.modificator.value),
                         ),
                         SkillChanceText(
                           modificator: widget.modificator,

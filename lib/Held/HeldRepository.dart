@@ -7,7 +7,9 @@ class HeldRepository {
 
   // Methode zum Hinzufügen eines neuen Helden
   void addHeld(Held held) {
-    _helden.add(held);
+    if(!_helden.map((e) => e.uuid).contains(held.uuid)){
+      _helden.add(held);
+    }
   }
 
   // Methode zum Aktualisieren eines Helden
@@ -38,6 +40,10 @@ class HeldRepository {
   // Methode zum Abrufen eines bestimmten Helden
   Held? getHeldByNummer(String heldNummer) {
     return _helden.firstWhereOrNull((h) => h.heldNummer == heldNummer);
+  }
+
+  Held? getHeldByGruppeId(String gruppeId){
+    return _helden.firstWhereOrNull((h) => h.gruppeId == gruppeId);
   }
 
   List<Held> getHeldenByUser(String userId) {

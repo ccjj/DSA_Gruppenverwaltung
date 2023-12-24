@@ -232,7 +232,7 @@ class _SearchableDataTableState extends State<SearchableDataTable> {
                                 return AsyncText(callback: () {
                                   ISkill? skill = RuleProvider.getSkillByName(entry.key);
                                   int mod = RuleProvider.getModificator(skill, modificator.value);
-                                  return RollCalculator.calcChance(widget.held, RuleProvider.getSkillByName(entry.key), mod);
+                                  return RollCalculator.calcChance(widget.held, skill, mod);
                                 }
                                     , showSpinner: false
                                 );

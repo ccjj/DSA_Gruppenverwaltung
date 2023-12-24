@@ -19,6 +19,7 @@ Card HeldCard(Held held, BuildContext context, Function? callback) {
         );
       },
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
               splashColor: Colors.transparent,

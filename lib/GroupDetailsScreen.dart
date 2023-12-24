@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:dsagruppen/Gruppe/GroupAmplifyService.dart';
 import 'package:dsagruppen/Held/HeldAmplifyService.dart';
 import 'package:dsagruppen/Held/HeldService.dart';
+import 'package:dsagruppen/MeisterPage.dart';
 import 'package:dsagruppen/User/UserAmplifyService.dart';
 import 'package:dsagruppen/chat/MessageAmplifyService.dart';
 import 'package:dsagruppen/widgets/BlurredCard.dart';
@@ -113,6 +114,12 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    if(cu.uuid == widget.gruppe.ownerUuid)OutlinedButton(onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MeisterPage(gruppe: widget.gruppe),
+                      ),
+                    ), child: Text("Zur Meister-Seite")),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GroupDetailsCard(

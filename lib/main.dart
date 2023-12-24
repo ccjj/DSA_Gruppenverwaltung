@@ -15,6 +15,7 @@ import 'package:dsagruppen/skills/TalentRepository%20.dart';
 import 'package:dsagruppen/skills/ZauberRepository.dart';
 import 'package:dsagruppen/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:responsive_framework/breakpoint.dart';
@@ -33,6 +34,7 @@ import 'User/UserRepository.dart';
 import 'UserPreferences.dart';
 import 'amplifyconfiguration.dart';
 import 'chat/ChatMessageRepository.dart';
+import 'chat/ChatOverlay.dart';
 import 'chat/MessageAmplifyService.dart';
 import 'chat/PersonalChatMessageRepository.dart';
 import 'globals.dart';
@@ -42,13 +44,18 @@ import 'login/LoginPage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  debugProfileBuildsEnabled = true;
+  debugProfileBuildsEnabledUserWidgets = true;
+  debugProfileLayoutsEnabled = true;
+  debugProfilePaintsEnabled = true;
+
   Hive.initFlutter();
   getIt.registerSingleton<UserRepository>(UserRepository());
   getIt.registerSingleton<TalentRepository>(TalentRepository('assets/data/talents.json'));
   getIt.registerSingleton<ZauberRepository>(ZauberRepository('assets/data/spells.json'));
   getIt.registerLazySingleton<RollManager>(() => RollManager());
   getIt.registerLazySingleton<PersonalChatMessageRepository>(() => PersonalChatMessageRepository());
-  //getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, isVisible: isChatVisible, gruppeId: ""));
+  getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, isVisible: isChatVisible, gruppeId: ""));
   getIt.registerLazySingleton<MessageAmplifyService>(() => MessageAmplifyService());
   getIt.registerLazySingleton<PdfRepository>(() => PdfRepository());
   await getIt<ZauberRepository>().loadZaubers();
@@ -132,7 +139,7 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             child = EasyLoading.init()(context,child);
           child = ResponsiveBreakpoints.builder(
-            child: child!,
+            child: child,
             breakpoints: [
               const Breakpoint(start: 0, end: 450, name: MOBILE),
               const Breakpoint(start: 451, end: 800, name: TABLET),
@@ -143,6 +150,7 @@ class MyApp extends StatelessWidget {
           return child;
         },
           debugShowCheckedModeBanner: false,
+          //showPerformanceOverlay: true,
         );
       }
     );

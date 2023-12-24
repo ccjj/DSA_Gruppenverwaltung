@@ -23,10 +23,8 @@ class AsyncText extends StatelessWidget {
           ) : const SizedBox.shrink();
           return widget;
         } else if (snapshot.hasError) {
-          // Handle errors if any
           return Text('Error: ${snapshot.error}');
         } else {
-          // Display the data
           return Text(snapshot.data ?? '?', style: style ?? const TextStyle());
         }
       },

@@ -21,6 +21,7 @@ import 'HeldDetailScreen/HeroDetailCard.dart';
 import 'actions/ActionSource.dart';
 import 'actions/ActionStack.dart';
 import 'chat/ChatBottomBar.dart';
+import 'chat/ChatOverlay.dart';
 import 'globals.dart';
 import 'widgets/MainScaffold.dart';
 
@@ -45,21 +46,23 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    //getIt<ChatOverlay>().gruppeId = widget.held.gruppeId;
+
+      getIt<ChatOverlay>().gruppeId = widget.held.gruppeId;
+
   }
 
   @override
   Widget build(BuildContext context) {
     if (ResponsiveBreakpoints.of(context).largerThan(TABLET)) {
       return MainScaffold(
-          title: Text(pageTitle),
+          title: const Text(pageTitle),
           body: ResponsiveGridView.builder(
             itemCount: 7,
-            gridDelegate: const ResponsiveGridDelegate(
+            gridDelegate: const ResponsiveGridDelegate(//SliverGridDelegateWithMaxCrossAxisExtent
               maxCrossAxisExtent: largeCardHeight, //vertical
               crossAxisExtent: 350,
-              crossAxisSpacing: 10, // Space between items horizontally
-              mainAxisSpacing: 10, // Space between items vertically
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
             ),
             itemBuilder: (BuildContext context, int index) {
               switch (index) {
@@ -135,167 +138,153 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
                     ),
                   );
                 case 2:
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CardWithTitle(
-                      title: "Eigenschaften",
-                      child: AttributeListWidget(held: widget.held, isOneLine: true,),
-                    ),
+                  return CardWithTitle(
+                    title: "Eigenschaften",
+                    child: AttributeListWidget(held: widget.held, isOneLine: true,),
                   );
                 case 3:
-                  return SizedBox(
-                    height: largeCardHeight,
-                    child: CardWithTitle(
-                      title: 'Weitere Informationen',
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ExpansionTile(
+                  return CardWithTitle(
+                    title: 'Weitere Informationen',
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ExpansionTile(
+                          iconColor: Colors.red,
+                          collapsedIconColor: Colors.red,
+                          title: const Text('Basiswerte'),
+                          children: <Widget>[
+                            ListTile(
+                              title: const Text('Magieresistenz (MR)'),
+                              subtitle: Text('${widget.held.mr}'),
+                            ),
+                            ListTile(
+                              title: const Text('Initiative (INI)'),
+                              subtitle: Text('${widget.held.ini} / ${widget.held.baseIni}'),
+                            ),
+                            ListTile(
+                              title: const Text('Basisinitiative'),
+                              subtitle: Text('${widget.held.baseIni}'),
+                            ),
+                            ListTile(
+                              title: const Text('Angriffswert (AT)'),
+                              subtitle: Text('${widget.held.at}'),
+                            ),
+                            ListTile(
+                              title: const Text('Parade (PA)'),
+                              subtitle: Text('${widget.held.pa}'),
+                            ),
+                            ListTile(
+                              title: const Text('Fernkampfwert (FK)'),
+                              subtitle: Text('${widget.held.fk}'),
+                            ),
+                            ListTile(
+                              title: const Text('Wundschwelle (WS)'),
+                              subtitle: Text('${widget.held.ws}'),
+                            ),
+                          ],
+                        ),
+                        ExpansionTile(
                             iconColor: Colors.red,
                             collapsedIconColor: Colors.red,
-                            title: const Text('Basiswerte'),
-                            children: <Widget>[
-                              ListTile(
-                                title: const Text('Magieresistenz (MR)'),
-                                subtitle: Text('${widget.held.mr}'),
-                              ),
-                              ListTile(
-                                title: const Text('Initiative (INI)'),
-                                subtitle: Text('${widget.held.ini} / ${widget.held.baseIni}'),
-                              ),
-                              ListTile(
-                                title: const Text('Basisinitiative'),
-                                subtitle: Text('${widget.held.baseIni}'),
-                              ),
-                              ListTile(
-                                title: const Text('Angriffswert (AT)'),
-                                subtitle: Text('${widget.held.at}'),
-                              ),
-                              ListTile(
-                                title: const Text('Parade (PA)'),
-                                subtitle: Text('${widget.held.pa}'),
-                              ),
-                              ListTile(
-                                title: const Text('Fernkampfwert (FK)'),
-                                subtitle: Text('${widget.held.fk}'),
-                              ),
-                              ListTile(
-                                title: const Text('Wundschwelle (WS)'),
-                                subtitle: Text('${widget.held.ws}'),
-                              ),
-                            ],
-                          ),
-                          ExpansionTile(
-                              iconColor: Colors.red,
-                              collapsedIconColor: Colors.red,
-                              title: const Text('Vor-/Nachteile'),
-                              children: [
-                                SearchableDataTable(
-                                    held: widget.held,
-                                    stringList: widget.held.vorteile,
-                                    col1Label: 'Vorteil')
-                              ]),
-                          ExpansionTile(
-                              iconColor: Colors.red,
-                              collapsedIconColor: Colors.red,
-                              title: const Text('Sonderfertigkeiten'),
-                              children: [
-                                SearchableDataTable(
-                                    held: widget.held,
-                                    stringList: widget.held.sf,
-                                    col1Label: 'Sonderfertigkeit')
-                              ]),
-                        ],
-                      ),
+                            title: const Text('Vor-/Nachteile'),
+                            children: [
+                              SearchableDataTable(
+                                  held: widget.held,
+                                  stringList: widget.held.vorteile,
+                                  col1Label: 'Vorteil')
+                            ]),
+                        ExpansionTile(
+                            iconColor: Colors.red,
+                            collapsedIconColor: Colors.red,
+                            title: const Text('Sonderfertigkeiten'),
+                            children: [
+                              SearchableDataTable(
+                                  held: widget.held,
+                                  stringList: widget.held.sf,
+                                  col1Label: 'Sonderfertigkeit')
+                            ]),
+                      ],
                     ),
                   );
                 case 4:
                   return Card(
-                    child: SizedBox(
-                      height: largeCardHeight,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8, top: 8),
-                                child: Text("Talente", style: Theme.of(context).textTheme.titleLarge),
-                              )
-                          ),
-                          Expanded(
-                            child: SkillList(
-                              hasSliverParent: false,
-                                held: widget.held,
-                                skillMap: widget.held.talents,
-                                rollCallback: (talentName, taw, penalty) {
-                                  String msg = getIt<RollManager>()
-                                      .rollTalent(widget.held, talentName, penalty);
-                                  if (widget.held.owner == cu.uuid) {
-                                    getIt<MessageAmplifyService>().createMessage(
-                                        msg, widget.held.gruppeId, cu.uuid);
-                                  } else {
-                                    messageController.add(ChatMessage(
-                                        messageContent: msg,
-                                        groupId: widget.held.gruppeId,
-                                        timestamp: DateTime.now(),
-                                        ownerId: cu.uuid,
-                                        isPrivate: true));
-                                  }
-                                }),
-                          ),
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8, top: 8),
+                              child: Text("Talente", style: TextStyle(fontSize: Theme.of(context).textTheme.titleLarge!.fontSize)),
+                            )
+                        ),
+                        Expanded(
+                          child: SkillList(
+                            hasSliverParent: false,
+                              held: widget.held,
+                              skillMap: widget.held.talents,
+                              rollCallback: (talentName, taw, penalty) {
+                                String msg = getIt<RollManager>()
+                                    .rollTalent(widget.held, talentName, penalty);
+                                if (widget.held.owner == cu.uuid) {
+                                  getIt<MessageAmplifyService>().createMessage(
+                                      msg, widget.held.gruppeId, cu.uuid);
+                                } else {
+                                  messageController.add(ChatMessage(
+                                      messageContent: msg,
+                                      groupId: widget.held.gruppeId,
+                                      timestamp: DateTime.now(),
+                                      ownerId: cu.uuid,
+                                      isPrivate: true));
+                                }
+                              }),
+                        ),
+                      ],
                     ),
                   );
                 case 5:
                   return Card(
-                    child: SizedBox(
-                      height: largeCardHeight,
-                      child: Column(
-                        children: [
-                          Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8, top: 8),
-                                child: Text("Zauber", style: Theme.of(context).textTheme.titleLarge),
-                              )
-                          ),
-                          Expanded(
-                            child: SkillList(
-                              hasSliverParent: false,
-                                held: widget.held,
-                                skillMap: widget.held.zauber,
-                                rollCallback: (talentName, taw, penalty) {
-                                  String msg = getIt<RollManager>()
-                                      .rollZauber(widget.held, talentName, penalty);
-                                  if (widget.held.owner == cu.uuid) {
-                                    getIt<MessageAmplifyService>().createMessage(
-                                        msg, widget.held.gruppeId, cu.uuid);
-                                  } else {
-                                    messageController.add(ChatMessage(
-                                        messageContent: msg,
-                                        groupId: widget.held.gruppeId,
-                                        timestamp: DateTime.now(),
-                                        ownerId: cu.uuid,
-                                        isPrivate: true));
-                                  }
-                                }),
-                          ),
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8, top: 8),
+                              child: Text("Zauber", style: TextStyle(fontSize: Theme.of(context).textTheme.titleLarge!.fontSize)),
+                            )
+                        ),
+                        Expanded(
+                          child: SkillList(
+                            hasSliverParent: false,
+                              held: widget.held,
+                              skillMap: widget.held.zauber,
+                              rollCallback: (talentName, taw, penalty) {
+                                String msg = getIt<RollManager>()
+                                    .rollZauber(widget.held, talentName, penalty);
+                                if (widget.held.owner == cu.uuid) {
+                                  getIt<MessageAmplifyService>().createMessage(
+                                      msg, widget.held.gruppeId, cu.uuid);
+                                } else {
+                                  messageController.add(ChatMessage(
+                                      messageContent: msg,
+                                      groupId: widget.held.gruppeId,
+                                      timestamp: DateTime.now(),
+                                      ownerId: cu.uuid,
+                                      isPrivate: true));
+                                }
+                              }),
+                        ),
+                      ],
                     ),
                   );
                 case 6:
-                  return SizedBox(
-                      height: largeCardHeight,
-                      child: CardWithTitle(
-                          title: "Items",
-                          child: ItemList(held: widget.held)));
+                  return CardWithTitle(
+                      title: "Items",
+                      child: ItemList(held: widget.held));
                 default:
                   return Text("dd");
               }
-              return Text("ee");
             },
           ));
     }
@@ -591,13 +580,5 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
         ],
       ),
     );
-  }
-
-  String talentsToString(Map<String, int> talents) {
-    return talents.entries.map((e) => '${e.key}: ${e.value}').join(', ');
-  }
-
-  String itemsToString(Map<String, int> items) {
-    return items.entries.map((e) => '${e.key}: ${e.value}').join(', ');
   }
 }

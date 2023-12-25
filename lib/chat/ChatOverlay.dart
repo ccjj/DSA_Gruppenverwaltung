@@ -10,49 +10,57 @@ import 'package:responsive_framework/responsive_breakpoints.dart';
 
 double CHATHEIGHT = 400;
 double CHATWIDTH = 300;
+double MINIMIZEDICONSIZE = 54;
 
 class ChatOverlay with WidgetsBindingObserver {
   final Stream<ChatMessage> messageStream;
   late OverlayEntry overlayEntry;
   ValueNotifier isVisible = ValueNotifier(false);
+  ValueNotifier isMinimized = ValueNotifier(true);
   String gruppeId;
   Offset _offset = Offset(16, 16);
 
+  Size get widgetIconSize => isMinimized.value
+      ? Size(MINIMIZEDICONSIZE, MINIMIZEDICONSIZE)
+      : Size(CHATWIDTH, CHATHEIGHT);
+
   Offset constrainPosition(Offset desiredOffset, Size size) {
-    double constrainedX = min(desiredOffset.dx, size.width - CHATWIDTH);
-    if(constrainedX < 0) constrainedX = 0;
-    double constrainedY = min(desiredOffset.dy, size.height - CHATHEIGHT);
-    if(constrainedY < 0) constrainedY = 0;
+    double constrainedX =
+        min(desiredOffset.dx, size.width - widgetIconSize.width);
+    if (constrainedX < 0) constrainedX = 0;
+    double constrainedY =
+        min(desiredOffset.dy, size.height - widgetIconSize.height);
+    if (constrainedY < 0) constrainedY = 0;
     return Offset(constrainedX, constrainedY);
   }
 
-  ChatOverlay(
-      {required this.messageStream,
-      required this.gruppeId}) {
+  ChatOverlay({required this.messageStream, required this.gruppeId}) {
     WidgetsBinding.instance.addObserver(this);
     var context = navigatorKey.currentContext!;
     var size = MediaQuery.of(context).size;
-    _offset = Offset(16, size.height - 54); //todo set icon height instead
+    _offset = Offset(
+        16, size.height - widgetIconSize.height); //todo set icon height instead
     overlayEntry = OverlayLayer(_offset, size);
     isVisible.addListener(switchOverlay);
   }
 
   OverlayEntry OverlayLayer(Offset offset, Size size) {
-    return OverlayEntry(
-      builder: (context) {
-        return Positioned(
-            left: offset.dx,
-            top: offset.dy,
-            child: ChatOverlayContent(
-              gruppeId: gruppeId,
-              stream: messageStream,
-              onDragEnd: (details) {
-                offset = constrainPosition(details.offset, size);
-                overlayEntry.markNeedsBuild();
-              },
-            ),
-          );
-      });
+    isMinimized.addListener(() => recalcPosition());
+    return OverlayEntry(builder: (context) {
+      return Positioned(
+        left: offset.dx,
+        top: offset.dy,
+        child: ChatOverlayContent(
+          gruppeId: gruppeId,
+          stream: messageStream,
+          isMinimized: isMinimized,
+          onDragEnd: (details) {
+            offset = _offset = constrainPosition(details.offset, size);
+            overlayEntry.markNeedsBuild();
+          },
+        ),
+      );
+    });
   }
 
   void hideOverlay() {
@@ -62,14 +70,13 @@ class ChatOverlay with WidgetsBindingObserver {
   }
 
   void showOverlay() {
-    if(overlayEntry.mounted){
+    if (overlayEntry.mounted) {
       return;
     }
-    if(isVisible.value == false) {
+    if (isVisible.value == false) {
       isVisible.value = true;
     }
-    }
-
+  }
 
   void switchOverlay() {
     if (isVisible.value == true) {
@@ -80,20 +87,42 @@ class ChatOverlay with WidgetsBindingObserver {
     }
   }
 
+  void recalcPosition() {
+    if (isMinimized.value == false) {
+      var context = navigatorKey.currentContext!;
+      var size = MediaQuery.of(context).size;
+
+      // Calculate the new Y position
+      double newY = _offset.dy - MINIMIZEDICONSIZE + CHATHEIGHT;
+
+      // Constrain newY to the screen bounds
+      newY = max(0, newY);
+      newY = min(size.height - CHATHEIGHT, newY);
+
+      // Update the offset
+      _offset = Offset(_offset.dx, newY);
+      overlayEntry.remove();
+      // Rebuild the overlay with the new position
+      overlayEntry = OverlayLayer(_offset, MediaQuery.of(context).size);
+      Overlay.of(context).insert(overlayEntry);
+      overlayEntry.markNeedsBuild();
+    }
+  }
+
   @override
   void didChangeMetrics() {
     // This gets called when the window size changes
     var context = navigatorKey.currentContext;
     print("DIDCHANG");
     if (context != null) {
-      if(overlayEntry.mounted){
+      if (overlayEntry.mounted) {
         overlayEntry.remove();
       }
-      if(ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET) ){
+      if (ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET)) {
         return;
       }
       Offset _offset = Offset(16, MediaQuery.sizeOf(context).height - 54);
-      overlayEntry = OverlayLayer(_offset,  MediaQuery.of(context).size);
+      overlayEntry = OverlayLayer(_offset, MediaQuery.of(context).size);
       Overlay.of(context).insert(overlayEntry);
       overlayEntry.markNeedsBuild();
     }
@@ -101,6 +130,7 @@ class ChatOverlay with WidgetsBindingObserver {
 
   void dispose() {
     isVisible.removeListener(switchOverlay);
+    isMinimized.removeListener(recalcPosition);
     WidgetsBinding.instance.removeObserver(this);
   }
 }
@@ -109,12 +139,14 @@ class ChatOverlayContent extends StatefulWidget {
   final Stream<ChatMessage> stream;
   final String gruppeId;
   final Function(DraggableDetails) onDragEnd;
+  final ValueNotifier isMinimized;
 
   const ChatOverlayContent(
       {super.key,
       required this.stream,
       required this.gruppeId,
-      required this.onDragEnd});
+      required this.onDragEnd,
+      required this.isMinimized});
 
   @override
   ChatOverlayContentState createState() => ChatOverlayContentState();
@@ -127,7 +159,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   final ScrollController _scrollController = ScrollController();
   ValueNotifier<int> lastMessageIndex = ValueNotifier(-1);
   final FocusNode _focusNode = FocusNode();
-  bool isMinimized = true;
+  //bool isMinimized = true;
 
   @override
   void initState() {
@@ -147,19 +179,17 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final Widget currentChatState = isMinimized == true
+    final Widget currentChatState = widget.isMinimized.value == true
         ? _buildMinimizedIcon(context)
         : _buildChat(context);
 
-          return Draggable(
-              feedback: currentChatState,
-              childWhenDragging: SizedBox.shrink(),
-              onDragEnd: widget.onDragEnd,
-              child: currentChatState);
-
+    return Draggable(
+        feedback: currentChatState,
+        childWhenDragging: SizedBox.shrink(),
+        onDragEnd: widget.onDragEnd,
+        child: currentChatState);
   }
 
   Widget _buildChat(BuildContext context) {
@@ -189,9 +219,8 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                   icon: const Icon(Icons.minimize),
                   onPressed: () {
                     setState(() {
-                      isMinimized = true;
+                      widget.isMinimized.value = true;
                     });
-
                   } //context.findAncestorStateOfType<__ChatOverlayContentState>()?.minimizeChat(),
                   ),
             ],
@@ -294,13 +323,17 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   }
 
   Widget _buildMinimizedIcon(BuildContext context) {
-    return GestureDetector(
-      onTap: () => setState(() {
-        isMinimized = false;
-      }),
-      child: const CircleAvatar(
-        backgroundColor: Colors.transparent,
-        child: Icon(Icons.chat),
+    return SizedBox(
+      height: MINIMIZEDICONSIZE / 2,
+      width: MINIMIZEDICONSIZE / 2,
+      child: GestureDetector(
+        onTap: () => setState(() {
+          widget.isMinimized.value = false;
+        }),
+        child: const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          child: Icon(Icons.chat),
+        ),
       ),
     );
   }

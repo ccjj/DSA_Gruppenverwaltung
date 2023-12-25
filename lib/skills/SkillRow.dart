@@ -87,7 +87,7 @@ class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin 
                             EasyLoading.showError("Buch nicht gefunden: " + book);
                             return;
                           }
-                          PdfPageDialog(context, uploadedFile, page + 1);
+                          PdfPageDialog( uploadedFile, page + 1);
                         }, icon: const Icon(Icons.info_outline_rounded)),
                   )
                 ],

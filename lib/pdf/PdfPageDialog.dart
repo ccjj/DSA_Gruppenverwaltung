@@ -3,14 +3,16 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 
-Future<void> PdfPageDialog(BuildContext context, Uint8List pdfData, int page) async {
+import '../globals.dart';
+
+Future<void> PdfPageDialog(Uint8List pdfData, int page) async {
   ValueNotifier<PdfLoadingState> loadingState = ValueNotifier(PdfLoadingState.loading);
   final PdfController pdfController = PdfController(
     document: PdfDocument.openData(pdfData)..then((value) => loadingState.value =  PdfLoadingState.success),
   );
 
   return showDialog(
-    context: context,
+    context: navigatorKey.currentState!.context,
     barrierDismissible: true,
     builder: (BuildContext context) {
       return AlertDialog(

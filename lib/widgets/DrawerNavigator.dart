@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../UserScreen.dart';
+import '../chat/ChatOverlay.dart';
 import '../globals.dart';
 import '../theme/ThemeSwitcher.dart';
 
@@ -65,7 +66,7 @@ class DrawerNavigator extends StatelessWidget {
                 getIt<GruppeRepository>().clearGruppen();
                 getIt<HeldRepository>().clearHelden();
                 getIt<PersonalChatMessageRepository>().reset();
-                //getIt<ChatOverlay>().isVisible.value = false;
+                getIt<ChatOverlay>().isVisible.value = false;
                 navigatorKey.currentState?.pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
               }
           ),

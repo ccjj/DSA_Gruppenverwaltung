@@ -11,6 +11,7 @@ import 'package:dsagruppen/chat/MessageAmplifyService.dart';
 import 'package:dsagruppen/widgets/BlurredCard.dart';
 import 'package:dsagruppen/widgets/ConditionalParentWidget.dart';
 import 'package:dsagruppen/widgets/HeldCard.dart';
+import 'package:dsagruppen/widgets/MainScaffold.dart';
 import 'package:dsagruppen/xml/HeldenParser.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,8 @@ import 'Held/Held.dart';
 import 'Held/HeldRepository.dart';
 import 'User/User.dart';
 import 'chat/ChatBottomBar.dart';
+import 'chat/ChatOverlay.dart';
 import 'globals.dart';
-import 'widgets/MainScaffold.dart';
 
 class GroupDetailsScreen extends StatefulWidget {
   final Gruppe gruppe;
@@ -49,7 +50,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     super.initState();
     heroHpSub?.cancel();
     chatSub?.cancel();
-    //getIt<ChatOverlay>().gruppeId = widget.gruppe.uuid;
+    getIt<ChatOverlay>().gruppeId = widget.gruppe.uuid;
+    Future.delayed(const Duration(milliseconds: 200), (){
+      getIt<ChatOverlay>().isVisible.value = true;
+    });
     if (isTest) {
       return;
     }
@@ -99,10 +103,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      bnb: ChatBottomBar(
+      bnb:  ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET) ? ChatBottomBar(
         gruppeId: widget.gruppe.uuid,
         stream: messageController.stream,
-      ),
+      ) : null,
       title: const Text("Gruppendetails"),
       body: fetchingHelden && widget.gruppe.helden.isEmpty
           ? const Center(child: CircularProgressIndicator())

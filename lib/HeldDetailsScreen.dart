@@ -48,7 +48,6 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
   @override
   void initState() {
     super.initState();
-
     getIt<ChatOverlay>().gruppeId = widget.held.gruppeId;
   }
 
@@ -61,7 +60,7 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
     }
     return MainScaffold(
       title: const Text(pageTitle),
-      bnb: ChatBottomBar(
+      bnb: (ResponsiveBreakpoints.of(context).largerThan(TABLET)) ? null : ChatBottomBar(
           gruppeId: widget.held.gruppeId, stream: messageController.stream),
       body: CustomScrollView(
         slivers: [
@@ -274,155 +273,126 @@ class DesktopView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveGridView.builder(
-      itemCount: 7,
-      gridDelegate: ResponsiveGridDelegate(
-        //SliverGridDelegateWithMaxCrossAxisExtent
-        maxCrossAxisExtent: largeCardHeight, //vertical
-        crossAxisExtent: 350,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+    List<Widget> children = [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: HeroDetailCard(held: widget.held),
       ),
-      itemBuilder: (BuildContext context, int index) {
-        switch (index) {
-          case 0:
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: HeroDetailCard(held: widget.held),
-            );
-          case 1:
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CardWithTitle(
-                title: "Vitalwerte",
-                child: VitalWerteColumn(held: widget.held),
-              ),
-            );
-          case 2:
-            return CardWithTitle(
-              title: "Eigenschaften",
-              child: AttributeListWidget(
-                held: widget.held,
-                isOneLine: true,
-              ),
-            );
-          case 3:
-            return CardWithTitle(
-              title: 'Weitere Informationen',
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CardWithTitle(
+          title: "Vitalwerte",
+          child: VitalWerteColumn(held: widget.held),
+        ),
+      ),
+      CardWithTitle(
+        title: "Eigenschaften",
+        child: AttributeListWidget(
+          held: widget.held,
+          isOneLine: true,
+        ),
+      ),
+      CardWithTitle(
+        title: 'Weitere Informationen',
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BasiswerteTile(held: widget.held),
+            ExpansionTile(
+                iconColor: Colors.red,
+                collapsedIconColor: Colors.red,
+                title: const Text('Vor-/Nachteile'),
                 children: [
-                  BasiswerteTile(held: widget.held),
-                  ExpansionTile(
-                      iconColor: Colors.red,
-                      collapsedIconColor: Colors.red,
-                      title: const Text('Vor-/Nachteile'),
-                      children: [
-                        SearchableDataTable(
-                            held: widget.held,
-                            stringList: widget.held.vorteile,
-                            col1Label: 'Vorteil')
-                      ]),
-                  ExpansionTile(
-                      iconColor: Colors.red,
-                      collapsedIconColor: Colors.red,
-                      title: const Text('Sonderfertigkeiten'),
-                      children: [
-                        SearchableDataTable(
-                            held: widget.held,
-                            stringList: widget.held.sf,
-                            col1Label: 'Sonderfertigkeit')
-                      ]),
-                ],
-              ),
-            );
-          case 4:
-            return Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+                  SearchableDataTable(
+                      held: widget.held,
+                      stringList: widget.held.vorteile,
+                      col1Label: 'Vorteil')
+                ]),
+            ExpansionTile(
+                iconColor: Colors.red,
+                collapsedIconColor: Colors.red,
+                title: const Text('Sonderfertigkeiten'),
                 children: [
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8, top: 8),
-                        child: Text("Talente",
-                            style: TextStyle(
-                                fontSize: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .fontSize)),
-                      )),
-                  Expanded(
-                    child: SkillList(
-                        hasSliverParent: false,
-                        held: widget.held,
-                        skillMap: widget.held.talents,
-                        rollCallback: (talentName, taw, penalty) {
-                          String msg = getIt<RollManager>()
-                              .rollTalent(widget.held, talentName, penalty);
-                          if (widget.held.owner == cu.uuid) {
-                            getIt<MessageAmplifyService>().createMessage(
-                                msg, widget.held.gruppeId, cu.uuid);
-                          } else {
-                            messageController.add(ChatMessage(
-                                messageContent: msg,
-                                groupId: widget.held.gruppeId,
-                                timestamp: DateTime.now(),
-                                ownerId: cu.uuid,
-                                isPrivate: true));
-                          }
-                        }),
-                  ),
-                ],
-              ),
-            );
-          case 5:
-            return Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8, top: 8),
-                        child: Text("Zauber",
-                            style: TextStyle(
-                                fontSize: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .fontSize)),
-                      )),
-                  Expanded(
-                    child: SkillList(
-                        hasSliverParent: false,
-                        held: widget.held,
-                        skillMap: widget.held.zauber,
-                        rollCallback: (talentName, taw, penalty) {
-                          String msg = getIt<RollManager>()
-                              .rollZauber(widget.held, talentName, penalty);
-                          if (widget.held.owner == cu.uuid) {
-                            getIt<MessageAmplifyService>().createMessage(
-                                msg, widget.held.gruppeId, cu.uuid);
-                          } else {
-                            messageController.add(ChatMessage(
-                                messageContent: msg,
-                                groupId: widget.held.gruppeId,
-                                timestamp: DateTime.now(),
-                                ownerId: cu.uuid,
-                                isPrivate: true));
-                          }
-                        }),
-                  ),
-                ],
-              ),
-            );
-          case 6:
-            return CardWithTitle(
-                title: "Items", child: ItemList(held: widget.held));
-          default:
-            return Text("dd");
-        }
-      },
+                  SearchableDataTable(
+                      held: widget.held,
+                      stringList: widget.held.sf,
+                      col1Label: 'Sonderfertigkeit')
+                ]),
+          ],
+        ),
+      ),
+      Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  child: Text("Talente",
+                      style: TextStyle(
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .fontSize)),
+                )),
+            Expanded(
+              child: SkillList(
+                  hasSliverParent: false,
+                  held: widget.held,
+                  skillMap: widget.held.talents,
+                  rollCallback: (talentName, taw, penalty) {
+                    // Your rollCallback implementation
+                  }),
+            ),
+          ],
+        ),
+      ),
+      Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  child: Text("Zauber",
+                      style: TextStyle(
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .fontSize)),
+                )),
+            Expanded(
+              child: SkillList(
+                  hasSliverParent: false,
+                  held: widget.held,
+                  skillMap: widget.held.zauber,
+                  rollCallback: (talentName, taw, penalty) {
+                    // Your rollCallback implementation
+                  }),
+            ),
+          ],
+        ),
+      ),
+      CardWithTitle(
+        title: "Items",
+        child: ItemList(held: widget.held),
+      ),
+      // Add any additional children here
+    ];
+
+    //400x350
+
+    return SingleChildScrollView(
+      child: Wrap(
+        spacing: 10, // Horizontal space between children
+        runSpacing: 10, // Vertical space between lines
+        children: children.map((child) => ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 350, maxHeight: largeCardHeight, minHeight: largeCardHeight), // Max width for each child
+          child: child,
+        )).toList(),
+      ),
     );
   }
 }

@@ -12,14 +12,16 @@ import 'package:dsagruppen/skills/TalentRepository%20.dart';
 import 'package:dsagruppen/widgets/AnimatedIconButton.dart';
 import 'package:dsagruppen/widgets/AsyncText.dart';
 import 'package:dsagruppen/widgets/HeldCard.dart';
+import 'package:dsagruppen/widgets/MainScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import 'Gruppe/Gruppe.dart';
 import 'Held/Held.dart';
-import 'MainScaffold.dart';
 import 'MeisterPage/RedCrossOverlay.dart';
+import 'chat/ChatBottomBar.dart';
 import 'chat/ChatMessage.dart';
 import 'globals.dart';
 import 'io/PdfFileRepository.dart';
@@ -50,11 +52,30 @@ class _MeisterPageState extends State<MeisterPage> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: "Meisterseite",
+      title: const Text("Meisterseite"),
+      bnb:  ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET) ? ChatBottomBar(
+        gruppeId: widget.gruppe.uuid,
+        stream: messageController.stream,
+      ) : null,
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            TextButton(onPressed: ()  async {
+              //TODO refactor, dupe
+
+              String book = "WdS";
+              int page = 198;
+
+              Uint8List? uploadedFile = await getIt<PdfRepository>().loadPdfFile(book);
+
+              if(uploadedFile == null) {
+                EasyLoading.showError("Buch nicht gefunden: " + book);
+                return;
+              }
+              PdfPageDialog( uploadedFile, page + 1);
+
+            }, child: Text("Patzertabelle")),
             TypeAheadField(
               constraints: BoxConstraints(
                   maxHeight: MediaQuery.sizeOf(context).height * 0.3),
@@ -88,31 +109,37 @@ class _MeisterPageState extends State<MeisterPage> {
                               onPressed: () async {
                                 focusNode.unfocus();
                                 //TODO refactor, dupe
-                                ISkill? skill = RuleProvider
-                                    .getSkillByName(
+                                ISkill? skill = RuleProvider.getSkillByName(
                                     selectedTalent.value);
                                 print(selectedTalent.value);
-                                if(skill == null) { return; }
-                                if(skill.seite == null){
-                                  EasyLoading.showError("Skill-Seite nicht hinterlegt: ${skill.name}");
+                                if (skill == null) {
+                                  return;
+                                }
+                                if (skill.seite == null) {
+                                  EasyLoading.showError(
+                                      "Skill-Seite nicht hinterlegt: ${skill.name}");
                                   return;
                                 }
                                 var splitted = splitString(skill!.seite!);
-                                if(splitted.length != 2){
+                                if (splitted.length != 2) {
                                   print("unexpected split result");
                                   return;
                                 }
                                 var book = splitted.elementAt(0);
                                 int page = int.parse(splitted.elementAt(1));
 
-                                Uint8List? uploadedFile = await getIt<PdfRepository>().loadPdfFile(book);
+                                Uint8List? uploadedFile =
+                                    await getIt<PdfRepository>()
+                                        .loadPdfFile(book);
 
-                                if(uploadedFile == null) {
-                                  EasyLoading.showError("Buch nicht gefunden: " + book);
+                                if (uploadedFile == null) {
+                                  EasyLoading.showError(
+                                      "Buch nicht gefunden: " + book);
                                   return;
                                 }
-                                PdfPageDialog(context, uploadedFile, page + 1);
-                              }, icon: const Icon(Icons.info_outline_rounded)),
+                                PdfPageDialog( uploadedFile, page + 1);
+                              },
+                              icon: const Icon(Icons.info_outline_rounded)),
                           IconButton(
                               onPressed: () {
                                 searchString.value = "";
@@ -230,32 +257,32 @@ class _MeisterPageState extends State<MeisterPage> {
                                                 },
                                                 showSpinner: false);
                                           }),
-                                      if(selectedTalent.value
+                                      if (selectedTalent.value
                                           .trim()
                                           .isNotEmpty)
-                                      AnimatedIconButton(
-                                        icon: Icons.casino_outlined,
-                                        onTap: () {
-                                          if (selectedTalent.value
-                                              .trim()
-                                              .isEmpty) {
-                                            return;
-                                          }
+                                        AnimatedIconButton(
+                                          icon: Icons.casino_outlined,
+                                          onTap: () {
+                                            if (selectedTalent.value
+                                                .trim()
+                                                .isEmpty) {
+                                              return;
+                                            }
 
-                                          String msg = getIt<RollManager>()
-                                              .rollTalent(
-                                                  held,
-                                                  selectedTalent.value,
-                                                  modificator.value);
-                                          //TODO refactor
-                                          messageController.add(ChatMessage(
-                                              messageContent: msg,
-                                              groupId: held.gruppeId,
-                                              timestamp: DateTime.now(),
-                                              ownerId: cu.uuid,
-                                              isPrivate: true));
-                                        },
-                                      ),
+                                            String msg = getIt<RollManager>()
+                                                .rollTalent(
+                                                    held,
+                                                    selectedTalent.value,
+                                                    modificator.value);
+                                            //TODO refactor
+                                            messageController.add(ChatMessage(
+                                                messageContent: msg,
+                                                groupId: held.gruppeId,
+                                                timestamp: DateTime.now(),
+                                                ownerId: cu.uuid,
+                                                isPrivate: true));
+                                          },
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -269,6 +296,7 @@ class _MeisterPageState extends State<MeisterPage> {
     );
   }
 }
+
 //TODO code dupe
 List<String> splitString(String input) {
   RegExp exp = RegExp(r'(\d+|\D+)');

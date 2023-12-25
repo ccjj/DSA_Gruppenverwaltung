@@ -49,7 +49,6 @@ class _MeisterPageState extends State<MeisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    //gruppe.helden.
     return MainScaffold(
       title: "Meisterseite",
       body: SingleChildScrollView(

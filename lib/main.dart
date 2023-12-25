@@ -55,7 +55,7 @@ Future<void> main() async {
   getIt.registerSingleton<ZauberRepository>(ZauberRepository('assets/data/spells.json'));
   getIt.registerLazySingleton<RollManager>(() => RollManager());
   getIt.registerLazySingleton<PersonalChatMessageRepository>(() => PersonalChatMessageRepository());
-  getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, isVisible: isChatVisible, gruppeId: ""));
+  getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, gruppeId: ""));
   getIt.registerLazySingleton<MessageAmplifyService>(() => MessageAmplifyService());
   getIt.registerLazySingleton<PdfRepository>(() => PdfRepository());
   await getIt<ZauberRepository>().loadZaubers();

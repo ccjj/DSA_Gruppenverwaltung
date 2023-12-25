@@ -53,7 +53,7 @@ class _MeisterPageState extends State<MeisterPage> {
   Widget build(BuildContext context) {
     return MainScaffold(
       title: const Text("Meisterseite"),
-      bnb:  ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET) ? ChatBottomBar(
+      bnb: ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET) ? ChatBottomBar(
         gruppeId: widget.gruppe.uuid,
         stream: messageController.stream,
       ) : null,

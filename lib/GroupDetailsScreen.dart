@@ -51,9 +51,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     heroHpSub?.cancel();
     chatSub?.cancel();
     getIt<ChatOverlay>().gruppeId = widget.gruppe.uuid;
-    Future.delayed(const Duration(milliseconds: 200), (){
-      getIt<ChatOverlay>().isVisible.value = true;
-    });
+
+      Future.delayed(const Duration(milliseconds: 200), (){
+        if(ResponsiveBreakpoints.of(context).largerOrEqualTo(DESKTOP) ) {
+          getIt<ChatOverlay>().showOverlay();
+        }
+      });
+
+
     if (isTest) {
       return;
     }

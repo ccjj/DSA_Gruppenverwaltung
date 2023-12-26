@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:dsagruppen/chat/ChatCommons.dart';
 import 'package:dsagruppen/chat/ChatMessage.dart';
 import 'package:dsagruppen/globals.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
@@ -18,7 +19,7 @@ class ChatOverlay with WidgetsBindingObserver {
   ValueNotifier isVisible = ValueNotifier(false);
   ValueNotifier isMinimized = ValueNotifier(true);
   String gruppeId;
-  Offset _offset = Offset(16, 16);
+  static Offset _offset = Offset(16, 16);
 
   Size get widgetIconSize => isMinimized.value
       ? Size(MINIMIZEDICONSIZE, MINIMIZEDICONSIZE)
@@ -92,17 +93,13 @@ class ChatOverlay with WidgetsBindingObserver {
       var context = navigatorKey.currentContext!;
       var size = MediaQuery.of(context).size;
 
-      // Calculate the new Y position
       double newY = _offset.dy - MINIMIZEDICONSIZE + CHATHEIGHT;
 
-      // Constrain newY to the screen bounds
       newY = max(0, newY);
       newY = min(size.height - CHATHEIGHT, newY);
 
-      // Update the offset
       _offset = Offset(_offset.dx, newY);
       overlayEntry.remove();
-      // Rebuild the overlay with the new position
       overlayEntry = OverlayLayer(_offset, MediaQuery.of(context).size);
       Overlay.of(context).insert(overlayEntry);
       overlayEntry.markNeedsBuild();
@@ -160,6 +157,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   ValueNotifier<int> lastMessageIndex = ValueNotifier(-1);
   final FocusNode _focusNode = FocusNode();
   //bool isMinimized = true;
+  bool _isResizing = false;
 
   @override
   void initState() {
@@ -179,17 +177,47 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
     super.dispose();
   }
 
+  void _updateSize(Offset delta, BuildContext context) {
+    setState(() {
+      final Size screenSize = MediaQuery.of(context).size;
+
+      const double minWidth = 200;
+      const double minHeight = 200;
+
+      double newWidth = CHATWIDTH + delta.dx;
+      double newHeight = CHATHEIGHT + delta.dy;
+
+      newWidth = max(newWidth, minWidth);
+      newHeight = max(newHeight, minHeight);
+
+      newWidth = min(newWidth, screenSize.width - ChatOverlay._offset.dx);
+      newHeight = min(newHeight, screenSize.height - ChatOverlay._offset.dy);
+
+      CHATWIDTH = newWidth;
+      CHATHEIGHT = newHeight;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final Widget currentChatState = widget.isMinimized.value == true
         ? _buildMinimizedIcon(context)
         : _buildChat(context);
-
-    return Draggable(
-        feedback: currentChatState,
-        childWhenDragging: SizedBox.shrink(),
-        onDragEnd: widget.onDragEnd,
-        child: currentChatState);
+    print("ISRESIZEING$_isResizing");
+    final chatTopBar = widget.isMinimized.value == true ? const SizedBox.shrink() : Positioned(
+        top: 0,
+        left: 0,
+        child: ChatTopBar(context));
+    return Stack(
+      children: [
+        Draggable(
+          maxSimultaneousDrags: _isResizing ? 0 : null,
+            feedback: Stack(children: [currentChatState, chatTopBar]),
+            childWhenDragging: SizedBox.shrink(),
+            onDragEnd: widget.onDragEnd,
+            child: currentChatState),
+        chatTopBar
+      ],
+    );
   }
 
   Widget _buildChat(BuildContext context) {
@@ -211,20 +239,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       height: CHATHEIGHT,
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Chat"),
-              IconButton(
-                  icon: const Icon(Icons.minimize),
-                  onPressed: () {
-                    setState(() {
-                      widget.isMinimized.value = true;
-                    });
-                  } //context.findAncestorStateOfType<__ChatOverlayContentState>()?.minimizeChat(),
-                  ),
-            ],
-          ),
+          Text(""),
           Expanded(
             child: Scrollbar(
               controller: _scrollController,
@@ -246,19 +261,19 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                               end: Alignment.bottomRight,
                               colors: [
                                 Colors.teal[200]!
-                                    .withOpacity(1.0), // More opaque
+                                    .withOpacity(1.0),
                                 Colors.lightBlue[200]!.withOpacity(
                                     0.7), // Midpoint color with adjusted opacity
                                 Colors.blueGrey[300]!
-                                    .withOpacity(0.5), // Less opaque
+                                    .withOpacity(0.5),
                               ],
                               stops: const [
                                 0.0,
                                 0.5,
                                 1.0
-                              ], // Adjust these values based on your preference
+                              ],
                               tileMode: TileMode
-                                  .clamp, // Prevents repetition of the gradient
+                                  .clamp,
                             )
                           : null),
                   child: Text(
@@ -319,6 +334,68 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget ChatTopBar(BuildContext context) {
+    return SizedBox(
+      width: CHATWIDTH,
+      child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text("Chat"),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    color: Colors.red,
+                    child: MouseRegion(
+                      child: GestureDetector(
+                        onLongPress: (){},
+                        onPanUpdate: (details) {
+                          print("PANUPDATE");
+                          _updateSize(details.delta, context) ;
+                        },
+                        onPanDown: (_) {
+                          setState(() {
+                            print("START RETZ");
+                            _isResizing = true;
+                          });
+                        },
+                        onPanCancel: () => print("PANCAN"),
+                        onPanStart: (_) {
+                          return;
+                          setState(() {
+                            print("START RETZ");
+                            _isResizing = true;
+                          });
+                        },
+                        onPanEnd: (details) {
+                          setState(() {
+                            print("END RETZ");
+                            _isResizing = false;
+                          });
+                        },
+                        child: Icon(
+                          Icons.open_with,
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                      icon: const Icon(Icons.minimize),
+                      onPressed: () {
+                        setState(() {
+                          widget.isMinimized.value = true;
+                        });
+                      } //context.findAncestorStateOfType<__ChatOverlayContentState>()?.minimizeChat(),
+                      ),
+                ],
+              ),
+            ],
+          ),
     );
   }
 

@@ -19,7 +19,7 @@ class ChatOverlay with WidgetsBindingObserver {
   ValueNotifier isVisible = ValueNotifier(false);
   ValueNotifier isMinimized = ValueNotifier(true);
   String gruppeId;
-  static Offset _offset = Offset(16, 16);
+  static ValueNotifier<Offset> offset = ValueNotifier(Offset(16, 16));
 
   Size get widgetIconSize => isMinimized.value
       ? Size(MINIMIZEDICONSIZE, MINIMIZEDICONSIZE)
@@ -27,10 +27,10 @@ class ChatOverlay with WidgetsBindingObserver {
 
   Offset constrainPosition(Offset desiredOffset, Size size) {
     double constrainedX =
-        min(desiredOffset.dx, size.width - widgetIconSize.width);
+    min(desiredOffset.dx, size.width - widgetIconSize.width);
     if (constrainedX < 0) constrainedX = 0;
     double constrainedY =
-        min(desiredOffset.dy, size.height - widgetIconSize.height);
+    min(desiredOffset.dy, size.height - widgetIconSize.height);
     if (constrainedY < 0) constrainedY = 0;
     return Offset(constrainedX, constrainedY);
   }
@@ -39,27 +39,32 @@ class ChatOverlay with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     var context = navigatorKey.currentContext!;
     var size = MediaQuery.of(context).size;
-    _offset = Offset(
+    offset.value = Offset(
         16, size.height - widgetIconSize.height); //todo set icon height instead
-    overlayEntry = OverlayLayer(_offset, size);
+    overlayEntry = OverlayLayer( size);
     isVisible.addListener(switchOverlay);
   }
 
-  OverlayEntry OverlayLayer(Offset offset, Size size) {
+  OverlayEntry OverlayLayer(Size size) {
     isMinimized.addListener(() => recalcPosition());
     return OverlayEntry(builder: (context) {
-      return Positioned(
-        left: offset.dx,
-        top: offset.dy,
-        child: ChatOverlayContent(
-          gruppeId: gruppeId,
-          stream: messageStream,
-          isMinimized: isMinimized,
-          onDragEnd: (details) {
-            offset = _offset = constrainPosition(details.offset, size);
-            overlayEntry.markNeedsBuild();
-          },
-        ),
+      return ValueListenableBuilder(
+          valueListenable: offset,
+          builder: (context, value, child) {
+            return Positioned(
+              left: offset.value.dx,
+              top: offset.value.dy,
+              child: ChatOverlayContent(
+                gruppeId: gruppeId,
+                stream: messageStream,
+                isMinimized: isMinimized,
+                onDragEnd: (details) {
+                  offset.value = constrainPosition(details.offset, size);
+                  overlayEntry.markNeedsBuild();
+                },
+              ),
+            );
+          }
       );
     });
   }
@@ -93,14 +98,14 @@ class ChatOverlay with WidgetsBindingObserver {
       var context = navigatorKey.currentContext!;
       var size = MediaQuery.of(context).size;
 
-      double newY = _offset.dy - MINIMIZEDICONSIZE + CHATHEIGHT;
+      double newY = offset.value.dy - MINIMIZEDICONSIZE + CHATHEIGHT;
 
       newY = max(0, newY);
       newY = min(size.height - CHATHEIGHT, newY);
 
-      _offset = Offset(_offset.dx, newY);
+      offset.value = Offset(offset.value.dx, newY);
       overlayEntry.remove();
-      overlayEntry = OverlayLayer(_offset, MediaQuery.of(context).size);
+      overlayEntry = OverlayLayer( MediaQuery.of(context).size);
       Overlay.of(context).insert(overlayEntry);
       overlayEntry.markNeedsBuild();
     }
@@ -118,8 +123,8 @@ class ChatOverlay with WidgetsBindingObserver {
       if (ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET)) {
         return;
       }
-      Offset _offset = Offset(16, MediaQuery.sizeOf(context).height - 54);
-      overlayEntry = OverlayLayer(_offset, MediaQuery.of(context).size);
+      offset.value = Offset(16, MediaQuery.sizeOf(context).height - 54);
+      overlayEntry = OverlayLayer(MediaQuery.of(context).size);
       Overlay.of(context).insert(overlayEntry);
       overlayEntry.markNeedsBuild();
     }
@@ -140,10 +145,10 @@ class ChatOverlayContent extends StatefulWidget {
 
   const ChatOverlayContent(
       {super.key,
-      required this.stream,
-      required this.gruppeId,
-      required this.onDragEnd,
-      required this.isMinimized});
+        required this.stream,
+        required this.gruppeId,
+        required this.onDragEnd,
+        required this.isMinimized});
 
   @override
   ChatOverlayContentState createState() => ChatOverlayContentState();
@@ -157,9 +162,9 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   ValueNotifier<int> lastMessageIndex = ValueNotifier(-1);
   final FocusNode _focusNode = FocusNode();
   //bool isMinimized = true;
-  bool isResizingHorizontal = false;
-  bool isResizingVertical = false;
+  BoxSide currentSide = BoxSide.none;
   var cursor = SystemMouseCursors.basic;
+   final mouseBorderSize = 10.0;
 
   @override
   void initState() {
@@ -186,32 +191,66 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       const double minWidth = 200;
       const double minHeight = 200;
 
-      double newWidth = CHATWIDTH + (isResizingHorizontal ? delta.dx : 0);
-      double newHeight = CHATHEIGHT + (isResizingVertical ? delta.dy : 0);
+      double newWidth = CHATWIDTH;
+      double newHeight = CHATHEIGHT;
+      Offset newOffset = ChatOverlay.offset.value;
 
-      //double newWidth = CHATWIDTH + delta.dx;
-      //double newHeight = CHATHEIGHT + delta.dy;
+      // Determine resizing and position adjustments based on the side or corner
+      switch (currentSide) {
+        case BoxSide.right:
+          newWidth += delta.dx;
+          break;
+        case BoxSide.left:
+          newWidth -= delta.dx;
+          newOffset = Offset(newOffset.dx + delta.dx, newOffset.dy);
+          print(newOffset.dx);
+          break;
+        case BoxSide.bottom:
+          newHeight += delta.dy;
+          break;
+        case BoxSide.top:
+          newHeight -= delta.dy;
+          newOffset = Offset(newOffset.dx, newOffset.dy + delta.dy);
+          break;
+        case BoxSide.topLeft:
+          newWidth -= delta.dx;
+          newHeight -= delta.dy;
+          newOffset = Offset(newOffset.dx + delta.dx, newOffset.dy + delta.dy);
+          break;
+        case BoxSide.topRight:
+          newWidth += delta.dx;
+          newHeight -= delta.dy;
+          newOffset = Offset(newOffset.dx, newOffset.dy + delta.dy);
+          break;
+        case BoxSide.bottomLeft:
+          newWidth -= delta.dx;
+          newHeight += delta.dy;
+          newOffset = Offset(newOffset.dx + delta.dx, newOffset.dy);
+          break;
+        case BoxSide.bottomRight:
+          newWidth += delta.dx;
+          newHeight += delta.dy;
+          break;
+        default:
+          break;
+      }
 
-      newWidth = max(newWidth, minWidth);
-      newHeight = max(newHeight, minHeight);
-
-      newWidth = min(newWidth, screenSize.width - ChatOverlay._offset.dx);
-      newHeight = min(newHeight, screenSize.height - ChatOverlay._offset.dy);
-
-        CHATWIDTH = newWidth;
-
-        CHATHEIGHT = newHeight;
-
+      // Enforce minimum and maximum dimensions
+      CHATWIDTH = max(minWidth, min(newWidth, screenSize.width - newOffset.dx));
+      CHATHEIGHT = max(minHeight, min(newHeight, screenSize.height - newOffset.dy));
+      ChatOverlay.offset.value = newOffset;
+      // Update the offset if the chat overlay was resized from the left or top
 
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final Widget currentChatState = widget.isMinimized.value == true
         ? _buildMinimizedIcon(context)
         : _buildChat(context);
     final chatRectWrapper = widget.isMinimized.value == true ? const SizedBox.shrink() : ClipPath(
-      clipper: FrameClipper(borderWidth: 10),
+      clipper: FrameClipper(borderWidth: mouseBorderSize),
       child: MouseRegion(
         cursor: cursor,
         onHover: _updateCursorOnHover,
@@ -227,7 +266,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
           child: Container(
             height: CHATHEIGHT,
             width: CHATWIDTH,
-            color: Colors.red, // Color of the frame
+            color: Colors.transparent, // Color of the frame
           ),
         ),
       ),
@@ -245,39 +284,43 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   }
 
   void _updateCursorOnHover(PointerHoverEvent event) {
-    const edgeMargin = 10.0; // Margin size for detecting edges
+    final edgeMargin = mouseBorderSize;
     final localPosition = event.localPosition;
 
     bool onLeftEdge = localPosition.dx < edgeMargin;
     bool onRightEdge = localPosition.dx > CHATWIDTH - edgeMargin;
     bool onTopEdge = localPosition.dy < edgeMargin;
     bool onBottomEdge = localPosition.dy > CHATHEIGHT - edgeMargin;
-    bool _isResizingHorizontal = true;
-    bool _isResizingVertical = true;
 
     if (onLeftEdge && onTopEdge) {
       // Top-left corner
       cursor = SystemMouseCursors.resizeUpLeftDownRight;
+      currentSide = BoxSide.topLeft;
     } else if (onRightEdge && onTopEdge) {
       // Top-right corner
       cursor = SystemMouseCursors.resizeUpRightDownLeft;
+      currentSide = BoxSide.topRight;
     } else if (onLeftEdge && onBottomEdge) {
       // Bottom-left corner
       cursor = SystemMouseCursors.resizeUpRightDownLeft;
+      currentSide = BoxSide.bottomLeft;
     } else if (onRightEdge && onBottomEdge) {
       // Bottom-right corner
       cursor = SystemMouseCursors.resizeUpLeftDownRight;
-    } else if (onLeftEdge || onRightEdge) {
-      // Left or right edge
+      currentSide = BoxSide.bottomRight;
+    } else if (onLeftEdge) {
       cursor = SystemMouseCursors.resizeLeftRight;
-      _isResizingVertical = false;
-    } else if (onTopEdge || onBottomEdge) {
-      // Top or bottom edge
+      currentSide = BoxSide.left;
+    } else if (onRightEdge) {
+      cursor = SystemMouseCursors.resizeLeftRight;
+      currentSide = BoxSide.right;
+    } else if (onTopEdge) {
       cursor = SystemMouseCursors.resizeUpDown;
-      _isResizingHorizontal = false;
+      currentSide = BoxSide.top;
+    } else if (onBottomEdge) {
+      cursor = SystemMouseCursors.resizeUpDown;
+      currentSide = BoxSide.bottom;
     }
-    isResizingHorizontal = _isResizingHorizontal;
-    isResizingVertical = _isResizingVertical;
 
     setState(() {
     }); // Update the cursor state
@@ -316,28 +359,28 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                   margin: const EdgeInsets.symmetric(vertical: 4.0),
                   decoration: BoxDecoration(
                       color:
-                          ChatCommons.stringToColor(_messages[index].ownerId),
+                      ChatCommons.stringToColor(_messages[index].ownerId),
                       borderRadius: BorderRadius.circular(12),
                       gradient: _messages[index].isPrivate
                           ? LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Colors.teal[200]!
-                                    .withOpacity(1.0),
-                                Colors.lightBlue[200]!.withOpacity(
-                                    0.7), // Midpoint color with adjusted opacity
-                                Colors.blueGrey[300]!
-                                    .withOpacity(0.5),
-                              ],
-                              stops: const [
-                                0.0,
-                                0.5,
-                                1.0
-                              ],
-                              tileMode: TileMode
-                                  .clamp,
-                            )
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Colors.teal[200]!
+                              .withOpacity(1.0),
+                          Colors.lightBlue[200]!.withOpacity(
+                              0.7), // Midpoint color with adjusted opacity
+                          Colors.blueGrey[300]!
+                              .withOpacity(0.5),
+                        ],
+                        stops: const [
+                          0.0,
+                          0.5,
+                          1.0
+                        ],
+                        tileMode: TileMode
+                            .clamp,
+                      )
                           : null),
                   child: Text(
                     _messages[index].messageContent,
@@ -379,7 +422,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                         ),
                         filled: true,
                         fillColor:
-                            Theme.of(context).canvasColor, //Colors.grey[200],
+                        Theme.of(context).canvasColor, //Colors.grey[200],
                       ),
                     ),
                   ),
@@ -402,19 +445,19 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
 
   Widget ChatTopBar(BuildContext context) {
     return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Chat"),
-            IconButton(
-                icon: const Icon(Icons.minimize),
-                onPressed: () {
-                  setState(() {
-                    widget.isMinimized.value = true;
-                  });
-                } //context.findAncestorStateOfType<__ChatOverlayContentState>()?.minimizeChat(),
-                ),
-          ],
-        );
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text("Chat"),
+        IconButton(
+            icon: const Icon(Icons.minimize),
+            onPressed: () {
+              setState(() {
+                widget.isMinimized.value = true;
+              });
+            } //context.findAncestorStateOfType<__ChatOverlayContentState>()?.minimizeChat(),
+        ),
+      ],
+    );
   }
 
   Widget _buildMinimizedIcon(BuildContext context) {

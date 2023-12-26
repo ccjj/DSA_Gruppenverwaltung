@@ -157,7 +157,8 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   ValueNotifier<int> lastMessageIndex = ValueNotifier(-1);
   final FocusNode _focusNode = FocusNode();
   //bool isMinimized = true;
-  bool _isResizing = false;
+
+  var cursor = SystemMouseCursors.basic;
 
   @override
   void initState() {
@@ -202,22 +203,63 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
     final Widget currentChatState = widget.isMinimized.value == true
         ? _buildMinimizedIcon(context)
         : _buildChat(context);
-    print("ISRESIZEING$_isResizing");
-    final chatTopBar = widget.isMinimized.value == true ? const SizedBox.shrink() : Positioned(
-        top: 0,
-        left: 0,
-        child: ChatTopBar(context));
+    final chatRectWrapper = widget.isMinimized.value == true ? const SizedBox.shrink() : ClipPath(
+      clipper: FrameClipper(borderWidth: 10),
+      child: MouseRegion(
+        cursor: cursor,
+        onHover: (event) {
+          setState(() {
+            cursor = SystemMouseCursors.resizeUpRightDownLeft;
+          });
+        },
+        onExit: (event) {
+          setState(() {
+            cursor = SystemMouseCursors.basic;
+          });
+        },
+        child: GestureDetector(
+          onPanUpdate: (details) {
+            _updateSize(details.delta, context) ;
+          },
+          child: Container(
+            height: CHATHEIGHT,
+            width: CHATWIDTH,
+            color: Colors.red, // Color of the frame
+          ),
+        ),
+      ),
+    );
     return Stack(
       children: [
         Draggable(
-          maxSimultaneousDrags: _isResizing ? 0 : null,
-            feedback: Stack(children: [currentChatState, chatTopBar]),
-            childWhenDragging: SizedBox.shrink(),
+            feedback: Stack(children: [currentChatState]),
+            childWhenDragging: const SizedBox.shrink(),
             onDragEnd: widget.onDragEnd,
             child: currentChatState),
-        chatTopBar
+        chatRectWrapper
       ],
     );
+  }
+
+  void _updateCursorOnHover(PointerHoverEvent event) {
+    const edgeSize = 10.0; // Size of the edge to detect for resizing
+    final localPosition = event.localPosition;
+
+    if (localPosition.dx < edgeSize) {
+      // Cursor is on the left edge
+      cursor = SystemMouseCursors.resizeLeftRight;
+    } else if (localPosition.dx > CHATWIDTH - edgeSize) {
+      // Cursor is on the right edge
+      cursor = SystemMouseCursors.resizeLeftRight;
+    } else if (localPosition.dy < edgeSize) {
+      // Cursor is on the top edge
+      cursor = SystemMouseCursors.resizeUpDown;
+    } else if (localPosition.dy > CHATHEIGHT - edgeSize) {
+      // Cursor is on the bottom edge
+      cursor = SystemMouseCursors.resizeUpDown;
+    }
+
+    setState(() {}); // Update the cursor state
   }
 
   Widget _buildChat(BuildContext context) {
@@ -239,7 +281,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       height: CHATHEIGHT,
       child: Column(
         children: [
-          Text(""),
+          ChatTopBar(context),
           Expanded(
             child: Scrollbar(
               controller: _scrollController,
@@ -338,65 +380,20 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   }
 
   Widget ChatTopBar(BuildContext context) {
-    return SizedBox(
-      width: CHATWIDTH,
-      child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Text("Chat"),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    color: Colors.red,
-                    child: MouseRegion(
-                      child: GestureDetector(
-                        onLongPress: (){},
-                        onPanUpdate: (details) {
-                          print("PANUPDATE");
-                          _updateSize(details.delta, context) ;
-                        },
-                        onPanDown: (_) {
-                          setState(() {
-                            print("START RETZ");
-                            _isResizing = true;
-                          });
-                        },
-                        onPanCancel: () => print("PANCAN"),
-                        onPanStart: (_) {
-                          return;
-                          setState(() {
-                            print("START RETZ");
-                            _isResizing = true;
-                          });
-                        },
-                        onPanEnd: (details) {
-                          setState(() {
-                            print("END RETZ");
-                            _isResizing = false;
-                          });
-                        },
-                        child: Icon(
-                          Icons.open_with,
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                      icon: const Icon(Icons.minimize),
-                      onPressed: () {
-                        setState(() {
-                          widget.isMinimized.value = true;
-                        });
-                      } //context.findAncestorStateOfType<__ChatOverlayContentState>()?.minimizeChat(),
-                      ),
-                ],
-              ),
-            ],
-          ),
-    );
+    return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Chat"),
+            IconButton(
+                icon: const Icon(Icons.minimize),
+                onPressed: () {
+                  setState(() {
+                    widget.isMinimized.value = true;
+                  });
+                } //context.findAncestorStateOfType<__ChatOverlayContentState>()?.minimizeChat(),
+                ),
+          ],
+        );
   }
 
   Widget _buildMinimizedIcon(BuildContext context) {
@@ -414,4 +411,23 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       ),
     );
   }
+}
+
+class FrameClipper extends CustomClipper<Path> {
+  final double borderWidth;
+
+  FrameClipper({this.borderWidth = 5.0});
+
+  @override
+  Path getClip(Size size) {
+    Path path = Path()
+      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height)) // Outer rectangle (full container)
+      ..addRect(Rect.fromLTWH(borderWidth, borderWidth, size.width - 2 * borderWidth, size.height - 2 * borderWidth)) // Inner rectangle (cut-out)
+      ..fillType = PathFillType.evenOdd;
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }

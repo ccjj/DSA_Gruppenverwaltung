@@ -157,7 +157,8 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   ValueNotifier<int> lastMessageIndex = ValueNotifier(-1);
   final FocusNode _focusNode = FocusNode();
   //bool isMinimized = true;
-
+  bool isResizingHorizontal = false;
+  bool isResizingVertical = false;
   var cursor = SystemMouseCursors.basic;
 
   @override
@@ -185,8 +186,11 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       const double minWidth = 200;
       const double minHeight = 200;
 
-      double newWidth = CHATWIDTH + delta.dx;
-      double newHeight = CHATHEIGHT + delta.dy;
+      double newWidth = CHATWIDTH + (isResizingHorizontal ? delta.dx : 0);
+      double newHeight = CHATHEIGHT + (isResizingVertical ? delta.dy : 0);
+
+      //double newWidth = CHATWIDTH + delta.dx;
+      //double newHeight = CHATHEIGHT + delta.dy;
 
       newWidth = max(newWidth, minWidth);
       newHeight = max(newHeight, minHeight);
@@ -194,8 +198,11 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       newWidth = min(newWidth, screenSize.width - ChatOverlay._offset.dx);
       newHeight = min(newHeight, screenSize.height - ChatOverlay._offset.dy);
 
-      CHATWIDTH = newWidth;
-      CHATHEIGHT = newHeight;
+        CHATWIDTH = newWidth;
+
+        CHATHEIGHT = newHeight;
+
+
     });
   }
   @override
@@ -207,11 +214,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       clipper: FrameClipper(borderWidth: 10),
       child: MouseRegion(
         cursor: cursor,
-        onHover: (event) {
-          setState(() {
-            cursor = SystemMouseCursors.resizeUpRightDownLeft;
-          });
-        },
+        onHover: _updateCursorOnHover,
         onExit: (event) {
           setState(() {
             cursor = SystemMouseCursors.basic;
@@ -242,24 +245,42 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   }
 
   void _updateCursorOnHover(PointerHoverEvent event) {
-    const edgeSize = 10.0; // Size of the edge to detect for resizing
+    const edgeMargin = 10.0; // Margin size for detecting edges
     final localPosition = event.localPosition;
 
-    if (localPosition.dx < edgeSize) {
-      // Cursor is on the left edge
-      cursor = SystemMouseCursors.resizeLeftRight;
-    } else if (localPosition.dx > CHATWIDTH - edgeSize) {
-      // Cursor is on the right edge
-      cursor = SystemMouseCursors.resizeLeftRight;
-    } else if (localPosition.dy < edgeSize) {
-      // Cursor is on the top edge
-      cursor = SystemMouseCursors.resizeUpDown;
-    } else if (localPosition.dy > CHATHEIGHT - edgeSize) {
-      // Cursor is on the bottom edge
-      cursor = SystemMouseCursors.resizeUpDown;
-    }
+    bool onLeftEdge = localPosition.dx < edgeMargin;
+    bool onRightEdge = localPosition.dx > CHATWIDTH - edgeMargin;
+    bool onTopEdge = localPosition.dy < edgeMargin;
+    bool onBottomEdge = localPosition.dy > CHATHEIGHT - edgeMargin;
+    bool _isResizingHorizontal = true;
+    bool _isResizingVertical = true;
 
-    setState(() {}); // Update the cursor state
+    if (onLeftEdge && onTopEdge) {
+      // Top-left corner
+      cursor = SystemMouseCursors.resizeUpLeftDownRight;
+    } else if (onRightEdge && onTopEdge) {
+      // Top-right corner
+      cursor = SystemMouseCursors.resizeUpRightDownLeft;
+    } else if (onLeftEdge && onBottomEdge) {
+      // Bottom-left corner
+      cursor = SystemMouseCursors.resizeUpRightDownLeft;
+    } else if (onRightEdge && onBottomEdge) {
+      // Bottom-right corner
+      cursor = SystemMouseCursors.resizeUpLeftDownRight;
+    } else if (onLeftEdge || onRightEdge) {
+      // Left or right edge
+      cursor = SystemMouseCursors.resizeLeftRight;
+      _isResizingVertical = false;
+    } else if (onTopEdge || onBottomEdge) {
+      // Top or bottom edge
+      cursor = SystemMouseCursors.resizeUpDown;
+      _isResizingHorizontal = false;
+    }
+    isResizingHorizontal = _isResizingHorizontal;
+    isResizingVertical = _isResizingVertical;
+
+    setState(() {
+    }); // Update the cursor state
   }
 
   Widget _buildChat(BuildContext context) {
@@ -430,4 +451,15 @@ class FrameClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+}
+enum BoxSide {
+  left,
+  right,
+  top,
+  bottom,
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
+  none,
 }

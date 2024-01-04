@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import '../Gruppe/Gruppe.dart';
 import '../Note/NoteAmplifyService.dart';
@@ -13,32 +14,36 @@ import 'QuillText.dart';
 class NotesExpansionTile extends StatelessWidget {
   const NotesExpansionTile({
     super.key,
-    required QuillController controller, required this.gruppe, required this.saveCallback,
+    required QuillController controller, required this.saveCallback, required this.getNoteCallback
   }) : _controller = controller;
   final QuillController _controller;
-  final Gruppe gruppe;
   final Function(String) saveCallback;
+  final Function getNoteCallback;
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(title: Text("Notizen"),
-      onExpansionChanged: (isExpanded) async {
-        if(!isExpanded)
-          return;
-        //final json = jsonDecode(previouslyStoredJsonString);
-        //
-        // _controller.document = Document.fromJson(json);
-        Note? note = await getIt<NoteAmplifyService>().getNoteForGroup(gruppe.uuid);
-        if(note == null){
-          print("NOTE IS NULL");
-          return;
-        }
-        List<dynamic> quillJson = jsonDecode(note.content);
-        _controller.document = Document.fromJson(quillJson);
-      },
-      children: [
-        RtfTextEditor(controller: _controller, saveCallback: saveCallback,),
-      ],
+    return LayoutBuilder(
+      builder: (context, constrains) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            dividerColor: Colors.transparent,
+          ),
+          child: ExpansionTile(title: Text("Notizen", style: (ResponsiveBreakpoints.of(context).largerThan(TABLET)) ? Theme.of(context).textTheme.titleLarge : TextStyle()),
+            iconColor: Colors.red,
+            collapsedIconColor: Colors.red,
+            onExpansionChanged: (isExpanded) async {
+              if(!isExpanded)
+                return;
+              getNoteCallback.call();
+            },
+            children: [
+              SizedBox(
+                  height: constrains.maxHeight - 190,
+                  child: RtfTextEditor(controller: _controller, saveCallback: saveCallback,)),
+            ],
+          ),
+        );
+      }
     );
   }
 }

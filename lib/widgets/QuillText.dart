@@ -34,73 +34,81 @@ class _RtfTextEditorState extends State<RtfTextEditor> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: 200,
-        decoration: BoxDecoration(
-          color: Theme.of(context).dialogBackgroundColor,
-          border: Border.all(color: Colors.grey[400]!),
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 2,
-              blurRadius: 4,
-              offset: const Offset(0, 3), // changes position of shadow
+      child: LayoutBuilder(
+        builder: (context, constrains) {
+
+          print(constrains.maxHeight);
+          print(constrains.minHeight);
+          print(constrains.hasBoundedHeight);
+          return Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).dialogBackgroundColor,
+              border: Border.all(color: Colors.grey[400]!),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 2,
+                  blurRadius: 4,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
             ),
-          ],
-        ),
-        child: QuillProvider(
-          configurations: QuillConfigurations(
-            controller: widget.controller!,
-            sharedConfigurations: const QuillSharedConfigurations(
-              locale: Locale('de'),
-            ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              QuillToolbar(
-                configurations: QuillToolbarConfigurations(
-                  customButtons: [
-                    QuillToolbarCustomButtonOptions(
-                      icon: const Icon(Icons.save),
-                      onPressed: () {
-                        var json = jsonEncode(widget.controller!.document.toDelta().toJson());
-                        widget.saveCallback(json);
-                      }
-                    ),
-                  ],
-                  showCodeBlock: false,
-                  showInlineCode: false,
-                  showIndent: false,
-                  showListBullets: false,
-                  showListCheck: false,
-                  showListNumbers: false,
-                  showSubscript: false,
-                  showSuperscript: false,
-                  showBackgroundColorButton: false,
-                  showStrikeThrough: false,
-                  showQuote: false,
-                  showLink: false,
-                  showFontFamily: false,
-                  showCenterAlignment: false,
-                  showHeaderStyle: false,
+            child: QuillProvider(
+              configurations: QuillConfigurations(
+                controller: widget.controller!,
+                sharedConfigurations: const QuillSharedConfigurations(
+                  locale: Locale('de'),
                 ),
               ),
-              Expanded(
-                child: QuillEditor.basic(
-                  configurations: const QuillEditorConfigurations(
-                      readOnly: false,scrollable: true,
-                      isOnTapOutsideEnabled: true,
-                    autoFocus: true,
-                    expands: false,
-                    scrollPhysics: AlwaysScrollableScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  QuillToolbar(
+                    configurations: QuillToolbarConfigurations(
+                      customButtons: [
+                        QuillToolbarCustomButtonOptions(
+                          icon: const Icon(Icons.save),
+                          onPressed: () {
+                            var json = jsonEncode(widget.controller!.document.toDelta().toJson());
+                            widget.saveCallback(json);
+                          }
+                        ),
+                      ],
+                      showCodeBlock: false,
+                      showInlineCode: false,
+                      showIndent: false,
+                      showListBullets: false,
+                      showListCheck: false,
+                      showListNumbers: false,
+                      showSubscript: false,
+                      showSuperscript: false,
+                      showBackgroundColorButton: false,
+                      showStrikeThrough: false,
+                      showQuote: false,
+                      showLink: false,
+                      showFontFamily: false,
+                      showCenterAlignment: false,
+                      showHeaderStyle: false,
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
+                  Flexible( // Use Flexible instead of Expanded
+                    fit: FlexFit.loose,
+                    child: QuillEditor.basic(
+                      configurations: const QuillEditorConfigurations(
+                          readOnly: false,scrollable: true,
+                          isOnTapOutsideEnabled: true,
+                        autoFocus: true,
+                        expands: true,
+                        scrollPhysics: AlwaysScrollableScrollPhysics(),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        }
       ),
     );
   }

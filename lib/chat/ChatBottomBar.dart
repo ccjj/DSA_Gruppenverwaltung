@@ -111,11 +111,12 @@ class _ChatBottomBarState extends State<ChatBottomBar> with SingleTickerProvider
                           )
                               : null
                       ),
-                      child: Text(
+                      child:
+                      SelectableText(
                         _messages[index].messageContent,
                         style: chatStyle,
                         textAlign: TextAlign.left,
-                      ),
+                      )
                     ),
                   );
                 },

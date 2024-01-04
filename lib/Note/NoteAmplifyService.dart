@@ -94,4 +94,42 @@ class NoteAmplifyService {
     return null;
   }
 
+  Future<Note?> getNoteForHeld(String heldId) async {
+    try {
+      String graphQLDocument = '''
+        query GetHeld(\$id: ID!) {
+          getHeld(id: \$id) {
+            id
+            notes {
+              id
+              content
+            }
+          }
+        }
+      ''';
+
+      var operation = Amplify.API.query(
+        request: GraphQLRequest<String>(
+            document: graphQLDocument,
+            variables: {'id': heldId},
+            authorizationMode: APIAuthorizationType.userPools
+        ),
+      );
+
+      var response = await operation.response;
+      print(response);
+      var data = response.data;
+
+      if (data != null) {
+        var groupData = jsonDecode(data)['getHeld'];
+        if (groupData != null && groupData['notes'] != null) {
+          return Note.fromJson(groupData['notes']);
+        }
+      }
+    } catch (e) {
+      print('Error fetching note for held: $e');
+    }
+    return null;
+  }
+
 }

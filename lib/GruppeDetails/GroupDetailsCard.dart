@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dsagruppen/extensions/DateTimeExtensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -190,7 +192,15 @@ class _GroupDetailsCardState extends State<GroupDetailsCard> {
               ),
             NotesExpansionTile(
                 controller: _controller,
-                gruppe: widget.gruppe,
+                getNoteCallback: () async {
+                  Note? note = await getIt<NoteAmplifyService>().getNoteForGroup(widget.gruppe.uuid);
+                  if(note == null){
+                    print("NOTE IS NULL");
+                    return;
+                  }
+                  List<dynamic> quillJson = jsonDecode(note.content);
+                  _controller.document = Document.fromJson(quillJson);
+                },
                 saveCallback: (documentString) async {
                   if (widget.gruppe.ownerUuid != cu.uuid) {
                     EasyLoading.showToast(

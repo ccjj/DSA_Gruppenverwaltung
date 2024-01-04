@@ -283,6 +283,10 @@ class _MeisterPageState extends State<MeisterPage> {
                                                 isPrivate: true));
                                           },
                                         ),
+                                      if (selectedTalent.value
+                                          .trim()
+                                          .isNotEmpty)
+                                        Text("Taw: ${held.talents[selectedTalent.value.trim()]}")
                                     ],
                                   ),
                                 ),

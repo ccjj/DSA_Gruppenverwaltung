@@ -21,6 +21,7 @@ class _ItemListState extends State<ItemList> {
   final heldService = getIt<HeldService>();
   late Function updateItems;
   bool get isOwner => widget.held.owner == cu.uuid;
+  TextEditingController textController = TextEditingController();
 
   @override
   void initState() {
@@ -46,12 +47,22 @@ class _ItemListState extends State<ItemList> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              controller: textController,
               onChanged: (value) => setState(() => searchString = value),
               decoration: InputDecoration(
                 labelText: 'Suche',
                   fillColor: Colors.grey.withOpacity(0.1),
                   filled: true,
-                suffixIcon: const Icon(Icons.search),
+                suffix: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: (){
+                    setState(() {
+                      searchString = "";
+                      textController.clear();
+                    });
+                  },
+                ),
+                //suffixIcon: const Icon(Icons.search),
               ),
             ),
           ),

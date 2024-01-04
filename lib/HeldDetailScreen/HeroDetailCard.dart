@@ -1,18 +1,29 @@
+import 'dart:convert';
+
 import 'package:dsagruppen/HeldDetailScreen/showCurrencyConverterDialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:flutter_flip_card/flipcard/flip_card.dart';
 import 'package:flutter_flip_card/modal/flip_side.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:uuid/uuid.dart';
 
+import '../Gruppe/GroupAmplifyService.dart';
 import '../Held/Held.dart';
+import '../Held/HeldAmplifyService.dart';
 import '../Held/HeldService.dart';
 import '../Held/UpdateHeldInput.dart';
+import '../Note/NoteAmplifyService.dart';
 import '../User/UserAmplifyService.dart';
 import '../actions/ActionSource.dart';
 import '../actions/ActionStack.dart';
 import '../globals.dart';
+import '../model/Note.dart';
 import '../services/MoneyConversion.dart';
 import '../widgets/AsyncText.dart';
+import '../widgets/NotesExpansionTile.dart';
 
 class HeroDetailCard extends StatefulWidget {
   final Held held;
@@ -25,6 +36,7 @@ class HeroDetailCard extends StatefulWidget {
 
 class _HeroDetailCardState extends State<HeroDetailCard> {
   final FlipCardController flipController = FlipCardController();
+  QuillController _controller = QuillController.basic();
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +110,7 @@ class _HeroDetailCardState extends State<HeroDetailCard> {
         ),
         backWidget: Card(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
                 leading: const Icon(Icons
@@ -139,6 +152,51 @@ class _HeroDetailCardState extends State<HeroDetailCard> {
                   },
                 ),
               ),
+          if (ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET) && widget.held.owner == cu.uuid)
+              NotesExpansionTile(
+                  controller: _controller,
+                  getNoteCallback: () async {
+                    //TODO refactor, dupe
+                    Note? note = await getIt<NoteAmplifyService>().getNoteForHeld(widget.held.uuid);
+                    if(note == null){
+                      print("NOTE IS NULL");
+                      return;
+                    }
+                    List<dynamic> quillJson = jsonDecode(note.content);
+                    _controller.document = Document.fromJson(quillJson);
+                  },
+                  saveCallback: (documentString) async {
+                    if (widget.held.owner != cu.uuid) {
+                      EasyLoading.showToast(
+                          "Notizen können aktuell nur vom Spieler gespeichert werden");
+                      return;
+                    }
+              //TODO refactor
+                    var shouldCreate = false;
+                    Note? note = await getIt<NoteAmplifyService>()
+                        .getNoteForHeld(widget.held.uuid);
+                    if (note == null) {
+                      print("NOTE IS NULL");
+                      note = Note(
+                          uuid: const Uuid().v4(),
+                          content: documentString);
+                      shouldCreate = true;
+                    }
+                    var saved = await getIt<NoteAmplifyService>()
+                        .saveNote(note.uuid, documentString,
+                        shouldCreate);
+                    if (saved) {
+                      print("note ${note.uuid}");
+                      var heldSaved =
+                      await getIt<HeldAmplifyService>()
+                          .updateHeldWithNote(
+                          widget.held.uuid, note.uuid);
+                      if (heldSaved) {
+                        EasyLoading.showToast(
+                            "Notiz wurde gespeichert: $heldSaved");
+                      }
+                    }
+                  })
             ],
           ),
         ),

@@ -33,13 +33,23 @@ class ChatCommons {
   static String parseInputAndRollDice(String input) {
     final regex = RegExp(r'^/roll (\d+)[dDwW](\d+)$');
     final match = regex.firstMatch(input);
+    int numberOfDice = 1;
+    int sidesOfDice = 1;
 
     if (match == null) {
-      return input;
+      final regex2 = RegExp(r'^#(\d+){0,1}[dDwW](\d+)$');
+      final match2 = regex2.firstMatch(input);
+      if(match2 == null){
+        return input;
+      } else {
+        numberOfDice = int.tryParse(match2.group(1) ?? '1') ?? 1;
+        sidesOfDice = int.parse(match2.group(2)!);
+      }
+    } else {
+      numberOfDice = int.parse(match.group(1)!);
+      sidesOfDice = int.parse(match.group(2)!);
     }
 
-    int numberOfDice = int.parse(match.group(1)!);
-    int sidesOfDice = int.parse(match.group(2)!);
     Random random = Random();
     List<int> results = [];
 

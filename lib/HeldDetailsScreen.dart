@@ -1,30 +1,41 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/chat/ChatMessage.dart';
 import 'package:dsagruppen/chat/MessageAmplifyService.dart';
 import 'package:dsagruppen/rules/RollManager.dart';
 import 'package:dsagruppen/widgets/AnimatedIconButton.dart';
 import 'package:dsagruppen/widgets/ConditionalParentWidget.dart';
+import 'package:dsagruppen/widgets/NotesExpansionTile.dart';
 import 'package:dsagruppen/widgets/PlusMinusButton.dart';
 import 'package:dsagruppen/widgets/SearchableDataTable.dart';
 import 'package:dsagruppen/widgets/experimental/ItemList.dart';
 import 'package:dsagruppen/widgets/experimental/SkillList.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:responsive_framework/responsive_grid.dart';
+import 'package:uuid/uuid.dart';
 
 import 'Held/Held.dart';
+import 'Held/HeldAmplifyService.dart';
 import 'Held/UpdateHeldInput.dart';
 import 'HeldDetailScreen/AttributeListWidget.dart';
 import 'HeldDetailScreen/BasisWerteTile.dart';
 import 'HeldDetailScreen/CardWithTitle.dart';
 import 'HeldDetailScreen/HeroDetailCard.dart';
+import 'HeldDetailScreen/ExpansionTileWithTitle.dart';
 import 'HeldDetailScreen/VitalWerteColumn.dart';
+import 'Note/NoteAmplifyService.dart';
 import 'actions/ActionSource.dart';
 import 'actions/ActionStack.dart';
 import 'chat/ChatBottomBar.dart';
 import 'chat/ChatOverlay.dart';
 import 'globals.dart';
+import 'model/Note.dart';
 import 'widgets/MainScaffold.dart';
 
 class HeldDetailsScreen extends StatefulWidget {
@@ -33,15 +44,12 @@ class HeldDetailsScreen extends StatefulWidget {
   const HeldDetailsScreen({super.key, required this.held});
 
   @override
-  State<HeldDetailsScreen> createState() => _HeldDetailsScreenState();
+  State<HeldDetailsScreen> createState() => HeldDetailsScreenState();
 }
 
-class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
-  final flipController = FlipCardController();
+class HeldDetailsScreenState extends State<HeldDetailsScreen> {
   var isTalentsExpanded = ValueNotifier(false);
   var isZauberExpanded = ValueNotifier(false);
-  ExpansionTileController talentExpansionController = ExpansionTileController();
-  ExpansionTileController zauberExpansionController = ExpansionTileController();
   static const double largeCardHeight = 400;
   static const pageTitle = "Heldendetails";
 
@@ -56,12 +64,14 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
     if (ResponsiveBreakpoints.of(context).largerThan(TABLET)) {
       return MainScaffold(
           title: const Text(pageTitle),
-          body: DesktopView(largeCardHeight: largeCardHeight, widget: widget));
+          body: DesktopView(largeCardHeight: largeCardHeight, held: widget.held));
     }
     return MainScaffold(
       title: const Text(pageTitle),
-      bnb: (ResponsiveBreakpoints.of(context).largerThan(TABLET)) ? null : ChatBottomBar(
-          gruppeId: widget.held.gruppeId, stream: messageController.stream),
+      bnb: (ResponsiveBreakpoints.of(context).largerThan(TABLET))
+          ? null
+          : ChatBottomBar(
+              gruppeId: widget.held.gruppeId, stream: messageController.stream),
       body: CustomScrollView(
         slivers: [
           SliverList(
@@ -96,7 +106,7 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
             ),
           ),
           SliverToBoxAdapter(
-            child:BasiswerteTile(held: widget.held),
+            child: BasiswerteTile(held: widget.held),
           ),
           SliverToBoxAdapter(
             child: ExpansionTile(
@@ -261,34 +271,31 @@ class _HeldDetailsScreenState extends State<HeldDetailsScreen> {
   }
 }
 
+
 class DesktopView extends StatelessWidget {
-  const DesktopView({
+  DesktopView({
     super.key,
     required this.largeCardHeight,
-    required this.widget,
+    required this.held,
   });
 
   final double largeCardHeight;
-  final HeldDetailsScreen widget;
+  final Held held;
+  final QuillController _controller = QuillController.basic();
 
   @override
   Widget build(BuildContext context) {
+
     List<Widget> children = [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: HeroDetailCard(held: widget.held),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: CardWithTitle(
-          title: "Vitalwerte",
-          child: VitalWerteColumn(held: widget.held),
-        ),
+      HeroDetailCard(held: held),
+      CardWithTitle(
+        title: "Vitalwerte",
+        child: VitalWerteColumn(held: held),
       ),
       CardWithTitle(
         title: "Eigenschaften",
         child: AttributeListWidget(
-          held: widget.held,
+          held: held,
           isOneLine: true,
         ),
       ),
@@ -297,15 +304,15 @@ class DesktopView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            BasiswerteTile(held: widget.held),
+            BasiswerteTile(held: held),
             ExpansionTile(
                 iconColor: Colors.red,
                 collapsedIconColor: Colors.red,
                 title: const Text('Vor-/Nachteile'),
                 children: [
                   SearchableDataTable(
-                      held: widget.held,
-                      stringList: widget.held.vorteile,
+                      held: held,
+                      stringList: held.vorteile,
                       col1Label: 'Vorteil')
                 ]),
             ExpansionTile(
@@ -314,85 +321,167 @@ class DesktopView extends StatelessWidget {
                 title: const Text('Sonderfertigkeiten'),
                 children: [
                   SearchableDataTable(
-                      held: widget.held,
-                      stringList: widget.held.sf,
+                      held: held,
+                      stringList: held.sf,
                       col1Label: 'Sonderfertigkeit')
                 ]),
           ],
         ),
       ),
       Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8),
-                  child: Text("Talente",
-                      style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .fontSize)),
-                )),
-            Expanded(
-              child: SkillList(
-                  hasSliverParent: false,
-                  held: widget.held,
-                  skillMap: widget.held.talents,
-                  rollCallback: (talentName, taw, penalty) {
-                    // Your rollCallback implementation
-                  }),
-            ),
-          ],
+        child: ExpansionTileWithTitle(
+          title: "Talente",
+          hasTitle: true,
+          child: SkillList(
+              hasSliverParent: false,
+              held: held,
+              skillMap: held.talents,
+              rollCallback: (talentName, taw, penalty) {
+                String msg = getIt<RollManager>()
+                    .rollTalent(held, talentName, penalty);
+                if (held.owner == cu.uuid) {
+                  getIt<MessageAmplifyService>()
+                      .createMessage(msg, held.gruppeId, cu.uuid);
+                } else {
+                  messageController.add(ChatMessage(
+                      messageContent: msg,
+                      groupId: held.gruppeId,
+                      timestamp: DateTime.now(),
+                      ownerId: cu.uuid,
+                      isPrivate: true));
+                }
+              }),
         ),
       ),
+      if(held.asp.value > 0)
+        Card(
+          child: ExpansionTileWithTitle(
+            title: "Zauber",
+            hasTitle: true,
+            child: SkillList(
+                hasSliverParent: false,
+                held: held,
+                skillMap: held.zauber,
+                rollCallback: (talentName, taw, penalty) {
+                  String msg = getIt<RollManager>()
+                      .rollZauber(held, talentName, penalty);
+                  if (held.owner == cu.uuid) {
+                    getIt<MessageAmplifyService>()
+                        .createMessage(msg, held.gruppeId, cu.uuid);
+                  } else {
+                    messageController.add(ChatMessage(
+                        messageContent: msg,
+                        groupId: held.gruppeId,
+                        timestamp: DateTime.now(),
+                        ownerId: cu.uuid,
+                        isPrivate: true));
+                  }
+                }),
+          ),
+        ),
       Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8),
-                  child: Text("Zauber",
-                      style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .fontSize)),
-                )),
-            Expanded(
-              child: SkillList(
-                  hasSliverParent: false,
-                  held: widget.held,
-                  skillMap: widget.held.zauber,
-                  rollCallback: (talentName, taw, penalty) {
-                    // Your rollCallback implementation
-                  }),
-            ),
-          ],
+        child: ExpansionTileWithTitle(
+          title: "Items",
+          hasTitle: true,
+          child: SingleChildScrollView(child: ItemList(held: held)),
         ),
       ),
-      CardWithTitle(
-        title: "Items",
-        child: ItemList(held: widget.held),
-      ),
-      // Add any additional children here
+    if(held.owner == cu.uuid)
+      Card(
+        child: NotesExpansionTile(
+            controller: _controller,
+            getNoteCallback: () async {
+              //TODO refactor, dupe
+              Note? note = await getIt<NoteAmplifyService>().getNoteForHeld(held.uuid);
+              if(note == null){
+                print("NOTE IS NULL");
+                return;
+              }
+              List<dynamic> quillJson = jsonDecode(note.content);
+              _controller.document = Document.fromJson(quillJson);
+            },
+            saveCallback: (documentString) async {
+              if (held.owner != cu.uuid) {
+                EasyLoading.showToast(
+                    "Notizen können aktuell nur vom Spieler gespeichert werden");
+                return;
+              }
+              //TODO refactor
+              var shouldCreate = false;
+              Note? note = await getIt<NoteAmplifyService>()
+                  .getNoteForHeld(held.uuid);
+              if (note == null) {
+                print("NOTE IS NULL");
+                note = Note(
+                    uuid: const Uuid().v4(),
+                    content: documentString);
+                shouldCreate = true;
+              }
+              var saved = await getIt<NoteAmplifyService>()
+                  .saveNote(note.uuid, documentString,
+                  shouldCreate);
+              if (saved) {
+                print("note ${note.uuid}");
+                var heldSaved =
+                await getIt<HeldAmplifyService>()
+                    .updateHeldWithNote(
+                    held.uuid, note.uuid);
+                if (heldSaved) {
+                  EasyLoading.showToast(
+                      "Notiz wurde gespeichert: $heldSaved");
+                }
+              }
+            }),
+      )
     ];
 
-    //400x350
+    var size = MediaQuery.of(context).size;
+    double appBarHeight = Scaffold.of(context).appBarMaxHeight ?? 0;
+    double firstRowHeight = largeCardHeight; // Adjust as needed
+    double topPadding = 20; // Adjust as needed
+    var itemsPerRow = 4;
 
-    return SingleChildScrollView(
-      child: Wrap(
-        spacing: 10, // Horizontal space between children
-        runSpacing: 10, // Vertical space between lines
-        children: children.map((child) => ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 350, maxHeight: largeCardHeight, minHeight: largeCardHeight), // Max width for each child
-          child: child,
-        )).toList(),
-      ),
+    double availableHeight = size.height - (firstRowHeight + appBarHeight + topPadding);
+    double availableWidth = (size.width  - (itemsPerRow - 1) * 10) / itemsPerRow;
+
+    return Wrap(
+      spacing: 10, // Horizontal space between children
+      runSpacing: 10, // Vertical space between lines
+      children: children
+          .asMap()
+          .map((index, child) {
+        int rowIndex = getRowIndex(index, children.length, context, availableWidth);
+        double childMaxHeight = largeCardHeight;
+        if (rowIndex > 0) {
+          // Calculate the maximum height for children in the second and subsequent rows
+          childMaxHeight = max(availableHeight / (rowIndex), largeCardHeight);
+        }
+        return MapEntry(
+          index,
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: availableWidth,
+              maxHeight: childMaxHeight,
+              minHeight: childMaxHeight,
+            ),
+            child: child,
+          ),
+        );
+      }).values.toList(),
     );
+
+
+
+  }
+
+  int getRowIndex(int index, int itemCount, BuildContext context, double itemWidth) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    int itemsPerRow = screenWidth ~/ itemWidth;
+    int rowNumber = index ~/ itemsPerRow;
+    return rowNumber;
+  }
+
+  int getMaxRows(int itemCount,int itemCount2, BuildContext context, double itemWidth){
+      return 0;
   }
 }

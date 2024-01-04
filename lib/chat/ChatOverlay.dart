@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
+import 'ChatMessageRepository.dart';
+
 double CHATHEIGHT = 400;
 double CHATWIDTH = 300;
 double MINIMIZEDICONSIZE = 54;
@@ -169,6 +171,11 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   @override
   void initState() {
     super.initState();
+    var oldMessages = getIt<ChatMessageRepository>().getMessages(widget.gruppeId);
+    if(oldMessages != null){
+      _messages.addAll(oldMessages);
+      ChatCommons.scrollToBottom(_scrollController, const Duration(milliseconds: 150));
+    }
     _streamSubscription = widget.stream.listen((message) {
       setState(() {
         _messages.add(message);
@@ -382,10 +389,10 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                             .clamp,
                       )
                           : null),
-                  child: Text(
+                  child: SelectableText(
                     _messages[index].messageContent,
                     style: const TextStyle(color: Colors.black),
-                  ),
+                  )
                 ),
               ),
             ),

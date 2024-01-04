@@ -36,6 +36,7 @@ class SkillListState extends State<SkillList> {
   String searchString = "";
   Map<String, int> filteredItems = {};
   SplayTreeMap<String, int> filteredSplayMap = SplayTreeMap<String, int>();
+  TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +70,24 @@ class SkillListState extends State<SkillList> {
       return Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
         child: TextField(
+          controller: textController,
           onChanged: (value) {
             setState(() {
               searchString = value;
             });
           },
           decoration: InputDecoration(
+              suffix: IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: (){
+                  setState(() {
+                    searchString = "";
+                    textController.clear();
+                  });
+                },
+              ),
               labelText: 'Suche',
-              suffixIcon: Icon(Icons.search),
+              //suffixIcon: Icon(Icons.search),
               fillColor: Colors.grey.withOpacity(0.1),
               filled: true
           ),

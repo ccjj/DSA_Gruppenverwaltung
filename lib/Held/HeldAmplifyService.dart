@@ -424,6 +424,33 @@ class HeldAmplifyService {
     return subscription;
   }
 
+//TODO refactor, same in group
+  Future<bool> updateHeldWithNote(String heldId, String noteId) async {
+    try {
+      String updateGroupMutation = '''
+        mutation UpdateHeld(\$noteId: ID!, \$heldId: ID!) {
+          updateHeld(input: {heldNotesId: \$noteId, id: \$heldId}) {
+            id
+          }
+        }
+      ''';
+
+      var response = await Amplify.API.mutate(
+        request: GraphQLRequest<String>(
+            document: updateGroupMutation,
+            variables: {'noteId': noteId, 'heldId': heldId},
+            authorizationMode: APIAuthorizationType.userPools
+        ),
+      ).response;
+      print(response);
+      var data = response.data;
+
+      return data != null;
+    } catch (e) {
+      print('Error updating held with note: $e');
+      return false;
+    }
+  }
 
 
 }

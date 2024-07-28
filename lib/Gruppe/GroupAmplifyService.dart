@@ -104,7 +104,7 @@ class GroupAmplifyService {
 
   Future<List<Gruppe>?> getGruppenByIds(List<String> ids) async {
     String orConditions = ids.map((id) => '{id: {eq: "$id"}}').join(',');
-
+print(orConditions);
     String graphQLDocument = '''
     query GetGruppen {
       listGruppes(filter: {or: [$orConditions]}) {
@@ -340,6 +340,7 @@ class GroupAmplifyService {
         print("error getting groupusers");
         return null;
       }
+      print(response);
       var data = jsonDecode(response.data!);
 
       return data['listGruppeUsers']['items'][0]['id'].toString();
@@ -411,6 +412,7 @@ class GroupAmplifyService {
     );
 
     var response = await operation.response;
+    print(response);
     //TODO err handling
     if(!response.hasErrors) {
       var data = jsonDecode(response.data!);

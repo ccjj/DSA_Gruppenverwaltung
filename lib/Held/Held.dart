@@ -322,12 +322,65 @@ class Held {
         return ch;
       case 'ff':
         return ff;
+      case 'lp':
+        return lp.value;
+      case 'au':
+        return au.value;
       default:
         return null;
     }
   }
 
-    static Map<String, int> attributeNameMap(Held held) {
+  void setAttribute(String name, int value) {
+    switch (name) {
+      case 'at':
+        at = value;
+        break;
+      case 'pa':
+        pa = value;
+        break;
+      case 'fk':
+        fk = value;
+        break;
+      case 'mr':
+        mr = value;
+        break;
+      case 'ko':
+        ko = value;
+        break;
+      case 'kk':
+        kk = value;
+        break;
+      case 'mu':
+        mu = value;
+        break;
+      case 'kl':
+        kl = value;
+        break;
+      case 'ge':
+        ge = value;
+        break;
+      case 'in':
+        intu = value;
+        break;
+      case 'ch':
+        ch = value;
+        break;
+      case 'ff':
+        ff = value;
+      case 'lp':
+        lp.value = value;
+      case 'au':
+        au.value = value;
+        break;
+      default:
+        print("unbekanntes attribut: " + name);
+        break;
+    }
+  }
+
+
+  static Map<String, int> attributeNameMap(Held held) {
       return {
         'Mut (MU)': held.mu,
         'Klugheit (KL)': held.kl,

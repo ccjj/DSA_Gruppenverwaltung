@@ -151,6 +151,7 @@ class LoginPageState extends State<LoginPage> {
                               fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
                               )),
                       TextFormField(
+                        enabled: !_isLoading,
                         controller: _emailController,
                         decoration: const InputDecoration(
                           alignLabelWithHint: true,
@@ -177,11 +178,19 @@ class LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       TextField(
+                        enabled: !_isLoading,
                         controller: _passwordController,
                         decoration: const InputDecoration(
                             alignLabelWithHint: true,
                             labelText: 'Passwort'),
                         obscureText: true,
+                        onSubmitted: (value) {
+                          if(_isLoading){
+                            return;
+                          }
+                          setState(() => _isLoading = true);
+                          handleLogin(_emailController.text, _passwordController.text);
+                        },
                       ),
                       Row(
                         children: [

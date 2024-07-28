@@ -21,7 +21,7 @@ import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'Gruppe/Gruppe.dart';
 import 'Held/Held.dart';
 import 'MeisterPage/RedCrossOverlay.dart';
-import 'chat/ChatBottomBar.dart';
+import 'chat/BottomBar/ChatBottomBar.dart';
 import 'chat/ChatMessage.dart';
 import 'globals.dart';
 import 'io/PdfFileRepository.dart';
@@ -37,7 +37,9 @@ class MeisterPage extends StatefulWidget {
 class _MeisterPageState extends State<MeisterPage> {
   List<Held> matchedHelden = [];
 
-  SplayTreeSet<Talent> talente = getIt<TalentRepository>().Talente;
+  var talentRepo = getIt<TalentRepository>();
+
+  late SplayTreeSet<Talent> talente;
 
   List<String> filteredTalente = [];
 
@@ -48,6 +50,24 @@ class _MeisterPageState extends State<MeisterPage> {
   ValueNotifier<String> searchString = ValueNotifier("");
 
   TextEditingController tcontroller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    talente = talentRepo.Talente;
+    var talenteStringList = talentRepo.getTalentsAsStringList();
+    widget.gruppe.helden.forEach((held) {
+      held.talents.entries.forEach((entry) {
+        if(!talenteStringList.contains(entry.key)){
+          var talent = talentRepo.get(entry.key);
+          if(talent != null){
+            talente.add(talent);
+          }
+        }
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {

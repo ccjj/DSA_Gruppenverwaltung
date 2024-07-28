@@ -30,6 +30,8 @@ class GruppenOverviewScreenState extends State<GruppenOverviewScreen> {
     getIt<GroupAmplifyService>().getGruppenByUser(cu.uuid).then((gps) {
       if(gps != null){
         getIt<GruppeRepository>().addGruppeRange(gps);
+      } else {
+        print("GP NUL");
       }
       setState(() {
         isLoadingGroups = false;

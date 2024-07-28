@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:typed_data';
 
 import 'package:dsagruppen/io/PdfFileRepository.dart';
+import 'package:dsagruppen/mixins/DebounceMixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pdfx/pdfx.dart';
@@ -32,7 +33,7 @@ class SkillList extends StatefulWidget {
   SkillListState createState() => SkillListState();
 }
 
-class SkillListState extends State<SkillList> {
+class SkillListState extends State<SkillList> with DebounceMixin {
   String searchString = "";
   Map<String, int> filteredItems = {};
   SplayTreeMap<String, int> filteredSplayMap = SplayTreeMap<String, int>();
@@ -72,9 +73,7 @@ class SkillListState extends State<SkillList> {
         child: TextField(
           controller: textController,
           onChanged: (value) {
-            setState(() {
-              searchString = value;
-            });
+            debounce(() => setState(()=> searchString = value), const Duration(milliseconds: 250));
           },
           decoration: InputDecoration(
               suffix: IconButton(
@@ -105,5 +104,11 @@ class SkillListState extends State<SkillList> {
     ValueNotifier<int> modificator = ValueNotifier<int>(0);
 
     return SkillRow(itemIndex: itemIndex, skillName: skillName, taw: taw, modificator: modificator, held: widget.held, rollCallback: widget.rollCallback);
+  }
+
+  @override
+  void dispose() {
+    disposeDebounce();
+    super.dispose();
   }
 }

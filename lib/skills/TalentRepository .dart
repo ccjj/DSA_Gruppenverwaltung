@@ -30,9 +30,18 @@ class TalentRepository {
     _talents.removeWhere((talent) => talent.name == name);
   }
 
+  List<String> getTalentsAsStringList(){
+    return _talents.map((talent) => talent.name).toList();
+  }
+
   Talent? get(String name){
-    var result =  _talents.firstWhereOrNull((talent) => talent.name == name);
-    return result;
+    if (name.toLowerCase().startsWith("sprachen")) {
+      return Talent(name: name, typ: 'SPRACHEN', wurf: 'KL/IN/CH');
+    }
+    if (name.toLowerCase().startsWith("lesen")) {
+      return Talent(name: name, typ: 'SPRACHEN', wurf: 'KL/KL/FF');
+    }
+    return  _talents.firstWhereOrNull((talent) => talent.name == name);
   }
 
 }

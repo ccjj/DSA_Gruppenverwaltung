@@ -7,7 +7,7 @@ import 'package:dsagruppen/Held/HeldAmplifyService.dart';
 import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/MeisterPage.dart';
 import 'package:dsagruppen/User/UserAmplifyService.dart';
-import 'package:dsagruppen/chat/MessageAmplifyService.dart';
+import 'package:dsagruppen/chat/MessageAmplifySubscriptionService.dart';
 import 'package:dsagruppen/widgets/BlurredCard.dart';
 import 'package:dsagruppen/widgets/ConditionalParentWidget.dart';
 import 'package:dsagruppen/widgets/HeldCard.dart';
@@ -25,7 +25,7 @@ import 'GruppeDetails/GroupDetailsCard.dart';
 import 'Held/Held.dart';
 import 'Held/HeldRepository.dart';
 import 'User/User.dart';
-import 'chat/ChatBottomBar.dart';
+import 'chat/BottomBar/ChatBottomBar.dart';
 import 'chat/ChatOverlay.dart';
 import 'globals.dart';
 
@@ -95,7 +95,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       });
     });
     chatSub =
-        getIt<MessageAmplifyService>().subCreateMessage(widget.gruppe.uuid);
+        getIt<MessageAmplifySubscriptionService>().subCreateMessage(widget.gruppe.uuid);
   }
 
   @override
@@ -271,13 +271,13 @@ Future<void> parseAndUploadHeld(BuildContext context, Gruppe gruppe) async {
     }
     if (shouldOverwrite) {
       newHeld.uuid = existingHeld!.uuid;
-      newHeld.maxLp = existingHeld.maxLp;
+      //newHeld.maxLp = existingHeld.maxLp;
       newHeld.lp = existingHeld.lp;
-      newHeld.maxAsp = existingHeld.maxAsp;
+      //newHeld.maxAsp = existingHeld.maxAsp;
       newHeld.asp = existingHeld.asp;
-      newHeld.maxAu = existingHeld.maxAu;
+      //newHeld.maxAu = existingHeld.maxAu;
       newHeld.au = existingHeld.au;
-      newHeld.maxKe = existingHeld.maxKe;
+      //newHeld.maxKe = existingHeld.maxKe;
       newHeld.ke = existingHeld.ke;
       if (existingHeld.items.isNotEmpty) {
         //newHeld.items = existingHeld.items;

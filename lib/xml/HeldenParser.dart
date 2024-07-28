@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
 import 'package:dsagruppen/model/Item.dart';
 import 'package:xml/xml.dart';
 
 import '../Held/Held.dart';
 import '../globals.dart';
+import '../rules/Rassen.dart';
 
 class HeldenParser {
   static Held getHeldFromXML(Uint8List fileBytes) {
@@ -95,6 +97,7 @@ class HeldenParser {
     Map<String, int> itemMap = getItems(heldElement);
 
     setAttributes(held, aMap);
+
     var vorteile = getVorteile(heldElement);
     setWs(held, vorteile);
     held.kreuzer.value = getKreuzer(heldElement);
@@ -212,6 +215,7 @@ class HeldenParser {
 
   static setWs(Held held, List<String> vorteile) {
     int mod = vorteile.contains("Eisern") ? 2 : 0;
+    mod += vorteile.contains("Glasknochen") ? -2 : 0;
     int ws = (held.ko / 2).round() + mod;
     held.ws = ws;
   }
@@ -265,20 +269,6 @@ class HeldenParser {
     int ke = getAttributeOrZero(
         attributesMap, "Karmaenergie"); //TODO richtige berechnung?
 
-    final maxLp = ((ko * 2 + kk) / 2).round() +
-        int.parse(lpArray[0]) +
-        int.parse(lpArray[1]);
-    final maxAu = int.parse(auArray[0]) +
-        int.parse(auArray[1]) +
-        ((mu + ge + ko) / 2).round();
-    //TODO vorteile, gefaeß der sterne, astrale macht etc
-    final maxAsp = int.parse(aspArray[0]) +
-        int.parse(aspArray[1]) +
-        ((mu + intu + ch) / 2).round();
-    final mr = int.parse(mrArray[0]) +
-        int.parse(mrArray[1]) +
-        ((mu + kl + ko) / 5).round();
-
     held.ko = ko;
     held.kk = kk;
     held.ge = ge;
@@ -287,6 +277,32 @@ class HeldenParser {
     held.intu = intu;
     held.ch = ch;
     held.ff = ff;
+
+    Rasse? hRasse = Rassen.firstWhereOrNull((ra) => ra.name == held.rasse);
+    if(hRasse != null){
+      hRasse.eigenschaftsModifikationen.forEach((key, value) {
+        int? attrVal = held.getAttribute(key);
+        if(attrVal == null){
+          print("ATTR not found: "  + key);
+        }
+        held.setAttribute(key, attrVal! + value);
+      });
+    }
+
+    final maxLp = ((held.ko * 2 + held.kk) / 2).round() +
+        int.parse(lpArray[0]) +
+        int.parse(lpArray[1]);
+    final maxAu = int.parse(auArray[0]) +
+        int.parse(auArray[1]) +
+        ((held.mu + held.ge + held.ko) / 2).round();
+    //TODO vorteile, gefaeß der sterne, astrale macht etc
+    final maxAsp = int.parse(aspArray[0]) +
+        int.parse(aspArray[1]) +
+        ((held.mu + held.intu + held.ch) / 2).round();
+    final mr = int.parse(mrArray[0]) +
+        int.parse(mrArray[1]) +
+        ((held.mu + held.kl + held.ko) / 5).round();
+
     held.so = so;
     held.at = at;
     held.pa = pa;

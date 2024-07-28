@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/chat/ChatMessage.dart';
-import 'package:dsagruppen/chat/MessageAmplifyService.dart';
+import 'package:dsagruppen/chat/MessageAmplifySubscriptionService.dart';
 import 'package:dsagruppen/rules/RollManager.dart';
 import 'package:dsagruppen/widgets/AnimatedIconButton.dart';
 import 'package:dsagruppen/widgets/ConditionalParentWidget.dart';
@@ -32,7 +32,7 @@ import 'HeldDetailScreen/VitalWerteColumn.dart';
 import 'Note/NoteAmplifyService.dart';
 import 'actions/ActionSource.dart';
 import 'actions/ActionStack.dart';
-import 'chat/ChatBottomBar.dart';
+import 'chat/BottomBar/ChatBottomBar.dart';
 import 'chat/ChatOverlay.dart';
 import 'globals.dart';
 import 'model/Note.dart';
@@ -171,7 +171,7 @@ class HeldDetailsScreenState extends State<HeldDetailsScreen> {
                   String msg = getIt<RollManager>()
                       .rollTalent(widget.held, talentName, penalty);
                   if (widget.held.owner == cu.uuid) {
-                    getIt<MessageAmplifyService>()
+                    getIt<MessageAmplifySubscriptionService>()
                         .createMessage(msg, widget.held.gruppeId, cu.uuid);
                   } else {
                     messageController.add(ChatMessage(
@@ -234,7 +234,7 @@ class HeldDetailsScreenState extends State<HeldDetailsScreen> {
                   String msg = getIt<RollManager>()
                       .rollZauber(widget.held, talentName, penalty);
                   if (widget.held.owner == cu.uuid) {
-                    getIt<MessageAmplifyService>()
+                    getIt<MessageAmplifySubscriptionService>()
                         .createMessage(msg, widget.held.gruppeId, cu.uuid);
                   } else {
                     messageController.add(ChatMessage(
@@ -340,7 +340,7 @@ class DesktopView extends StatelessWidget {
                 String msg = getIt<RollManager>()
                     .rollTalent(held, talentName, penalty);
                 if (held.owner == cu.uuid) {
-                  getIt<MessageAmplifyService>()
+                  getIt<MessageAmplifySubscriptionService>()
                       .createMessage(msg, held.gruppeId, cu.uuid);
                 } else {
                   messageController.add(ChatMessage(
@@ -366,7 +366,7 @@ class DesktopView extends StatelessWidget {
                   String msg = getIt<RollManager>()
                       .rollZauber(held, talentName, penalty);
                   if (held.owner == cu.uuid) {
-                    getIt<MessageAmplifyService>()
+                    getIt<MessageAmplifySubscriptionService>()
                         .createMessage(msg, held.gruppeId, cu.uuid);
                   } else {
                     messageController.add(ChatMessage(

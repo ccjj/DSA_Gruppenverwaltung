@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../Held/HeldRepository.dart';
 import '../globals.dart';
-import 'MessageAmplifyService.dart';
+import 'MessageAmplifySubscriptionService.dart';
 import 'PersonalChatMessageRepository.dart';
 
 class ChatCommons {
@@ -67,7 +67,7 @@ class ChatCommons {
       var msgNamePrefix = held != null ? "${held.name}: " : "${cu.name}: ";
       var msg = ChatCommons.parseInputAndRollDice(controller.text);
       getIt<PersonalChatMessageRepository>().add(controller.text);
-      getIt<MessageAmplifyService>()
+      getIt<MessageAmplifySubscriptionService>()
           .createMessage(msgNamePrefix + msg, gruppeId, cu.uuid);
       controller.text = "";
       lastMessageIndex.value = -1;

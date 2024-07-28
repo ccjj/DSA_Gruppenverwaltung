@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../Held/Held.dart';
 import '../chat/ChatMessage.dart';
-import '../chat/MessageAmplifyService.dart';
+import '../chat/MessageAmplifySubscriptionService.dart';
 import '../globals.dart';
 import '../rules/RollManager.dart';
 import '../widgets/experimental/SkillList.dart';

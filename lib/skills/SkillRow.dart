@@ -38,6 +38,8 @@ class SkillRow extends StatefulWidget {
 }
 
 class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin {
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     ISkill? skill = RuleProvider.getSkillByName(widget.skillName);
@@ -111,6 +113,7 @@ class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin 
                       width: 40,
                       height: 32,
                       child: TextFormField(
+                        controller: _controller,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.zero,
@@ -129,8 +132,11 @@ class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin 
                       children: [
                         AnimatedIconButton(
                           icon: Icons.casino_outlined,
-                          onTap: () =>
-                              widget.rollCallback(widget.skillName, widget.taw, widget.modificator.value),
+                          onTap: () {
+                            widget.rollCallback(widget.skillName, widget.taw, widget.modificator.value);
+                            _controller.clear();
+                            widget.modificator.value = 0;
+                          },
                         ),
                         SkillChanceText(
                           modificator: widget.modificator,
@@ -150,8 +156,13 @@ class _SkillRowState extends State<SkillRow> with AutomaticKeepAliveClientMixin 
   }
 
   @override
-  bool get wantKeepAlive => true;
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
+  @override
+  bool get wantKeepAlive => true;
 
   List<String> splitString(String input) {
     RegExp exp = RegExp(r'(\d+|\D+)');

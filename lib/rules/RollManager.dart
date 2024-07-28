@@ -80,12 +80,6 @@ class RollManager {
 
   String rollTalent(Held held, String talentName, int penalty) {
     Talent? talent = getIt<TalentRepository>().get(talentName);
-    if (talentName.toLowerCase().startsWith("sprachen")) {
-      talent = Talent(name: talentName, typ: 'SPRACHEN', wurf: 'KL/IN/CH');
-    }
-    if (talentName.toLowerCase().startsWith("lesen")) {
-      talent = Talent(name: talentName, typ: 'SPRACHEN', wurf: 'KL/KL/FF');
-    }
     if (talent == null) {
       return ("Fehler: Talent $talentName nicht gefunden");
     }

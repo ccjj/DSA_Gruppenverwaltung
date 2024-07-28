@@ -1,5 +1,3 @@
-
-
 class PersonalChatMessageRepository  {
   final List<String> _messages = [];
 

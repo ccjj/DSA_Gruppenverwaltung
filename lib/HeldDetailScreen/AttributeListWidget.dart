@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../Held/Held.dart';
 import '../chat/ChatMessage.dart';
-import '../chat/MessageAmplifyService.dart';
+import '../chat/MessageAmplifySubscriptionService.dart';
 import '../globals.dart';
 import '../rules/RollManager.dart';
 import '../widgets/AnimatedIconButton.dart';
@@ -43,7 +43,7 @@ class AttributeListWidget extends StatelessWidget {
               String msg = getIt<RollManager>().rollSingleTest(
                   held.name, entry.key, entry.value, 0);
               if (held.owner == cu.uuid) {
-                getIt<MessageAmplifyService>()
+                getIt<MessageAmplifySubscriptionService>()
                     .createMessage(msg, held.gruppeId, cu.uuid);
               } else {
                 messageController.add(ChatMessage(

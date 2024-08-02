@@ -27,6 +27,7 @@ import 'Held/HeldRepository.dart';
 import 'User/User.dart';
 import 'chat/BottomBar/ChatBottomBar.dart';
 import 'chat/ChatOverlay.dart';
+import 'chat/MessageAmplifyService.dart';
 import 'globals.dart';
 
 class GroupDetailsScreen extends StatefulWidget {
@@ -95,7 +96,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       });
     });
     chatSub =
-        getIt<MessageAmplifySubscriptionService>().subCreateMessage(widget.gruppe.uuid);
+        getIt<MessageAmplifyService>().subCreateMessage(widget.gruppe.uuid);
   }
 
   @override

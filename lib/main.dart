@@ -36,6 +36,7 @@ import 'amplifyconfiguration.dart';
 import 'chat/ChatMessageRepository.dart';
 import 'chat/ChatOverlay.dart';
 import 'chat/MessageAmplifyService.dart';
+import 'chat/MessageAmplifySubscriptionService.dart';
 import 'chat/PersonalChatMessageRepository.dart';
 import 'globals.dart';
 import 'io/PdfFileRepository.dart';
@@ -77,7 +78,8 @@ Future<void> main() async {
     getIt<GruppeRepository>(),
     getIt<GroupAmplifyService>()
   ));
-  getIt.registerSingleton<ChatMessageRepository>(ChatMessageRepository(messageController));
+  var cmr = getIt.registerSingleton<ChatMessageRepository>(ChatMessageRepository(messageController));
+  getIt.registerSingleton<MessageAmplifySubscriptionService>(MessageAmplifySubscriptionService(cmr));
   getIt.registerSingleton<HeldGroupCoordinator>(HeldGroupCoordinator(
       getIt<GroupService>(),
       getIt<HeldRepository>()

@@ -25,6 +25,8 @@ class LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+
+  bool _isObscured = true;
   bool _rememberUsername = false;
   bool _rememberPassword = false;
 
@@ -180,12 +182,28 @@ class LoginPageState extends State<LoginPage> {
                       TextField(
                         enabled: !_isLoading,
                         controller: _passwordController,
-                        decoration: const InputDecoration(
-                            alignLabelWithHint: true,
-                            labelText: 'Passwort'),
-                        obscureText: true,
+                        decoration: InputDecoration(
+                          alignLabelWithHint: true,
+                          labelText: 'Passwort',
+                          suffixIcon: GestureDetector(
+                            onTapDown: (_) {
+                              setState(() {
+                                _isObscured = false;
+                              });
+                            },
+                            onTapUp: (_) {
+                              setState(() {
+                                _isObscured = true;
+                              });
+                            },
+                            child: Icon(
+                              _isObscured ? Icons.visibility : Icons.visibility_off,
+                            ),
+                          ),
+                        ),
+                        obscureText: _isObscured,
                         onSubmitted: (value) {
-                          if(_isLoading){
+                          if (_isLoading) {
                             return;
                           }
                           setState(() => _isLoading = true);

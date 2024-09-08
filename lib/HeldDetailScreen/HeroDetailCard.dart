@@ -9,6 +9,7 @@ import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:html' as html;
 
 import '../Gruppe/GroupAmplifyService.dart';
 import '../Held/Held.dart';
@@ -150,6 +151,26 @@ class _HeroDetailCardState extends State<HeroDetailCard> {
                     }
                     return foundUser.name;
                   },
+                ),
+
+              ),
+              ListTile(
+                leading: const Icon(Icons
+                    .computer),
+                title: Text("Download"),
+                contentPadding:
+                const EdgeInsets.only(left: 16),
+                trailing: IconButton(
+                  icon:
+                  const Icon(Icons.download),
+                  onPressed: () {
+                    final bytes = html.Blob([widget.held.toJson()]);
+                    final url = html.Url.createObjectUrlFromBlob(bytes);
+                    final anchor = html.AnchorElement(href: url)
+                      ..setAttribute('download', '${widget.held.name}.txt')
+                      ..click();
+                    html.Url.revokeObjectUrl(url);
+                  }
                 ),
               ),
           if (ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET) && widget.held.owner == cu.uuid)

@@ -384,6 +384,7 @@ class Held {
       return {
         'Mut (MU)': held.mu,
         'Klugheit (KL)': held.kl,
+        'Intuition (IN)': held.intu,
         'Charisma (CH)': held.ch,
         'Fingerfertigkeit (FF)': held.ff,
         'Gewandheit (GE)': held.ge,

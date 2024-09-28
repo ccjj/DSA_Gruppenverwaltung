@@ -72,7 +72,7 @@ class RollManager {
         taw = taw! - (roll - attr);
       }
     });
-    int result = taw! - (penalty * -1) > taw! ? taw! : taw! - (penalty * -1);
+    int result = taw! - (penalty * -1) > taw! ? taw! - (penalty * -1) : taw!;
     bf.write(". Resultat: ${result}");
     print("TAW: $taw");
     return bf.toString();

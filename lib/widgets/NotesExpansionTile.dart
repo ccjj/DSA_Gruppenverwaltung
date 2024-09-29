@@ -1,14 +1,8 @@
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
-import '../Gruppe/Gruppe.dart';
-import '../Note/NoteAmplifyService.dart';
-import '../globals.dart';
-import '../model/Note.dart';
 import 'QuillText.dart';
 
 class NotesExpansionTile extends StatelessWidget {

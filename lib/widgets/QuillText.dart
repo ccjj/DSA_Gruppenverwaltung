@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 class RtfTextEditor extends StatefulWidget {
-  QuillController? controller;
+  QuillController controller;
   Function(String) saveCallback;
 
   RtfTextEditor({
@@ -54,58 +54,71 @@ class _RtfTextEditorState extends State<RtfTextEditor> {
                 ),
               ],
             ),
-            child: QuillProvider(
-              configurations: QuillConfigurations(
-                controller: widget.controller!,
-                sharedConfigurations: const QuillSharedConfigurations(
-                  locale: Locale('de'),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                QuillToolbar(
+                  configurations: QuillToolbarConfigurations(
+
+                  ), child: Wrap(
+                  children: [
+                    QuillToolbarHistoryButton(
+                      isUndo: true,
+                      controller: widget.controller,
+                    ),
+                    QuillToolbarHistoryButton(
+                      isUndo: false,
+                      controller: widget.controller,
+                    ),
+                    QuillToolbarFontSizeButton(
+                      controller: widget.controller,
+                    ),
+                    QuillToolbarToggleStyleButton(
+                      options: const QuillToolbarToggleStyleButtonOptions(),
+                      controller: widget.controller,
+                      attribute: Attribute.bold,
+                    ),
+                    QuillToolbarToggleStyleButton(
+                      options: const QuillToolbarToggleStyleButtonOptions(),
+                      controller: widget.controller,
+                      attribute: Attribute.italic,
+                    ),
+                    QuillToolbarToggleStyleButton(
+                      controller: widget.controller,
+                      attribute: Attribute.underline,
+                    ),
+                    QuillToolbarColorButton(
+                      controller: widget.controller,
+                      isBackground: false,
+                    ),
+                    QuillToolbarClearFormatButton(
+                      controller: widget.controller,
+                    ),
+                    const VerticalDivider(),
+                    IconButton(
+                        icon: const Icon(Icons.save),
+                        onPressed: () {
+                          var json = jsonEncode(widget.controller.document.toDelta().toJson());
+                          widget.saveCallback(json);
+                        }
+                    ),
+                  ],
+                )
                 ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  QuillToolbar(
-                    configurations: QuillToolbarConfigurations(
-                      customButtons: [
-                        QuillToolbarCustomButtonOptions(
-                          icon: const Icon(Icons.save),
-                          onPressed: () {
-                            var json = jsonEncode(widget.controller!.document.toDelta().toJson());
-                            widget.saveCallback(json);
-                          }
-                        ),
-                      ],
-                      showCodeBlock: false,
-                      showInlineCode: false,
-                      showIndent: false,
-                      showListBullets: false,
-                      showListCheck: false,
-                      showListNumbers: false,
-                      showSubscript: false,
-                      showSuperscript: false,
-                      showBackgroundColorButton: false,
-                      showStrikeThrough: false,
-                      showQuote: false,
-                      showLink: false,
-                      showFontFamily: false,
-                      showCenterAlignment: false,
-                      showHeaderStyle: false,
+
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: QuillEditor.basic(
+                    configurations: QuillEditorConfigurations(
+                      scrollable: true,
+                      isOnTapOutsideEnabled: true,
+                      autoFocus: true,
+                      expands: true,
+                      scrollPhysics: AlwaysScrollableScrollPhysics(), controller: widget.controller!,
                     ),
                   ),
-                  Flexible( // Use Flexible instead of Expanded
-                    fit: FlexFit.loose,
-                    child: QuillEditor.basic(
-                      configurations: const QuillEditorConfigurations(
-                          readOnly: false,scrollable: true,
-                          isOnTapOutsideEnabled: true,
-                        autoFocus: true,
-                        expands: true,
-                        scrollPhysics: AlwaysScrollableScrollPhysics(),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }

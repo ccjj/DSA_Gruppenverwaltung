@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:dsagruppen/pdf/PdfPageDialog.dart';
@@ -16,7 +15,7 @@ import 'package:dsagruppen/widgets/MainScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import 'Gruppe/Gruppe.dart';
 import 'Held/Held.dart';

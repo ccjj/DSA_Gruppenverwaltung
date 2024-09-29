@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html' as html;
 
 import 'package:dsagruppen/HeldDetailScreen/showCurrencyConverterDialog.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,9 @@ import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:flutter_flip_card/flipcard/flip_card.dart';
 import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:html' as html;
 
-import '../Gruppe/GroupAmplifyService.dart';
 import '../Held/Held.dart';
 import '../Held/HeldAmplifyService.dart';
 import '../Held/HeldService.dart';

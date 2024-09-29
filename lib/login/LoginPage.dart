@@ -2,10 +2,12 @@ import 'package:dsagruppen/UserPreferences.dart';
 import 'package:dsagruppen/login/EmailConfirmationPage.dart';
 import 'package:dsagruppen/login/LoginResult.dart';
 import 'package:dsagruppen/login/NewPasswordPage.dart';
+import 'package:dsagruppen/widgets/AsyncText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../GruppenOverviewScreen.dart';
 import '../User/User.dart';
@@ -262,10 +264,14 @@ class LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-          const Positioned(
+          Positioned(
               bottom: 0,
               left: 0,
-              child: Text("v$version")),
+              child: AsyncText(callback: () {
+                return PackageInfo.fromPlatform().then((packageInfo) {
+                  return 'v${packageInfo.version}';
+                });
+              },)),
         ],
       ),
     );

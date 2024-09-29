@@ -61,6 +61,7 @@ dependencies:
       url: https://github.com/figengungor/packages.flutter.git
       ref: main
       path: packages/pdfx/
+  package_info_plus: ^8.0.2
 
 dev_dependencies:
   flutter_test:

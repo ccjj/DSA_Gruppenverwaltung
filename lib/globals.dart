@@ -12,7 +12,6 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 late User cu;
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.dark);
 final ValueNotifier<bool> showAusdauer = ValueNotifier(true);
-const String version = '0.9.76';
 const appName = "Axxelerat.us";
 var isTest = false;
 StreamController<ChatMessage> messageController = StreamController<ChatMessage>.broadcast();

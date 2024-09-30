@@ -421,10 +421,12 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                     child: TextField(
                       focusNode: _focusNode,
                       controller: controller,
+                      maxLines: null,  // Allows the TextField to grow vertically as more text is added
+                      minLines: 1,     // Ensures the TextField shows at least one line initially
+                      keyboardType: TextInputType.multiline,  // Enables multi-line input
                       onSubmitted: (_) => ChatCommons.sendInput(controller,
                           widget.gruppeId, _focusNode, lastMessageIndex),
                       decoration: InputDecoration(
-                        //hintText: '...',
                         hoverColor: Theme.of(context).canvasColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),

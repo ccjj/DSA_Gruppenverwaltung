@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'ChatMessageRepository.dart';
+import 'SpeechButtonWidget.dart';
 
 double CHATHEIGHT = 400;
 double CHATWIDTH = 300;
@@ -17,8 +18,8 @@ double MINIMIZEDICONSIZE = 54;
 class ChatOverlay with WidgetsBindingObserver {
   final Stream<ChatMessage> messageStream;
   late OverlayEntry overlayEntry;
-  ValueNotifier isVisible = ValueNotifier(false);
-  ValueNotifier isMinimized = ValueNotifier(true);
+  ValueNotifier<bool> isVisible = ValueNotifier(false);
+  ValueNotifier<bool> isMinimized = ValueNotifier(true);
   String gruppeId;
   static ValueNotifier<Offset> offset = ValueNotifier(Offset(16, 16));
 
@@ -42,7 +43,7 @@ class ChatOverlay with WidgetsBindingObserver {
     var size = MediaQuery.of(context).size;
     offset.value = Offset(
         16, size.height - widgetIconSize.height); //todo set icon height instead
-    overlayEntry = OverlayLayer( size);
+    overlayEntry = OverlayLayer(size);
     isVisible.addListener(switchOverlay);
   }
 
@@ -59,14 +60,9 @@ class ChatOverlay with WidgetsBindingObserver {
                 gruppeId: gruppeId,
                 stream: messageStream,
                 isMinimized: isMinimized,
-                onDragEnd: (details) {
-                  offset.value = constrainPosition(details.offset, size);
-                  overlayEntry.markNeedsBuild();
-                },
               ),
             );
-          }
-      );
+          });
     });
   }
 
@@ -106,7 +102,7 @@ class ChatOverlay with WidgetsBindingObserver {
 
       offset.value = Offset(offset.value.dx, newY);
       overlayEntry.remove();
-      overlayEntry = OverlayLayer( MediaQuery.of(context).size);
+      overlayEntry = OverlayLayer(MediaQuery.of(context).size);
       Overlay.of(context).insert(overlayEntry);
       overlayEntry.markNeedsBuild();
     }
@@ -141,14 +137,12 @@ class ChatOverlay with WidgetsBindingObserver {
 class ChatOverlayContent extends StatefulWidget {
   final Stream<ChatMessage> stream;
   final String gruppeId;
-  final Function(DraggableDetails) onDragEnd;
-  final ValueNotifier isMinimized;
+  final ValueNotifier<bool> isMinimized;
 
   const ChatOverlayContent(
       {super.key,
         required this.stream,
         required this.gruppeId,
-        required this.onDragEnd,
         required this.isMinimized});
 
   @override
@@ -165,15 +159,17 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   //bool isMinimized = true;
   BoxSide currentSide = BoxSide.none;
   var cursor = SystemMouseCursors.basic;
-   final mouseBorderSize = 10.0;
+  final mouseBorderSize = 10.0;
 
   @override
   void initState() {
     super.initState();
-    var oldMessages = getIt<ChatMessageRepository>().getMessages(widget.gruppeId);
-    if(oldMessages != null){
+    var oldMessages =
+    getIt<ChatMessageRepository>().getMessages(widget.gruppeId);
+    if (oldMessages != null) {
       _messages.addAll(oldMessages);
-      ChatCommons.scrollToBottom(_scrollController, const Duration(milliseconds: 150));
+      ChatCommons.scrollToBottom(
+          _scrollController, const Duration(milliseconds: 150));
     }
     _streamSubscription = widget.stream.listen((message) {
       setState(() {
@@ -221,7 +217,8 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
         case BoxSide.topLeft:
           newWidth -= delta.dx;
           newHeight -= delta.dy;
-          newOffset = Offset(newOffset.dx + delta.dx, newOffset.dy + delta.dy);
+          newOffset =
+              Offset(newOffset.dx + delta.dx, newOffset.dy + delta.dy);
           break;
         case BoxSide.topRight:
           newWidth += delta.dx;
@@ -242,11 +239,12 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       }
 
       // Enforce minimum and maximum dimensions
-      CHATWIDTH = max(minWidth, min(newWidth, screenSize.width - newOffset.dx));
-      CHATHEIGHT = max(minHeight, min(newHeight, screenSize.height - newOffset.dy));
+      CHATWIDTH = max(
+          minWidth, min(newWidth, screenSize.width - newOffset.dx));
+      CHATHEIGHT = max(
+          minHeight, min(newHeight, screenSize.height - newOffset.dy));
       ChatOverlay.offset.value = newOffset;
       // Update the offset if the chat overlay was resized from the left or top
-
     });
   }
 
@@ -255,7 +253,9 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
     final Widget currentChatState = widget.isMinimized.value == true
         ? _buildMinimizedIcon(context)
         : _buildChat(context);
-    final chatRectWrapper = widget.isMinimized.value == true ? const SizedBox.shrink() : ClipPath(
+    final chatRectWrapper = widget.isMinimized.value == true
+        ? const SizedBox.shrink()
+        : ClipPath(
       clipper: FrameClipper(borderWidth: mouseBorderSize),
       child: MouseRegion(
         cursor: cursor,
@@ -267,7 +267,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
         },
         child: GestureDetector(
           onPanUpdate: (details) {
-            _updateSize(details.delta, context) ;
+            _updateSize(details.delta, context);
           },
           child: Container(
             height: CHATHEIGHT,
@@ -277,13 +277,10 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
         ),
       ),
     );
+
     return Stack(
       children: [
-        Draggable(
-            feedback: Stack(children: [currentChatState]),
-            childWhenDragging: const SizedBox.shrink(),
-            onDragEnd: widget.onDragEnd,
-            child: currentChatState),
+        currentChatState, // Removed Draggable from here
         chatRectWrapper
       ],
     );
@@ -326,9 +323,13 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
     } else if (onBottomEdge) {
       cursor = SystemMouseCursors.resizeUpDown;
       currentSide = BoxSide.bottom;
+    } else {
+      cursor = SystemMouseCursors.basic;
+      currentSide = BoxSide.none;
     }
 
     setState(() {
+      // Update the cursor state
     }); // Update the cursor state
   }
 
@@ -351,7 +352,18 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       height: CHATHEIGHT,
       child: Column(
         children: [
-          ChatTopBar(context),
+          // Wrap ChatTopBar with GestureDetector for dragging
+          GestureDetector(
+            onPanUpdate: (details) {
+              // Update the overlay's position
+              ChatOverlay.offset.value += details.delta;
+              // Mark the overlay as needing to rebuild to reflect the new position
+              context.findAncestorStateOfType<ChatOverlayContentState>()?.setState(() {
+              });
+
+            },
+            child: ChatTopBar(context),
+          ),
           Expanded(
             child: Scrollbar(
               controller: _scrollController,
@@ -372,26 +384,18 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Colors.teal[200]!
-                              .withOpacity(1.0),
-                          Colors.lightBlue[200]!.withOpacity(
-                              0.7), // Midpoint color with adjusted opacity
-                          Colors.blueGrey[300]!
-                              .withOpacity(0.5),
+                          Colors.teal[200]!.withOpacity(1.0),
+                          Colors.lightBlue[200]!.withOpacity(0.7),
+                          Colors.blueGrey[300]!.withOpacity(0.5),
                         ],
-                        stops: const [
-                          0.0,
-                          0.5,
-                          1.0
-                        ],
-                        tileMode: TileMode
-                            .clamp,
+                        stops: const [0.0, 0.5, 1.0],
+                        tileMode: TileMode.clamp,
                       )
                           : null),
                   child: SelectableText(
                     _messages[index].messageContent,
                     style: const TextStyle(color: Colors.black),
-                  )
+                  ),
                 ),
               ),
             ),
@@ -434,6 +438,9 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                   ),
                 ),
                 const SizedBox(width: 8),
+                SpeechButtonWidget(
+                  textController: controller,
+                ),
                 IconButton(
                   icon: const Icon(Icons.send),
                   onPressed: () {
@@ -450,21 +457,54 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   }
 
   Widget ChatTopBar(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text("Chat"),
-        IconButton(
-            icon: const Icon(Icons.minimize),
+    final theme = Theme.of(context); // Get the current theme
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            theme.colorScheme.primary.withOpacity(0.8),
+            theme.colorScheme.primaryContainer.withOpacity(0.8),
+          ], // Use primary colors from theme
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: theme.shadowColor.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4), // Subtle shadow for depth
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Chat",
+            style: theme.textTheme.titleMedium!.copyWith(
+              color: theme.colorScheme.onPrimary, // Adapt text color to theme
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.minimize, color: theme.colorScheme.onPrimary),
             onPressed: () {
               setState(() {
                 widget.isMinimized.value = true;
               });
-            } //context.findAncestorStateOfType<__ChatOverlayContentState>()?.minimizeChat(),
-        ),
-      ],
+            },
+          ),
+        ],
+      ),
     );
   }
+
 
   Widget _buildMinimizedIcon(BuildContext context) {
     return SizedBox(
@@ -491,8 +531,10 @@ class FrameClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path()
-      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height)) // Outer rectangle (full container)
-      ..addRect(Rect.fromLTWH(borderWidth, borderWidth, size.width - 2 * borderWidth, size.height - 2 * borderWidth)) // Inner rectangle (cut-out)
+      ..addRect(
+          Rect.fromLTWH(0, 0, size.width, size.height)) // Outer rectangle
+      ..addRect(Rect.fromLTWH(borderWidth, borderWidth,
+          size.width - 2 * borderWidth, size.height - 2 * borderWidth)) // Inner rectangle
       ..fillType = PathFillType.evenOdd;
 
     return path;
@@ -501,6 +543,7 @@ class FrameClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
+
 enum BoxSide {
   left,
   right,

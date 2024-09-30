@@ -12,7 +12,7 @@ import 'ChatMessageRepository.dart';
 import 'SpeechButtonWidget.dart';
 
 double CHATHEIGHT = 400;
-double CHATWIDTH = 300;
+double CHATWIDTH = 400;
 double MINIMIZEDICONSIZE = 54;
 
 class ChatOverlay with WidgetsBindingObserver {
@@ -335,7 +335,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
 
   Widget _buildChat(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(0.5),
       decoration: BoxDecoration(
         color: Theme.of(context).dialogBackgroundColor.withOpacity(0.8),
         borderRadius: BorderRadius.circular(10),
@@ -471,8 +471,8 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
           end: Alignment.bottomRight,
         ),
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
         ),
         boxShadow: [
           BoxShadow(

@@ -13,6 +13,7 @@ import 'package:uuid/uuid.dart';
 
 import '../Held/Held.dart';
 import '../Held/HeldAmplifyService.dart';
+import '../Held/HeldFileService.dart';
 import '../Held/HeldService.dart';
 import '../Held/UpdateHeldInput.dart';
 import '../Note/NoteAmplifyService.dart';
@@ -170,6 +171,33 @@ class _HeroDetailCardState extends State<HeroDetailCard> {
                       ..click();
                     html.Url.revokeObjectUrl(url);
                   }
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons
+                    .accessibility_outlined),
+                title: Text("Download Heldendatei"),
+                contentPadding:
+                const EdgeInsets.only(left: 16),
+                trailing: IconButton(
+                    icon:
+                    const Icon(Icons.download),
+                    onPressed: () async {
+                      String? str = await getIt<HeldFileService>().getHeldFileByHeldID(widget.held.uuid);
+                      if(str == null){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Noch keine Heldendatei hochgeladen')),
+                        );
+                        return;
+                      }
+                      String fixedStr = utf8.decode(str.runes.toList());
+                      final bytes = html.Blob([fixedStr]);
+                      final url = html.Url.createObjectUrlFromBlob(bytes);
+                      final anchor = html.AnchorElement(href: url)
+                        ..setAttribute('download', '${widget.held.name}.xml')
+                        ..click();
+                      html.Url.revokeObjectUrl(url);
+                    }
                 ),
               ),
           if (ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET) && widget.held.owner == cu.uuid)

@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
 import 'package:dsagruppen/Gruppe/GroupAmplifyService.dart';
 import 'package:dsagruppen/Held/HeldAmplifyService.dart';
+import 'package:dsagruppen/Held/HeldFileService.dart';
 import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/MeisterPage.dart';
 import 'package:dsagruppen/User/UserAmplifyService.dart';
@@ -295,6 +297,8 @@ Future<void> parseAndUploadHeld(BuildContext context, Gruppe gruppe) async {
       int hIndex = gruppe.helden.indexOf(existingHeld);
       gruppe.helden[hIndex] = newHeld;
     }
+    String xmlContent = String.fromCharCodes(fileBytes);
+    getIt<HeldFileService>().updateOrCreateHeld(newHeld.uuid, xmlContent);
   }
   return;
 }

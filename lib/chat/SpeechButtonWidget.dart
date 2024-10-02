@@ -47,7 +47,6 @@ class _SpeechButtonWidgetState extends State<SpeechButtonWidget> {
     return available;
   }
 
-  /// Startet die Spracherkennung.
   Future<void> _startListening() async {
     bool available = await _initSpeech();
     if (!available) {
@@ -57,7 +56,6 @@ class _SpeechButtonWidgetState extends State<SpeechButtonWidget> {
       return;
     }
 
-    print("_startListening");
 
     setState(() {
       _isListening = true;
@@ -74,9 +72,7 @@ class _SpeechButtonWidgetState extends State<SpeechButtonWidget> {
     );
   }
 
-  /// Stoppt die Spracherkennung.
   void _stopListening() {
-    print("_stopListening");
     _speech.stop();
     setState(() {
       _isListening = false;
@@ -84,12 +80,9 @@ class _SpeechButtonWidgetState extends State<SpeechButtonWidget> {
     });
   }
 
-  /// Behandelt die Ergebnisse der Spracherkennung.
   void _onResult(SpeechRecognitionResult result) {
-    // Überprüft, ob das Stoppen manuell erfolgt ist
     if (!_manualStop) {
       widget.textController.text = result.recognizedWords;
-      print("_onResult");
       setState(() {
       // Verarbeitung abgeschlossen
       });
@@ -102,20 +95,19 @@ class _SpeechButtonWidgetState extends State<SpeechButtonWidget> {
 
   /// Behandelt Statusänderungen der Spracherkennung.
   void _onStatus(String status) {
-    print("_onStatus: $status");
 
     if (mounted && (status == 'done' || status == 'notListening')) {
       setState(() {
         _isListening = false;
       });
       if(status == 'notListening' && widget.callback != null){
-        print("call callback");
         widget.callback!(widget.textController.text);
+        _speech.stop();
+        _manualStop = true;
       }
     }
   }
 
-  /// Behandelt Fehler der Spracherkennung.
   void _onError(dynamic error) {
     setState(() {
       _isListening = false;
@@ -131,8 +123,6 @@ class _SpeechButtonWidgetState extends State<SpeechButtonWidget> {
     return IconButton(
       onPressed: _isListening ? _stopListening : _startListening,
       icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
-      // Entfernen des 'style' Parameters, da IconButton keinen 'styleFrom' unterstützt
-      // Stattdessen kannst du andere Anpassungen vornehmen, falls nötig
     );
   }
 }

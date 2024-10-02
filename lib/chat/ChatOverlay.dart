@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:dsagruppen/chat/ChatCommons.dart';
 import 'package:dsagruppen/chat/ChatMessage.dart';
+import 'package:dsagruppen/chat/showDiceRollExplanationDialog.dart';
 import 'package:dsagruppen/globals.dart';
 import 'package:dsagruppen/login/WurfTextCorrector.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class ChatOverlay with WidgetsBindingObserver {
   ValueNotifier<bool> isVisible = ValueNotifier(false);
   ValueNotifier<bool> isMinimized = ValueNotifier(true);
   String gruppeId;
-  static ValueNotifier<Offset> offset = ValueNotifier(Offset(16, 16));
+  static ValueNotifier<Offset> offset = ValueNotifier(const Offset(16, 16));
 
   Size get widgetIconSize => isMinimized.value
       ? Size(MINIMIZEDICONSIZE, MINIMIZEDICONSIZE)
@@ -418,25 +419,32 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
             child: Row(
               children: [
                 Expanded(
-                  child: RawKeyboardListener(
+                  child: KeyboardListener(
                     focusNode: FocusNode(),
-                    onKey: (RawKeyEvent event) {
-                      if (event is RawKeyDownEvent) {
+                    onKeyEvent: (KeyEvent event) {
+                      if (event is KeyDownEvent) {
                         switch (event.logicalKey) {
                           case LogicalKeyboardKey.arrowUp:
                             ChatCommons.handleArrowUp(
                                 controller, lastMessageIndex);
                             break;
+                          case LogicalKeyboardKey.arrowDown:
+                            ChatCommons.handleArrowDown(
+                                controller, lastMessageIndex);
+                            break;
+                          default:
+                            lastMessageIndex.value = -1;
                         }
                       }
                     },
                     child: TextField(
                       focusNode: _focusNode,
                       controller: controller,
+                      textInputAction: TextInputAction.none,
                       maxLines: null,
                       minLines: 1,
                       keyboardType:
-                          TextInputType.multiline, // Enables multi-line input
+                          TextInputType.multiline,
                       onSubmitted: (_) => ChatCommons.sendInput(controller,
                           widget.gruppeId, _focusNode, lastMessageIndex),
                       decoration: InputDecoration(
@@ -447,7 +455,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                         ),
                         filled: true,
                         fillColor:
-                            Theme.of(context).canvasColor, //Colors.grey[200],
+                            Theme.of(context).canvasColor,
                       ),
                     ),
                   ),
@@ -496,8 +504,10 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
     );
   }
 
+
   Widget ChatTopBar(BuildContext context) {
-    final theme = Theme.of(context); // Get the current theme
+    final theme = Theme.of(context);
+    var helpOpen = false;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
@@ -532,13 +542,23 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.minimize, color: theme.colorScheme.onPrimary),
-            onPressed: () {
-              setState(() {
-                widget.isMinimized.value = true;
-              });
-            },
+          Row(
+            children: [
+              IconButton(onPressed: () async {
+                if(helpOpen == true) return;
+                helpOpen = true;
+                showDiceRollExplanationDialog(context);
+                helpOpen = false;
+              }, icon: Icon(Icons.help_outline, color: theme.colorScheme.onPrimary)),
+              IconButton(
+                icon: Icon(Icons.minimize, color: theme.colorScheme.onPrimary),
+                onPressed: () {
+                  setState(() {
+                    widget.isMinimized.value = true;
+                  });
+                },
+              ),
+            ],
           ),
         ],
       ),

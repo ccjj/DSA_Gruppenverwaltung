@@ -79,10 +79,29 @@ class ChatCommons {
       TextEditingController controller, ValueNotifier<int> lastMessageIndex) {
     List<String> lastMessages =
         getIt<PersonalChatMessageRepository>().getMessages();
-    if (lastMessages.isNotEmpty &&
-        lastMessageIndex.value < lastMessages.length - 1) {
+    if(lastMessages.isEmpty) return;
+    if (lastMessageIndex.value < lastMessages.length - 1) {
       lastMessageIndex.value = lastMessageIndex.value + 1;
       controller.text = lastMessages[lastMessageIndex.value];
+    } else {
+      controller.text = "";
+      lastMessageIndex.value = -1;
+    }
+  }
+
+  static void handleArrowDown(
+      TextEditingController controller, ValueNotifier<int> lastMessageIndex) {
+    List<String> lastMessages =
+    getIt<PersonalChatMessageRepository>().getMessages();
+
+    if(lastMessages.isEmpty) return;
+
+    if (lastMessageIndex.value > 0) {
+      lastMessageIndex.value = lastMessageIndex.value - 1;
+      controller.text = lastMessages[lastMessageIndex.value];
+    } else {
+      controller.text = "";
+      lastMessageIndex.value = -1;
     }
   }
 

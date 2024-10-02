@@ -15,11 +15,13 @@ import 'package:dsagruppen/rules/RollManager.dart';
 import 'package:dsagruppen/skills/TalentRepository%20.dart';
 import 'package:dsagruppen/skills/ZauberRepository.dart';
 import 'package:dsagruppen/theme/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'dart:html' as html;
 
 import '../Held/Held.dart';
 import 'GroupDetailsScreen.dart';
@@ -106,7 +108,9 @@ Future<void> main() async {
   getIt<UserPreferences>().getTheme().then((isLightTheme) => themeNotifier.value = (isLightTheme ?? true) ? ThemeMode.light : ThemeMode.dark);
   getIt<UserPreferences>().getShowAusdauer().then((tshowAusdauer) => showAusdauer.value = (tshowAusdauer ?? true) ? true : false);
   //getIt<UserRepository>().addUser(cu);
-
+  if(kIsWeb){
+    webUserAgent = html.window.navigator.userAgent.toLowerCase();
+  }
 
   configureAmplify();
 

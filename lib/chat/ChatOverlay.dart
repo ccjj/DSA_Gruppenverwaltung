@@ -461,7 +461,8 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                SpeechButtonWidget(
+                if(webUserAgent.contains('chrome') || webUserAgent.contains('safari'))
+                  SpeechButtonWidget(
                   textController: controller,
                   callback: (String soundText) {
                     if(soundText.trim().isEmpty) return;

@@ -16,3 +16,4 @@ const appName = "Axxelerat.us";
 var isTest = false;
 StreamController<ChatMessage> messageController = StreamController<ChatMessage>.broadcast();
 final ValueNotifier<bool> isChatVisible = ValueNotifier(false);
+String webUserAgent = "";

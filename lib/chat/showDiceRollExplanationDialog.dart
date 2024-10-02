@@ -79,10 +79,29 @@ Future<void> showDiceRollExplanationDialog(BuildContext context) async {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: '   - Wenn die Eingabe nicht erkannt wird, wird keine Nachricht abgeschickt.\n'
-                          '   - Andere erlaubte Satzanfänge:  "würfel", würfle", "roll", "rolle", "wirf"\n'
-                          '   - Experimentelles Feature'
-                    ),
+                      children: [
+                        TextSpan(
+                          text: '   - Wenn die Eingabe nicht erkannt wird, wird keine Nachricht abgeschickt.\n'
+                              '   - Andere erlaubte Satzanfänge: "würfel", "würfle", "roll", "rolle", "wirf"\n'
+                              '   - Funktioniert nur in ',
+                        ),
+                        TextSpan(
+                          text: 'Chrome',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        TextSpan(
+                          text: ' oder ',
+                        ),
+                        TextSpan(
+                          text: 'Safari',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        TextSpan(
+                          text: '\n   - Experimentelles Feature',
+                        ),
+                      ],
+                    )
+
                   ],
                 ),
               )

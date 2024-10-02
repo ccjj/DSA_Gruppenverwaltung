@@ -24,7 +24,7 @@ class RollManager {
 
     if (taw == null) {
       print(held.talents);
-      return "Fehler: Talent/Zauber ${skill.name} not found";
+      return "Fehler: Talent/Zauber ${skill.name} nicht gefunden";
     }
     if (propsToRoll.length != 3) {
       //TODO oder auch auf attr würfe erlauben?
@@ -85,15 +85,22 @@ class RollManager {
     if (talent == null) {
       return ("Fehler: Talent $talentName nicht gefunden");
     }
+    return rollTalentSkill(held, talent, penalty);
+  }
+
+  String rollTalentSkill(Held held, Talent talent, int penalty) {
     return getIt<RollManager>().roll(held, talent, penalty);
   }
 
   String rollZauber(Held held, String zauberName, int penalty) {
     Zauber? zauber = getIt<ZauberRepository>().get(zauberName);
     if (zauber == null) {
-      print("zauber $zauberName not found");
       return "Zauber nicht gefunden";
     }
+    return rollZauberSkill(held, zauber, penalty);
+  }
+
+  String rollZauberSkill(Held held, Zauber zauber, int penalty) {
     return getIt<RollManager>().roll(held, zauber, penalty);
   }
 
@@ -125,6 +132,14 @@ class RollManager {
     if(matchingTaw != null){
       return rollSingleTest(held.name, matchingTaw.key, matchingTaw.value, penalty);
     }
-    return rollTalent(held, name, penalty);
+    var zauber = getIt<ZauberRepository>().get(name);
+    if(zauber != null){
+      return rollZauberSkill(held, zauber, penalty);
+    }
+    var talent = getIt<TalentRepository>().get(name);
+    if(talent != null){
+      return rollTalentSkill(held, talent, penalty);
+    }
+    return "Fehler: Talent/Zauber nicht gefunden";
   }
 }

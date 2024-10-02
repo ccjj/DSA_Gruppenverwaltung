@@ -464,8 +464,21 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                 SpeechButtonWidget(
                   textController: controller,
                   callback: (String soundText) {
-
                     if(soundText.trim().isEmpty) return;
+                    List<String> sentenceStart = [
+                      "würfel",
+                      "würfle",
+                      "roll",
+                      "rolle",
+                      "wirf"
+                    ];
+                    if (!sentenceStart.any((element) => soundText.trim().toLowerCase().startsWith(element.toLowerCase()))) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Kein Wurf erkannt")));
+                      return;
+                      }
+
+
                     var held = cu.aktuellerHeld;
                     if(held == null) return;
                     if (held.owner == cu.uuid) {
@@ -475,7 +488,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                       var skillName = wtc.extractSkillName(soundText);
                       String msg = getIt<RollManager>().rollBySkillName(
                           held, skillName, penalty);
-                      if(msg.endsWith("not found")){
+                      if(msg.endsWith("nicht gefunden")){
                     ScaffoldMessenger.of(context).showSnackBar(
                      SnackBar(content: Text(msg)));
                     }

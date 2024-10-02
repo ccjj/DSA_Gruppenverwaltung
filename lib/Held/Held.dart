@@ -327,7 +327,7 @@ class Held {
       case 'au':
         return au.value;
       default:
-        throw Exception("attribute not found $name");
+        throw Exception("Attribut $name nicht gefunden");
     }
   }
 

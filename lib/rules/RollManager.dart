@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:collection/collection.dart';
 import 'package:dsagruppen/skills/ISkill.dart';
 import 'package:dsagruppen/skills/Zauber.dart';
 
@@ -114,5 +116,15 @@ class RollManager {
     bf.write("Resultat: ${taw - roll - (penalty * -1)}");
 
     return bf.toString();
+  }
+
+  String rollBySkillName(Held held, String name, int penalty){
+    var attributes = Held.getFullNameAttributeMap();
+    var attributeMap = Held.attributeNameMap(held);
+    var matchingTaw = attributeMap.entries.firstWhereOrNull((entry) => entry.key.split(' ')[0] == name);
+    if(matchingTaw != null){
+      return rollSingleTest(held.name, matchingTaw.key, matchingTaw.value, penalty);
+    }
+    return rollTalent(held, name, penalty);
   }
 }

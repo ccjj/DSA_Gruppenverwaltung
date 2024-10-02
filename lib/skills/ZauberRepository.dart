@@ -39,4 +39,8 @@ class ZauberRepository {
     return _Zauber.firstWhereOrNull((zauber) => zauber.name == name);
   }
 
+  List<String> getZauberAsStringList(){
+    return _Zauber.map((z) => z.name).toList();
+  }
+
 }

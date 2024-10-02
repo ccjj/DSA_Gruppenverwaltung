@@ -62,6 +62,7 @@ dependencies:
       ref: main
       path: packages/pdfx/
   package_info_plus: ^8.0.2
+  speech_to_text: ^6.6.2
 
 dev_dependencies:
   flutter_test:

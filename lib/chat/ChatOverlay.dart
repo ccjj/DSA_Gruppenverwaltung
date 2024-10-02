@@ -4,11 +4,15 @@ import 'dart:math';
 import 'package:dsagruppen/chat/ChatCommons.dart';
 import 'package:dsagruppen/chat/ChatMessage.dart';
 import 'package:dsagruppen/globals.dart';
+import 'package:dsagruppen/login/WurfTextCorrector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../User/User.dart';
+import '../rules/RollManager.dart';
 import 'ChatMessageRepository.dart';
+import 'MessageAmplifySubscriptionService.dart';
 import 'SpeechButtonWidget.dart';
 
 double CHATHEIGHT = 400;
@@ -29,10 +33,10 @@ class ChatOverlay with WidgetsBindingObserver {
 
   Offset constrainPosition(Offset desiredOffset, Size size) {
     double constrainedX =
-    min(desiredOffset.dx, size.width - widgetIconSize.width);
+        min(desiredOffset.dx, size.width - widgetIconSize.width);
     if (constrainedX < 0) constrainedX = 0;
     double constrainedY =
-    min(desiredOffset.dy, size.height - widgetIconSize.height);
+        min(desiredOffset.dy, size.height - widgetIconSize.height);
     if (constrainedY < 0) constrainedY = 0;
     return Offset(constrainedX, constrainedY);
   }
@@ -141,9 +145,9 @@ class ChatOverlayContent extends StatefulWidget {
 
   const ChatOverlayContent(
       {super.key,
-        required this.stream,
-        required this.gruppeId,
-        required this.isMinimized});
+      required this.stream,
+      required this.gruppeId,
+      required this.isMinimized});
 
   @override
   ChatOverlayContentState createState() => ChatOverlayContentState();
@@ -165,7 +169,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   void initState() {
     super.initState();
     var oldMessages =
-    getIt<ChatMessageRepository>().getMessages(widget.gruppeId);
+        getIt<ChatMessageRepository>().getMessages(widget.gruppeId);
     if (oldMessages != null) {
       _messages.addAll(oldMessages);
       ChatCommons.scrollToBottom(
@@ -217,8 +221,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
         case BoxSide.topLeft:
           newWidth -= delta.dx;
           newHeight -= delta.dy;
-          newOffset =
-              Offset(newOffset.dx + delta.dx, newOffset.dy + delta.dy);
+          newOffset = Offset(newOffset.dx + delta.dx, newOffset.dy + delta.dy);
           break;
         case BoxSide.topRight:
           newWidth += delta.dx;
@@ -239,10 +242,9 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
       }
 
       // Enforce minimum and maximum dimensions
-      CHATWIDTH = max(
-          minWidth, min(newWidth, screenSize.width - newOffset.dx));
-      CHATHEIGHT = max(
-          minHeight, min(newHeight, screenSize.height - newOffset.dy));
+      CHATWIDTH = max(minWidth, min(newWidth, screenSize.width - newOffset.dx));
+      CHATHEIGHT =
+          max(minHeight, min(newHeight, screenSize.height - newOffset.dy));
       ChatOverlay.offset.value = newOffset;
       // Update the offset if the chat overlay was resized from the left or top
     });
@@ -256,27 +258,27 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
     final chatRectWrapper = widget.isMinimized.value == true
         ? const SizedBox.shrink()
         : ClipPath(
-      clipper: FrameClipper(borderWidth: mouseBorderSize),
-      child: MouseRegion(
-        cursor: cursor,
-        onHover: _updateCursorOnHover,
-        onExit: (event) {
-          setState(() {
-            cursor = SystemMouseCursors.basic;
-          });
-        },
-        child: GestureDetector(
-          onPanUpdate: (details) {
-            _updateSize(details.delta, context);
-          },
-          child: Container(
-            height: CHATHEIGHT,
-            width: CHATWIDTH,
-            color: Colors.transparent, // Color of the frame
-          ),
-        ),
-      ),
-    );
+            clipper: FrameClipper(borderWidth: mouseBorderSize),
+            child: MouseRegion(
+              cursor: cursor,
+              onHover: _updateCursorOnHover,
+              onExit: (event) {
+                setState(() {
+                  cursor = SystemMouseCursors.basic;
+                });
+              },
+              child: GestureDetector(
+                onPanUpdate: (details) {
+                  _updateSize(details.delta, context);
+                },
+                child: Container(
+                  height: CHATHEIGHT,
+                  width: CHATWIDTH,
+                  color: Colors.transparent, // Color of the frame
+                ),
+              ),
+            ),
+          );
 
     return Stack(
       children: [
@@ -358,9 +360,9 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
               // Update the overlay's position
               ChatOverlay.offset.value += details.delta;
               // Mark the overlay as needing to rebuild to reflect the new position
-              context.findAncestorStateOfType<ChatOverlayContentState>()?.setState(() {
-              });
-
+              context
+                  .findAncestorStateOfType<ChatOverlayContentState>()
+                  ?.setState(() {});
             },
             child: ChatTopBar(context),
           ),
@@ -377,20 +379,20 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                   margin: const EdgeInsets.symmetric(vertical: 4.0),
                   decoration: BoxDecoration(
                       color:
-                      ChatCommons.stringToColor(_messages[index].ownerId),
+                          ChatCommons.stringToColor(_messages[index].ownerId),
                       borderRadius: BorderRadius.circular(12),
                       gradient: _messages[index].isPrivate
                           ? LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Colors.teal[200]!.withOpacity(1.0),
-                          Colors.lightBlue[200]!.withOpacity(0.7),
-                          Colors.blueGrey[300]!.withOpacity(0.5),
-                        ],
-                        stops: const [0.0, 0.5, 1.0],
-                        tileMode: TileMode.clamp,
-                      )
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.teal[200]!.withOpacity(1.0),
+                                Colors.lightBlue[200]!.withOpacity(0.7),
+                                Colors.blueGrey[300]!.withOpacity(0.5),
+                              ],
+                              stops: const [0.0, 0.5, 1.0],
+                              tileMode: TileMode.clamp,
+                            )
                           : null),
                   child: SelectableText(
                     _messages[index].messageContent,
@@ -421,9 +423,10 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                     child: TextField(
                       focusNode: _focusNode,
                       controller: controller,
-                      maxLines: null,  // Allows the TextField to grow vertically as more text is added
-                      minLines: 1,     // Ensures the TextField shows at least one line initially
-                      keyboardType: TextInputType.multiline,  // Enables multi-line input
+                      maxLines: null,
+                      minLines: 1,
+                      keyboardType:
+                          TextInputType.multiline, // Enables multi-line input
                       onSubmitted: (_) => ChatCommons.sendInput(controller,
                           widget.gruppeId, _focusNode, lastMessageIndex),
                       decoration: InputDecoration(
@@ -434,7 +437,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                         ),
                         filled: true,
                         fillColor:
-                        Theme.of(context).canvasColor, //Colors.grey[200],
+                            Theme.of(context).canvasColor, //Colors.grey[200],
                       ),
                     ),
                   ),
@@ -442,6 +445,31 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
                 const SizedBox(width: 8),
                 SpeechButtonWidget(
                   textController: controller,
+                  callback: (String soundText) {
+
+                    if(soundText.trim().isEmpty) return;
+                    var held = cu.aktuellerHeld;
+                    if(held == null) return;
+                    if (held.owner == cu.uuid) {
+                      var wtc = getIt<WurfTextCorrector>();
+                      var penalty = wtc.extractModifier(soundText);
+                      penalty ??= 0;
+                      var skillName = wtc.extractSkillName(soundText);
+                      String msg = getIt<RollManager>().rollBySkillName(
+                          held, skillName, penalty);
+                      if(msg.endsWith("not found")){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                     SnackBar(content: Text(msg)));
+                    }
+                      getIt<MessageAmplifySubscriptionService>()
+                          .createMessage(msg, held.gruppeId, cu.uuid);
+                      controller.text = "";
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Kein Held zum würfen gefunden.')),
+                      );
+                    }
+                  },
                 ),
                 IconButton(
                   icon: const Icon(Icons.send),
@@ -507,7 +535,6 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
     );
   }
 
-
   Widget _buildMinimizedIcon(BuildContext context) {
     return SizedBox(
       height: MINIMIZEDICONSIZE / 2,
@@ -533,10 +560,12 @@ class FrameClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path()
-      ..addRect(
-          Rect.fromLTWH(0, 0, size.width, size.height)) // Outer rectangle
-      ..addRect(Rect.fromLTWH(borderWidth, borderWidth,
-          size.width - 2 * borderWidth, size.height - 2 * borderWidth)) // Inner rectangle
+      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height)) // Outer rectangle
+      ..addRect(Rect.fromLTWH(
+          borderWidth,
+          borderWidth,
+          size.width - 2 * borderWidth,
+          size.height - 2 * borderWidth)) // Inner rectangle
       ..fillType = PathFillType.evenOdd;
 
     return path;

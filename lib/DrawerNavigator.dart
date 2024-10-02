@@ -5,6 +5,7 @@ import 'package:dsagruppen/login/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'User/User.dart';
 import 'UserScreen.dart';
 import 'globals.dart';
 import 'theme/ThemeSwitcher.dart';
@@ -59,6 +60,7 @@ class DrawerNavigator extends StatelessWidget {
                 await getIt<AuthService>().logout();
                 getIt<GruppeRepository>().clearGruppen();
                 getIt<HeldRepository>().clearHelden();
+                cu.aktuellerHeld = null;
                 navigatorKey.currentState?.pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
               }
           ),

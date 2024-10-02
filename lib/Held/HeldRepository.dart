@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 
 import '../Held/Held.dart';
+import '../User/User.dart';
+import '../globals.dart';
 
 class HeldRepository {
   final List<Held> _helden = []; // Eine interne Liste, um Helden zu speichern

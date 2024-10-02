@@ -1,9 +1,13 @@
 import 'package:uuid/uuid.dart';
 
+import '../Held/Held.dart';
+
 class User {
   final String uuid;
   String name;
   final String email;
+
+  Held? aktuellerHeld;
 
   User({required this.name, required this.email, String? uuid, String? awsDbId})
       : uuid = uuid ?? Uuid().v4();

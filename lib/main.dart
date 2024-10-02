@@ -9,6 +9,7 @@ import 'package:dsagruppen/Held/HeldService.dart';
 import 'package:dsagruppen/User/UserAmplifyService.dart';
 import 'package:dsagruppen/actions/ActionStack.dart';
 import 'package:dsagruppen/login/AuthService.dart';
+import 'package:dsagruppen/login/WurfTextCorrector.dart';
 import 'package:dsagruppen/model/Item.dart';
 import 'package:dsagruppen/rules/RollManager.dart';
 import 'package:dsagruppen/skills/TalentRepository%20.dart';
@@ -51,8 +52,8 @@ Future<void> main() async {
 
   Hive.initFlutter();
   getIt.registerSingleton<UserRepository>(UserRepository());
-  getIt.registerSingleton<TalentRepository>(TalentRepository('assets/data/talents.json'));
-  getIt.registerSingleton<ZauberRepository>(ZauberRepository('assets/data/spells.json'));
+  var trep = getIt.registerSingleton<TalentRepository>(TalentRepository('assets/data/talents.json'));
+  var zrep = getIt.registerSingleton<ZauberRepository>(ZauberRepository('assets/data/spells.json'));
   getIt.registerLazySingleton<RollManager>(() => RollManager());
   getIt.registerLazySingleton<PersonalChatMessageRepository>(() => PersonalChatMessageRepository());
   getIt.registerLazySingleton<ChatOverlay>(() => ChatOverlay(messageStream: messageController.stream, gruppeId: ""));
@@ -99,6 +100,7 @@ Future<void> main() async {
       ]
     ));
   }
+  getIt.registerSingleton<WurfTextCorrector>(WurfTextCorrector(trep, zrep, Held.getFullNameAttributeMap()));
   getIt.registerSingleton<AuthService>(AuthService());
   getIt.registerSingleton<UserPreferences>(UserPreferences());
   getIt<UserPreferences>().getTheme().then((isLightTheme) => themeNotifier.value = (isLightTheme ?? true) ? ThemeMode.light : ThemeMode.dark);

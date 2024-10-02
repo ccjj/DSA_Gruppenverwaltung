@@ -29,6 +29,7 @@ class RuleProvider {
     return skill.wurf!.split('/').map((e) => e.toLowerCase());
   }
 
+  //TODO add stats, ini
   static ISkill? getSkillByName(String name){
     Talent? talent = getIt<TalentRepository>().get(name);
     if(name.toLowerCase().startsWith("sprachen")){

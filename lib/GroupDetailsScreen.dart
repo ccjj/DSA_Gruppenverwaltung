@@ -72,6 +72,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         for (var held in helden) {
           if (cu.uuid == held.owner) {
             getIt<HeldRepository>().addHeld(held);
+            cu.aktuellerHeld = held;
           }
           if (!widget.gruppe.helden.contains(held)) {
             widget.gruppe.helden.add(held);

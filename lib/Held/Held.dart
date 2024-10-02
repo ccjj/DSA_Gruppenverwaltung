@@ -394,4 +394,22 @@ class Held {
         'Geschwindigkeit (GS)': held.gs
       };
     }
+
+  static List<String> getFullNameAttributeMap(){
+    return [
+      "Mut",
+      "Klugheit",
+      "Intuition",
+      "Charisma",
+      "Fingerfertigkeit",
+      "Gewandheit",
+      "Kostitution",
+      "Körperkraft",
+      "Sozialstatus",
+      "Geschwindigkeit",
+      "Initiative"
+    ];
+  }
+
+
 }

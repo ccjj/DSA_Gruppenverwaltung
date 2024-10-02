@@ -1,3 +1,4 @@
+import '../User/User.dart';
 import '../globals.dart';
 import 'Held.dart';
 import 'HeldAmplifyService.dart';

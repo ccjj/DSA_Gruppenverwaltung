@@ -357,9 +357,19 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
           // Wrap ChatTopBar with GestureDetector for dragging
           GestureDetector(
             onPanUpdate: (details) {
-              // Update the overlay's position
-              ChatOverlay.offset.value += details.delta;
-              // Mark the overlay as needing to rebuild to reflect the new position
+              var newOffset = ChatOverlay.offset.value + details.delta;
+
+              var size = MediaQuery.of(context).size;
+
+              var widgetSize = widget.isMinimized.value
+                  ? Size(MINIMIZEDICONSIZE, MINIMIZEDICONSIZE)
+                  : Size(CHATWIDTH, CHATHEIGHT);
+
+              double constrainedX = newOffset.dx.clamp(0.0, size.width - widgetSize.width);
+              double constrainedY = newOffset.dy.clamp(0.0, size.height - widgetSize.height);
+
+              ChatOverlay.offset.value = Offset(constrainedX, constrainedY);
+
               context
                   .findAncestorStateOfType<ChatOverlayContentState>()
                   ?.setState(() {});

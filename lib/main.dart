@@ -28,6 +28,7 @@ import 'GroupDetailsScreen.dart';
 import 'Gruppe/GroupAmplifyService.dart';
 import 'Gruppe/Gruppe.dart';
 import 'Gruppe/GruppeRepository.dart';
+import 'Held/HeldFileService.dart';
 import 'Held/HeldRepository.dart';
 import 'HeldGroupCoordinator.dart';
 import 'Note/NoteAmplifyService.dart';
@@ -86,6 +87,7 @@ Future<void> main() async {
       getIt<GroupService>(),
       getIt<HeldRepository>()
   ));
+  getIt.registerLazySingleton<HeldFileService>(() => HeldFileService());
   if(isTest){
     cu = User(name: 'bob', email: 'Bob@bob.de');
     getIt<GruppeRepository>().addGruppe(Gruppe(name: "Omars Ignifaxius-Grenadiere"));

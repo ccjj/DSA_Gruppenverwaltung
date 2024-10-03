@@ -67,91 +67,75 @@ class HeldFileService {
   }
 
 
-  // Method to delete HeldFile by id
-  Future<void> deleteHeldFile(String id) async {
-    String mutation = '''mutation DeleteHeldFile(\$id: ID!) {
-      deleteHeldFile(input: {id: \$id}) {
+  Future<String?> getHeldFileIdByHeldId(String heldID) async {
+    String query = '''query GetHeldFileByHeldID(\$heldID: ID!) {
+    heldFilesByHeldID(heldID: \$heldID) {
+      items {
         id
+        heldID
       }
-    }''';
+    }
+  }''';
 
-    var variables = {'id': id};
+    var variables = {
+      'heldID': heldID,
+    };
+
+    try {
+      var response = await Amplify.API.query(
+        request: GraphQLRequest<String>(
+          document: query,
+          variables: variables,
+        ),
+      ).response;
+
+      if(response.data == null) return null;
+
+      var data = jsonDecode(response.data!);
+
+      if (response.errors.isEmpty && data['heldFilesByHeldID']['items'].isNotEmpty) {
+        // Return the file ID
+        return data['heldFilesByHeldID']['items'][0]['id'];
+      } else {
+        print('No HeldFile found for this HeldID or errors occurred.');
+        return null;
+      }
+    } catch (e) {
+      print('Failed to fetch HeldFile: $e');
+      return null;
+    }
+  }
+
+
+  Future<void> updateHeldFile(String id, String xmlContent) async {
+    String mutation = '''mutation UpdateHeldFile(\$input: UpdateHeldFileInput!) {
+    updateHeldFile(input: \$input) {
+      id
+      fileContent
+      heldID
+      updatedAt
+    }
+  }''';
+
+    var variables = {
+      'input': {
+        'id': id,
+        'fileContent': xmlContent,
+      },
+    };
 
     try {
       var response = await Amplify.API.mutate(
         request: GraphQLRequest<String>(
           document: mutation,
           variables: variables,
-            authorizationMode: APIAuthorizationType.userPools
         ),
       ).response;
 
       if (response.errors.isEmpty) {
-        print('HeldFile deleted successfully.');
-      } else {
-        print('Errors: ${response.errors}');
-      }
-    } catch (e) {
-      print('Failed to delete HeldFile: $e');
-    }
-  }
-
-  Future<void> updateHeldFileByHeldID(String heldID, String xmlContent) async {
-    // Step 1: Fetch the HeldFile by heldID
-    String query = r'''query GetHeldFileByHeldID($heldID: ID!) {
-    getHeld(id: $heldID) {
-      id
-      file {
-        id
-        fileContent
-      }
-    }
-  }''';
-
-    try {
-      var fetchResponse = await Amplify.API.query(
-        request: GraphQLRequest<String>(
-            document: query,
-            variables: {'heldID': heldID},
-            authorizationMode: APIAuthorizationType.userPools
-        ),
-      ).response;
-
-      var data = fetchResponse.data;
-      if(data == null) {
-        print('data is null.');
-        return;
-      }
-
-      // Extract the HeldFile id
-      var heldFileId = extractHeldFileIdFromResponse(data); // You need to implement this function to extract the HeldFile ID.
-
-      if (heldFileId == null) {
-        print('No HeldFile found for the given HeldID.');
-        return;
-      }
-
-      // Step 2: Update the HeldFile
-      String mutation = '''mutation UpdateHeldFile(\$id: ID!, \$fileContent: String!) {
-      updateHeldFile(input: {id: \$id, fileContent: \$fileContent}) {
-        id
-        fileContent
-      }
-    }''';
-
-      var variables = {'id': heldFileId, 'fileContent': xmlContent};
-
-      var updateResponse = await Amplify.API.mutate(
-        request: GraphQLRequest<String>(
-          document: mutation,
-          variables: variables,
-        ),
-      ).response;
-
-      if (updateResponse.errors.isEmpty) {
         print('HeldFile updated successfully.');
       } else {
-        print('Errors while updating: ${updateResponse.errors}');
+        print('Errors while updating: ${response.errors}');
       }
     } catch (e) {
       print('Failed to update HeldFile: $e');
@@ -167,11 +151,12 @@ class HeldFileService {
   Future<void> updateOrCreateHeld(String heldID, String xmlContent) async {
     try {
       // First, attempt to get the HeldFile using the existing method
-      var existingHeldFile = await getHeldFileByHeldID(heldID);
+      var existingHeldFileId = await getHeldFileByHeldID(heldID);
 
       // If a HeldFile exists, update it
-      if (existingHeldFile != null) {
-        await updateHeldFileByHeldID(heldID, xmlContent);
+      if (existingHeldFileId != null) {
+        var fileId = await getHeldFileByHeldID(heldID);
+        await updateHeldFile(existingHeldFileId, xmlContent);
         print('HeldFile updated successfully.');
       } else {
         // If no HeldFile exists, create a new one

@@ -76,7 +76,7 @@ class RollManager {
       }
     });
     int result = taw! - (penalty * -1) > taw! ? taw! - (penalty * -1) : taw!;
-    if(result > origTaw && result > 0) result = origTaw;
+    if(result > origTaw && result >= 0) result = origTaw;
     bf.write(". Resultat: ${result}");
     print("TAW: $taw");
     return bf.toString();

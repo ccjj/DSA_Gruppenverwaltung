@@ -218,7 +218,7 @@
         "Wurf": "KL/IN/CH",
         "Behinderung": "BE-4",
         "Typ": "KÖRPER",
-        "Name": "Stimmen Imitieren"
+        "Name": "Stimmen imitieren"
     },
     {
         "Wurf": "CH/GE/GE",
@@ -295,17 +295,17 @@
     {
         "Wurf": "KL/FF/KK",
         "Typ": "NATUR",
-        "Name": "Fallenstellen"
+        "Name": "Fallen stellen"
     },
     {
         "Wurf": "FF/GE/KK",
         "Typ": "NATUR",
-        "Name": "Fesseln und Entfesseln"
+        "Name": "Fesseln/Entfesseln"
     },
     {
         "Wurf": "IN/FF/KK",
         "Typ": "NATUR",
-        "Name": "Fischen und Angeln"
+        "Name": "Fischen/Angeln"
     },
     {
         "Wurf": "KL/IN/IN",
@@ -505,7 +505,7 @@
     {
         "Wurf": "KL/FF/KO",
         "Typ": "HANDWERK",
-        "Name": "Gerber und Kürschner"
+        "Name": "Gerber/Kürschner"
     },
     {
         "Wurf": "FF/FF/KO",

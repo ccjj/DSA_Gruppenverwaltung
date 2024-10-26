@@ -58,6 +58,7 @@ class RollManager {
     bf.write("auf ${skill.name}, ");
 
     //int skillLeft = skill;
+    int origTaw = taw!;
     propsToRoll.forEach((attributePropStr) {
       int attr = held.getAttribute(attributePropStr.toLowerCase())!;
       print(attr);
@@ -75,6 +76,7 @@ class RollManager {
       }
     });
     int result = taw! - (penalty * -1) > taw! ? taw! - (penalty * -1) : taw!;
+    if(result > origTaw && result > 0) result = origTaw;
     bf.write(". Resultat: ${result}");
     print("TAW: $taw");
     return bf.toString();

@@ -107,8 +107,17 @@ class ChatCommons {
 
   static Color stringToColor(String inputString) {
     final int hash = inputString.hashCode;
-    final int color =
-        (0xFF << 24) | (hash & 0x00FFFFFF); // 0xFF for full opacity
-    return Color(color);
+    final int color = (0xFF << 24) | (hash & 0x00FFFFFF);
+    Color baseColor = Color(color);
+
+    // Convert to HSL and check luminance
+    final hsl = HSLColor.fromColor(baseColor);
+    if (hsl.lightness < 0.5) {
+      // Increase lightness for darker colors
+      baseColor = hsl.withLightness(0.7).toColor();
+    }
+
+    return baseColor;
   }
+
 }

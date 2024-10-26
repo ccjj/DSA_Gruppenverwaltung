@@ -188,6 +188,7 @@ class ChatOverlayContentState extends State<ChatOverlayContent> {
   @override
   void dispose() {
     _streamSubscription?.cancel();
+    controller.dispose();
     super.dispose();
   }
 

@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:typed_data';
 
+import 'package:dsagruppen/IniTrackerPage.dart';
 import 'package:dsagruppen/pdf/PdfPageDialog.dart';
 import 'package:dsagruppen/rules/RollCalculator.dart';
 import 'package:dsagruppen/rules/RollManager.dart';
@@ -19,6 +20,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import 'Gruppe/Gruppe.dart';
 import 'Held/Held.dart';
+import 'InitiativeTracker.dart';
 import 'MeisterPage/RedCrossOverlay.dart';
 import 'chat/BottomBar/ChatBottomBar.dart';
 import 'chat/ChatMessage.dart';
@@ -95,93 +97,103 @@ class _MeisterPageState extends State<MeisterPage> {
               PdfPageDialog( uploadedFile, page + 1);
 
             }, child: Text("Patzertabelle")),
-            TypeAheadField(
-              constraints: BoxConstraints(
-                  maxHeight: MediaQuery.sizeOf(context).height * 0.3),
-              debounceDuration: const Duration(milliseconds: 200),
-              controller: tcontroller,
-              hideOnEmpty: true,
-              suggestionsCallback: (search) {
-                return talente
-                    .where((element) => element.name
-                        .toLowerCase()
-                        .contains(searchString.value.toLowerCase()))
-                    .map((element) => element.name)
-                    .toList();
-              },
-              builder: (context, controller, focusNode) {
-                return TextField(
-                    onChanged: (value) {
-                      searchString.value = value;
-                      print(value);
-                      //controller.text = value;
-                    },
-                    controller: controller,
-                    focusNode: focusNode,
-                    autofocus: false,
-                    decoration: InputDecoration(
-                      suffixIcon: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                              onPressed: () async {
-                                focusNode.unfocus();
-                                //TODO refactor, dupe
-                                ISkill? skill = RuleProvider.getSkillByName(
-                                    selectedTalent.value);
-                                print(selectedTalent.value);
-                                if (skill == null) {
-                                  return;
-                                }
-                                if (skill.seite == null) {
-                                  EasyLoading.showError(
-                                      "Skill-Seite nicht hinterlegt: ${skill.name}");
-                                  return;
-                                }
-                                var splitted = splitString(skill!.seite!);
-                                if (splitted.length != 2) {
-                                  print("unexpected split result");
-                                  return;
-                                }
-                                var book = splitted.elementAt(0);
-                                int page = int.parse(splitted.elementAt(1));
+            TextButton(onPressed: () => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => IniTrackerPage(gruppe: widget.gruppe),
+      ),
+    )
+                , child: Text("Ini-Verwaltung")),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TypeAheadField(
+                constraints: BoxConstraints(
+                    maxHeight: MediaQuery.sizeOf(context).height * 0.3),
+                debounceDuration: const Duration(milliseconds: 200),
+                controller: tcontroller,
+                hideOnEmpty: true,
+                suggestionsCallback: (search) {
+                  return talente
+                      .where((element) => element.name
+                          .toLowerCase()
+                          .contains(searchString.value.toLowerCase()))
+                      .map((element) => element.name)
+                      .toList();
+                },
+                builder: (context, controller, focusNode) {
+                  return TextField(
+                      onChanged: (value) {
+                        searchString.value = value;
+                        print(value);
+                        //controller.text = value;
+                      },
+                      controller: controller,
+                      focusNode: focusNode,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        suffixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                                onPressed: () async {
+                                  focusNode.unfocus();
+                                  //TODO refactor, dupe
+                                  ISkill? skill = RuleProvider.getSkillByName(
+                                      selectedTalent.value);
+                                  print(selectedTalent.value);
+                                  if (skill == null) {
+                                    return;
+                                  }
+                                  if (skill.seite == null) {
+                                    EasyLoading.showError(
+                                        "Skill-Seite nicht hinterlegt: ${skill.name}");
+                                    return;
+                                  }
+                                  var splitted = splitString(skill!.seite!);
+                                  if (splitted.length != 2) {
+                                    print("unexpected split result");
+                                    return;
+                                  }
+                                  var book = splitted.elementAt(0);
+                                  int page = int.parse(splitted.elementAt(1));
 
-                                Uint8List? uploadedFile =
-                                    await getIt<PdfRepository>()
-                                        .loadPdfFile(book);
+                                  Uint8List? uploadedFile =
+                                      await getIt<PdfRepository>()
+                                          .loadPdfFile(book);
 
-                                if (uploadedFile == null) {
-                                  EasyLoading.showError(
-                                      "Buch nicht gefunden: " + book);
-                                  return;
-                                }
-                                PdfPageDialog( uploadedFile, page + 1);
-                              },
-                              icon: const Icon(Icons.info_outline_rounded)),
-                          IconButton(
-                              onPressed: () {
-                                searchString.value = "";
-                                tcontroller.clear();
-                                selectedTalent.value = "";
-                              },
-                              icon: Icon(Icons.clear)),
-                        ],
-                      ),
-                      border: OutlineInputBorder(),
-                      labelText: 'Talent',
-                    ));
-              },
-              itemBuilder: (context, talent) {
-                return ListTile(
-                  title: Text(talent),
-                );
-              },
-              onSelected: (talent) {
-                selectedTalent.value = talent;
-                tcontroller.text = talent;
-                setState(() {});
-              },
+                                  if (uploadedFile == null) {
+                                    EasyLoading.showError(
+                                        "Buch nicht gefunden: " + book);
+                                    return;
+                                  }
+                                  PdfPageDialog( uploadedFile, page + 1);
+                                },
+                                icon: const Icon(Icons.info_outline_rounded)),
+                            IconButton(
+                                onPressed: () {
+                                  searchString.value = "";
+                                  tcontroller.clear();
+                                  selectedTalent.value = "";
+                                },
+                                icon: Icon(Icons.clear)),
+                          ],
+                        ),
+                        border: OutlineInputBorder(),
+                        labelText: 'Talent',
+                      ));
+                },
+                itemBuilder: (context, talent) {
+                  return ListTile(
+                    title: Text(talent),
+                  );
+                },
+                onSelected: (talent) {
+                  selectedTalent.value = talent;
+                  tcontroller.text = talent;
+                  setState(() {});
+                },
+              ),
             ),
             if (selectedTalent.value.trim().isNotEmpty) ...[
               Center(child: Text("Für alle rollen")),

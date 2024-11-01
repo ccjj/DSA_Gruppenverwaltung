@@ -5,9 +5,10 @@ import 'package:uuid/uuid.dart';
 
 import '../globals.dart';
 import '../model/Item.dart';
+import 'Person.dart';
 
-class Held {
-  late String uuid = Uuid().v4();
+class Held implements Person {
+  String uuid = Uuid().v4();
   String name;
   String heldNummer;
   String owner;

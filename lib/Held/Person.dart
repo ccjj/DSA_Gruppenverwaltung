@@ -12,7 +12,9 @@ abstract class Person {
   ValueNotifier<int> asp; // Astralpunkte
   ValueNotifier<int> maxAsp; // Maximale Astralpunkte
   int at; // Angriffswert
+  int baseAt; // Angriffswert
   int pa; // Parade
+  int basePa; // Parade
   int fk; // Fernkampf
   int ini; // Initiative
   int baseIni; // Initiative
@@ -44,6 +46,8 @@ abstract class Person {
     required this.ws,
     this.wunden = 0,
   })  : uuid = Uuid().v4(),
+        baseAt = at,
+        basePa = pa,
         lp = ValueNotifier<int>(initialLp),
         maxLp = ValueNotifier<int>(initialMaxLp),
         asp = ValueNotifier<int>(initialAsp),

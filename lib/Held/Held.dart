@@ -22,7 +22,9 @@ class Held implements Person {
   ValueNotifier<int> asp; // Astralpunkte
   ValueNotifier<int> maxAsp; // Astralpunkte
   int at; // Angriffswert
+  int baseAt;
   int pa; // Parade
+  int basePa;
   int fk; //fernkampf
   int ini; // Initiative
   int baseIni; // Basisinitiative
@@ -95,7 +97,7 @@ class Held implements Person {
     this.vorteile = const [],
     this.sf = const [],
     this.items = const []
-  });
+  }) : baseAt = at, basePa = pa;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -268,7 +270,9 @@ class Held implements Person {
         ke = 0,
         maxKe = 0,
         at = 0,
+        baseAt = 0,
         pa = 0,
+        basePa = 0,
         fk = 0,
         ini = 0,
         baseIni = 0,

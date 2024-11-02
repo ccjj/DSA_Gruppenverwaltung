@@ -20,7 +20,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import 'Gruppe/Gruppe.dart';
 import 'Held/Held.dart';
-import 'InitiativeTracker.dart';
 import 'MeisterPage/RedCrossOverlay.dart';
 import 'chat/BottomBar/ChatBottomBar.dart';
 import 'chat/ChatMessage.dart';
